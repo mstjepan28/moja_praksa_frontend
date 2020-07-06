@@ -7896,6 +7896,11 @@ vue-eslint-parser@^7.0.0:
     esquery "^1.0.1"
     lodash "^4.17.15"
 
+vue-flux@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/vue-flux/-/vue-flux-6.2.0.tgz#bf8bf46c211d562e120845f3cdc5ece7c84f9c5f"
+  integrity sha512-X0ntNv0/7r3DYq+PfZehTkkUIhBNrdvE6pS1pG0IHDdWoVn9XcSmnT1vSamOWw8nVxTT03DPMMAd6i344fMIMA==
+
 vue-hot-reload-api@^2.3.0:
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz#532955cc1eb208a3d990b3a9f9a70574657e08f2"
