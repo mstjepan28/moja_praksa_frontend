@@ -67,6 +67,9 @@ export default {
 </script>
 
 <style lang="scss">
+button:focus{
+  outline: none
+}
 .footer{
   margin-top: 3%;
   color: white;
