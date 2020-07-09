@@ -21,4 +21,11 @@ button{
     width: 100%;
     font-size: 75px;
     margin: 2% auto;
-  }
+}
+.login_form{
+	color: #6DD0F6;
+}
+.login_form:hover{
+	color: #6DD0F6;
+	text-decoration: underline;
+}

@@ -7,7 +7,7 @@
         </div>
         
         <div class="col-md-4 col-sm-0 right-col mt-3">
-          <router-link to="/Login" class="login">Prijava <i class="fas fa-sign-in-alt" aria-hidden="true"></i> </router-link>
+          <router-link to="/Login" class="login_form">Prijava <i class="fas fa-sign-in-alt" aria-hidden="true"></i> </router-link>
           
           <form class="form-inline d-flex justify-content-end md-form form-sm active-cyan-2">
             <div class="input-group" style="position: relative;">
@@ -88,9 +88,7 @@ footer{
   display: inline-block;
   margin: 0 auto;
 }
-.login, .login:hover{
-  color:#6DD0F6;
-}
+
 .right-col{
   padding-bottom: 5px;
   text-align: right;

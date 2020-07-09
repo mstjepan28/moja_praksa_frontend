@@ -1,31 +1,34 @@
 <template>
   <div class="login">
+		<h1 class="title">Moja Praksa</h1>
+		<h2 class="mt-4">Prijava</h2>
 		
-		<div>
-			<h1 class="title">Moja Praksa</h1>
-			<h2 class="mt-4">Prijava</h2>
+		<div class="row">
+			<div class="col-md-3 col-sm-0"></div>
 			
-			<form v-on:submit.prevent="login" class="mt-4 form-inline d-flex justify-content-end md-form form-sm active-cyan-2">
-				
-				<div class="input_form mt-3">
-					<span><i class="fas fa-envelope"></i></span>
-					<input v-model="email" type="email" placeholder="Email...">
-				</div>
+			<div class="col-md-6 col-sm-12">
+				<form v-on:submit.prevent="login" class="mt-4 form-inline d-flex justify-content-end md-form form-sm active-cyan-2">
+					<div class="input_form mt-3">
+						<span><i class="fas fa-envelope"></i></span>
+						<input v-model="email" type="email" placeholder="Email..." required/>
+					</div>
 
-				<div class="input_form mt-3">
-					<span><i class="fas fa-key"></i></span>
-					<input v-model="password" type="password" placeholder="Lozinka...">
-				</div>
+					<div class="input_form mt-3">
+						<span><i class="fas fa-key"></i></span>
+						<input v-model="password" type="password" placeholder="Lozinka..." required/>
+					</div>
 
-				<div class="options">
-					<div class="mt-3" style="color: #6DD0F6">Nemate korisnički račun? <router-link to="/" class="sign_up">Registrirajte se</router-link></div>
-					<button type="submit" class="login_button center mt-3"> Prijava </button>
-				</div>
-
-			</form>
-
+					<div class="options">
+						<div class="mt-3">Nemate korisnički račun? <router-link to="/Signup" class="sign_up">Registrirajte se</router-link></div>
+						<button type="submit" class="login_button mt-3"> Prijava </button>
+					</div>
+				</form>	
+			</div>
+			
+			<div class="col-md-3 col-sm-0"></div>
 		</div>
-  </div>
+
+	</div>
 </template>
 
 <script>
@@ -47,7 +50,8 @@ export default {
 			this.email = null;
 			this.password = null;
 		}
-	}
+	},
+	name:"Login"
 }
 </script>
 
