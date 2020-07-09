@@ -22,12 +22,12 @@
       </p>
     </div>
 
-    <div class="row partners">
-      <div class="col-7" style="padding:0">
-        <img v-bind:src="partner_image" class="img-fluid" alt="Responsive image" stlyle="max-height: 250px">
+    <div class="row">
+      <div class="col-md-7 col-sm-12">
+        <img v-bind:src="partner_image" class="img-fluid" alt="Responsive image" stlyle="height: 18rem">
       </div>
 
-      <div class="col-5 partner_list" style="padding:0">
+      <div class="col-md-5 col-sm-12 partner_list">
         <h2>Naši partneri:</h2>
         <PartnerButton v-bind:key="partner.id" v-bind:info="partner" v-for="partner in partner_list"/><br>
         <router-link to="/" class="show_all">Prikaži sve</router-link>
@@ -97,10 +97,15 @@ export default {
 </script>
 
 <style scoped>
+.col-sm-12{
+  margin-top: 3%;
+}
+.col-7, .col-5{
+  padding: 0
+}
 .project_sample{
   text-align: center;
 }
-
 .show_all{
 	margin-top: 5%;
 	padding: 1% 2%;
@@ -127,11 +132,7 @@ export default {
 .description{
   text-align: center;
 }
-.title{
-  width: 100%;
-  font-size: 75px;
-  margin: 2% auto;
-}
+
 .about_us{
   width: 75%;
   display: block;

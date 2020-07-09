@@ -2,22 +2,28 @@
   <div class="container">
     <div v-if="check_route">
       <div class="row mt-1">
-        <div class="col-8" >
+        <div class="col-md-8 col-sm-12" >
           <img src="fipu_hr.png" class="responsive_image" style="max-height: 110px;">
         </div>
         
-        <div class="col-4 right-col mt-3">
-            <router-link to="/Login" class="login">Prijava <i class="fas fa-sign-in-alt" aria-hidden="true"></i> </router-link>
-            
-            <form class="form-inline d-flex justify-content-end md-form form-sm active-cyan-2">
+        <div class="col-md-4 col-sm-0 right-col mt-3">
+          <router-link to="/Login" class="login">Prijava <i class="fas fa-sign-in-alt" aria-hidden="true"></i> </router-link>
+          
+          <form class="form-inline d-flex justify-content-end md-form form-sm active-cyan-2">
+            <div class="input-group" style="position: relative;">
+              <div style="min-width: 225px; max-width: 400px;"></div>
+              
               <input class="form-control form-control-sm mr-1 w-75" type="text" placeholder="Pretraživanje..." aria-label="Search">
-              <button type="submit"><i class="fas fa-search" aria-hidden="true"></i></button>
-            </form>
+              <span class="input-group-btn"> <button type="submit"> <i class="fas fa-search" aria-hidden="true"> </i> </button> </span>
+            </div>
+          </form>
+
         </div>
 
       </div>
 
       <nav class="row navbar navbar-expand-lg navbar-light">
+
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -97,7 +103,7 @@ footer{
   border-radius: 0;
   border: #6DD0F6 2px solid;
 }
-.right-col > form > button > .fas{
+.fas{
   color: #6DD0F6;
 }
 
