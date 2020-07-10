@@ -36,7 +36,7 @@
 					<div class="input_form mt-3">
 						<span><i class="fas fa-users"></i></span>
 						<select v-model="new_user.account_type" class="custom_select" required>
-							<option disabled value="">Vrsta računa...</option>
+							<option disabled value="">Vrsta računa</option>
 							<option>Student</option>
 							<option>Poslodavac</option>
 						</select>
@@ -61,7 +61,7 @@ export default {
 				surname: null,
 				email: null,
 				password: null,
-				account_type: null
+				account_type: ''
 			},
 			confirm_password: null
 		}
