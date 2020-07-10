@@ -1,5 +1,5 @@
 <template>
-    <div class="card project" style="width: 18rem">
+    <div class="card project">
         
         <img class="card-img-top" v-bind:src="info.img" alt="Card image cap" style="border: 2px solid #6DD0F6;">
         
@@ -23,6 +23,8 @@ export default {
     overflow: hidden;
 }
 .project{
+    width: 18rem; 
+
     margin: 3%;
     display: inline-block;
 
