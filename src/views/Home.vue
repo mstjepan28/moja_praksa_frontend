@@ -47,6 +47,7 @@ import { VueFlux, FluxPreloader } from 'vue-flux';
 import store from '@/store.js';
 import PartnerButton from '@/components/partner_button';
 import CompanyCard from '@/components/company_cards';
+import { Users } from '@/services'
 
 export default {
   components: {
@@ -87,10 +88,16 @@ export default {
       this.partner_list = [...new Map( projects.map(item => [item.company, item]) ).values()].slice(0, 4)
     }
   },
-  mounted(){
+  async mounted(){
     let projects = this.store.project_list
     this.get_projects(projects);
     this.extract_company(projects);
+
+    //let proba = await fetch("http://localhost:3000/users")
+    let rezultat = await Users.getUsers()
+
+    console.log(rezultat)
+
   },
   name: 'Home'
 }
