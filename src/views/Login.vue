@@ -32,6 +32,8 @@
 </template>
 
 <script>
+import {Auth} from "@/services/index.js";
+
 export default {
 	data(){
 		return{
@@ -42,13 +44,16 @@ export default {
 		}
 	},
 	methods:{
-		login(){
-			let login_info = {'email': this.email, 'password': this.password};
-
-			console.log(login_info)
+		async login(){
+			let res = await Auth.login({'email': this.email, 'password': this.password});
 			
-			this.email = null;
-			this.password = null;
+			if(res){
+				console.log("success");
+				
+				this.email = null;
+				this.password = null;
+			}
+			else console.log('fail');
 		}
 	},
 	name:"Login"

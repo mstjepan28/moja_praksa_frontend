@@ -2,19 +2,17 @@
   <div>
     <vue-flux
       class="row"
-      :options="vfOptions"
-      :images="vfImages"
-      :transitions="vfTransitions"
-      ref="slider">
-
-      <template v-slot:preloader>
-          <flux-preloader />
-      </template>
+      :options="store.vfOptions"
+      :images="store.vfImages_home"
+      :transitions="store.vfTransitions"
+      ref="slider"
+    >
+      <template v-slot:preloader> <flux-preloader /> </template>
     </vue-flux>
 
     <div class="row description">
       <h1 class="title">Moja Praksa</h1><br>
-      <p class="about_us">
+      <p class="description_text">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce auctor elit nisl, eget venenatis arcu gravida pretium. 
         Praesent vel odio mauris. Etiam porta sapien odio, eu fermentum lectus ultricies convallis. 
         Nam at dolor eu massa facilisis vehicula. Proin consequat eros ligula, ac congue neque rutrum at. 
@@ -35,8 +33,8 @@
     </div>
 
     <div class="row project_sample">
-      <div style="width: 100%"><CompanyCard v-bind:key="partner.id" v-bind:info="partner" v-for="partner in project_list"/></div>
-      <router-link to="/" class="show_all" style="margin: 0 auto; padding: 1% 3%;">Prikaži sve</router-link>
+      <div style="width: 100%"><ProjectCard v-bind:key="partner.id" v-bind:info="partner" v-for="partner in project_list"/></div>
+      <router-link to="/Projects" class="show_all" style="margin: 0 auto; padding: 1% 3%;">Prikaži sve</router-link>
     </div>
 
   </div>
@@ -44,36 +42,25 @@
 
 <script>
 import { VueFlux, FluxPreloader } from 'vue-flux';
-import store from '@/store.js';
+
+import ProjectCard from '@/components/project_card';
 import PartnerButton from '@/components/partner_button';
-import CompanyCard from '@/components/company_cards';
-import { Users } from '@/services'
+import store from '@/store.js';
+//import { Users } from '@/services'
 
 export default {
   components: {
-      VueFlux,
-      FluxPreloader,
+    VueFlux,
+    FluxPreloader,
 
-      PartnerButton,
-      CompanyCard
+    ProjectCard,
+    PartnerButton,
   },
 
   data(){
     return{
-      vfOptions: {
-        autoplay: true,
-        aspectRatio: '16:6'
-      },
-      vfImages: [ 
-        'https://images.unsplash.com/photo-1531297484001-80022131f5a1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=707&q=80', 
-        'https://images.unsplash.com/photo-1593642532871-8b12e02d091c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80', 
-        'https://images.unsplash.com/photo-1504639725590-34d0984388bd?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=667&q=80' 
-      ],
-      vfTransitions: [ 'fade' ],
-
-      about_us: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce auctor elit nisl, eget venenatis arcu gravida pretium. Praesent vel odio mauris",
-
       store,
+      about_us: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce auctor elit nisl, eget venenatis arcu gravida pretium. Praesent vel odio mauris",
       partner_image: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
 
       partner_list: false,
@@ -85,6 +72,7 @@ export default {
       this.project_list = projects.slice(0, 3)
     },
     extract_company(projects){
+      //Dohvaca 4 objekta sa razlicitim company vrijednostima
       this.partner_list = [...new Map( projects.map(item => [item.company, item]) ).values()].slice(0, 4)
     }
   },
@@ -93,17 +81,18 @@ export default {
     this.get_projects(projects);
     this.extract_company(projects);
 
-    //let proba = await fetch("http://localhost:3000/users")
+    /*
+    let proba = await fetch("http://localhost:3000/users")
     let rezultat = await Users.getUsers()
-
     console.log(rezultat)
-
+    */
   },
   name: 'Home'
 }
 </script>
 
 <style scoped>
+
 .col-sm-12{
   margin-top: 3%;
 }
@@ -138,11 +127,5 @@ export default {
 }
 .description{
   text-align: center;
-}
-
-.about_us{
-  width: 75%;
-  display: block;
-  margin: 2% auto;
 }
 </style>

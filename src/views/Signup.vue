@@ -46,34 +46,43 @@
 				
 				<div class="options mt-3">
 					<div class="mt-3">Več imate korisnički račun? <router-link to="/Login" class="login_form">Prijavite se</router-link></div>
-					<button type="submit" class="registration_button mt-3"> Registrirajte se </button>
+					<button v-if="confirm_password_check" type="submit" class="registration_button mt-3"> Registrirajte se </button>
+					<button v-else type="button" class="password_match_fail mt-3" disabled> Registrirajte se </button>
 				</div>
 			</form>
 	</div>
 </template>
 
 <script>
+import {Auth} from "@/services/index.js";
+
 export default {
 	data(){
 		return{
-			new_user : {
-				name: null,
-				surname: null,
-				email: null,
-				password: null,
-				account_type: ''
-			},
+			new_user : {},
 			confirm_password: null
 		}
 	},
 	methods:{
-		signup() {
-			//let res = app.signup();
+		async signup() {
+			let res = await Auth.register(this.new_user);
+			
+			if(res){
+				console.log("success");
+
+				this.new_user = {};
+				this.confirm_password = undefined;
+			}
+			else console.log('fail');
 		}
 	},
 	computed:{
 		confirm_password_check(){
-			if(this.new_user.password == this.confirm_password) return true;
+			if(this.new_user.password == this.confirm_password){
+				console.log(true);
+				return true;
+			}
+			console.log(false)
 			return false;
 		}
 	}
@@ -81,6 +90,26 @@ export default {
 </script>
 
 <style>
+.password_match_fail{
+	padding: 1% 2%;
+
+	display: inline-block;
+
+	font-size: 16px;
+	font-weight: bold;
+	color: white;
+
+	border-radius: 10px;
+	border: 2px solid rgb(128, 128, 128);
+
+	background: rgb(186, 186, 186)
+}
+.password_match_fail:hover{
+	border: 2px solid rgb(186, 186, 186);
+
+	background: rgb(128, 128, 128);
+}
+
 .input_form > span > i{
 	width: 10%;
 }

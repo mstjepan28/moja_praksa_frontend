@@ -29,3 +29,9 @@ button{
 	color: #6DD0F6;
 	text-decoration: underline;
 }
+.description_text{
+    width: 75%;
+    display: block;
+    margin: 2% auto;
+}
+  

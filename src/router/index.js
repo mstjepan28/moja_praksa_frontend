@@ -20,13 +20,22 @@ Vue.use(VueRouter)
     name: 'Signup',
     component: () => import('../views/Signup.vue')
   },
+  {
+    path: '/Projects',
+    name: 'Projects',
+    component: () => import('../views/Projects.vue')
+  }
   
 ]
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes,
+
+  scrollBehavior(){
+    return { x: 0, y: 0 }
+  }
 })
 
 export default router

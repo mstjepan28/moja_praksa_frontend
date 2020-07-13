@@ -34,10 +34,10 @@
               <router-link to="/">Naslovnica</router-link>
             </li>
             <li class="nav-item">
-              <router-link to="/">Projekti</router-link>
+              <router-link to="/Projects">Projekti</router-link>
             </li>
             <li class="nav-item">
-              <router-link to="/">Partneri</router-link>
+              <router-link to="/test">Partneri</router-link>
             </li>
           </ul>
         </div>

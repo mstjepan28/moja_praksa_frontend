@@ -10,22 +10,13 @@ let Service = axios.create({
 })
 
 let Auth = {
-    async register(username, password){
+    async register(new_user){
         //pass ide preko SSL-a pa ga nije nužno heshirati
-        let success= await Service.post('/register',{
-            username: username,
-            password: password
-        })
-        
-        return success
+        return await Service.post('/register', new_user)
     },
 
-    async login(username, password){
-        let success = await Service.post('/login',{
-            username: username,
-            password: password
-        })
-        return success
+    async login(login_info){
+        return await Service.post('/login', login_info)
     }
         
 }
