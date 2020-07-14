@@ -20,7 +20,7 @@
       </p>
     </div>
 
-	<div class="row">
+	<div class="row" style="text-align: center;">
 		<ProjectCard v-bind:key="project.id" v-bind:info="project" v-for="project in project_list"/>
 	</div>
 
