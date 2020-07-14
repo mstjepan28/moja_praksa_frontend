@@ -28,7 +28,7 @@
       <div class="col-md-5 col-sm-12 partner_list">
         <h2>Naši partneri:</h2>
         <PartnerButton v-bind:key="partner.id" v-bind:info="partner" v-for="partner in partner_list"/><br>
-        <router-link to="/" class="show_all">Prikaži sve</router-link>
+        <router-link to="/Partners" class="show_all">Prikaži sve</router-link>
       </div>
     </div>
 

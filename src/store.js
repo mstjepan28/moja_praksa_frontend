@@ -121,7 +121,33 @@ export default{
             img: 'https://images.unsplash.com/photo-1504610926078-a1611febcad3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80',
         },
     ],
-
+    partner_list: [
+        {
+            id: 1, 
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi facilisis ante lacus, et gravida turpis faucibus ut. Donec feugiat sapien sed velit venenatis, eu fringilla ipsum accumsan. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi facilisis ante lacus, et gravida turpis faucibus ut. Donec feugiat sapien sed velit venenatis, eu Morbi facilisis ante lacus, et gravida turpis faucibus ut. Donec feugiat sapien sed velit venenatis',
+            name: 'Comapany title',
+            img: 'https://images.unsplash.com/photo-1493119508027-2b584f234d6c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80'
+        },
+        {
+            id: 2, 
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi facilisis ante lacus, et gravida turpis faucibus ut. Donec feugiat sapien sed velit venenatis, eu fringilla ipsum accumsan. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi facilisis ante lacus, et gravida turpis faucibus ut. Donec feugiat sapien sed velit venenatis, eu Morbi facilisis ante lacus, et gravida turpis faucibus ut. Donec feugiat sapien sed velit venenatis',
+            name: 'Comapany title',
+            img: 'https://images.unsplash.com/photo-1533156430273-a2cf57b09495?ixlib=rb-1.2.1&auto=format&fit=crop&w=501&q=80'
+        },
+        {
+            id: 3, 
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi facilisis ante lacus, et gravida turpis faucibus ut. Donec feugiat sapien sed velit venenatis, eu fringilla ipsum accumsan. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi facilisis ante lacus, et gravida turpis faucibus ut. Donec feugiat sapien sed velit venenatis, eu Morbi facilisis ante lacus, et gravida turpis faucibus ut. Donec feugiat sapien sed velit venenatis',
+            name: 'Comapany title',
+            img: 'https://images.unsplash.com/photo-1531525727990-67532cd332c6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80'
+        },
+        {
+            id: 4, 
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi facilisis ante lacus, et gravida turpis faucibus ut. Donec feugiat sapien sed velit venenatis, eu fringilla ipsum accumsan. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi facilisis ante lacus, et gravida turpis faucibus ut. Donec feugiat sapien sed velit venenatis, eu Morbi facilisis ante lacus, et gravida turpis faucibus ut. Donec feugiat sapien sed velit venenatis',
+            name: 'Comapany title',
+            img: 'https://images.unsplash.com/photo-1523800503107-5bc3ba2a6f81?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
+        },
+    ],
+    
     vfOptions: {autoplay: true, aspectRatio: '16:6'},
     vfTransitions: [ 'fade' ],
     vfImages_home: [ 
@@ -133,6 +159,11 @@ export default{
         'https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1052&q=80',
         'https://images.unsplash.com/photo-1516905041604-7935af78f572?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
         'https://images.unsplash.com/photo-1593642533144-3d62aa4783ec?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80'
+    ],
+    vfImages_partners: [
+      'https://images.unsplash.com/photo-1502945015378-0e284ca1a5be?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
+      'https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
+      'https://images.unsplash.com/photo-1483058712412-4245e9b90334?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
     ],
     carousel_options: {
         item: {
@@ -167,51 +198,4 @@ export default{
         }
     },
 
-    items: [
-        {
-          title: 'Sed non ante non cras amet',
-          content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas non sagittis leo. Vestibulum sit amet metus nec neque dignissim dapibus.',
-          image: 'https://picsum.photos/id/1015/600/600'
-        },
-        {
-          title: 'Curabitur sit amet nunc',
-          content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id mollis erat. Aliquam erat volutpat. Nunc erat lacus, rhoncus nec.',
-          image: 'https://picsum.photos/id/1019/600/600'
-        },
-        {
-          title: 'Proin pharetra, ante metus',
-          content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ac diam ac ex efficitur posuere. Pellentesque cursus pellentesque risus, non.',
-          image: 'https://picsum.photos/id/1039/600/600'
-        },
-        {
-          title: 'Cras pharetra non enim a',
-          content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi malesuada varius nibh, a malesuada nisi feugiat eget. Aenean convallis semper.',
-          image: 'https://picsum.photos/id/1042/600/600'
-        },
-        {
-          title: 'Proin vulputate, augue eu accumsan',
-          content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas fringilla tempor libero sit amet mollis. Praesent quis leo erat. Integer.',
-          image: 'https://picsum.photos/id/1044/600/600'
-        },
-        {
-          title: 'Maecenas feugiat magna sapien in',
-          content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sit amet fringilla ante. Quisque at ipsum non lacus consequat dictum.',
-          image: 'https://picsum.photos/id/1057/600/600'
-        },
-        {
-          title: 'Donec commodo sed enim at',
-          content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eu condimentum risus. Praesent dignissim, neque nec pharetra vestibulum, libero odio.',
-          image: 'https://picsum.photos/id/1063/600/600'
-        },
-        {
-          title: 'In bibendum urna et turpis',
-          content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse vitae ante volutpat leo vulputate volutpat et sed ex. Vivamus eu.',
-          image: 'https://picsum.photos/id/1076/600/600'
-        },
-        {
-          title: 'Phasellus iaculis dignissim erat at',
-          content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla mattis quam scelerisque, eleifend purus gravida, scelerisque orci. Ut et turpis.',
-          image: 'https://picsum.photos/id/1083/600/600'
-        },
-      ]
 }

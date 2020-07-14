@@ -37,7 +37,7 @@
               <router-link to="/Projects">Projekti</router-link>
             </li>
             <li class="nav-item">
-              <router-link to="/test">Partneri</router-link>
+              <router-link to="/Partners">Partneri</router-link>
             </li>
           </ul>
         </div>

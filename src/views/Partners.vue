@@ -3,7 +3,7 @@
     <vue-flux
       class="row"
       :options="store.vfOptions"
-      :images="store.vfImages_projects"
+      :images="store.vfImages_partners"
       :transitions="store.vfTransitions"
       ref="slider"
     >
@@ -11,7 +11,7 @@
     </vue-flux>
 
     <div class="row" style="text-align: center">
-      <h1 class="title">Projekti</h1><br>
+      <h1 class="title">Partneri</h1><br>
       <p class="description_text">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce auctor elit nisl, eget venenatis arcu gravida pretium. 
         Praesent vel odio mauris. Etiam porta sapien odio, eu fermentum lectus ultricies convallis. 
@@ -19,58 +19,42 @@
         Nulla lacinia porta gravida. Curabitur tincidunt aliquet auctor. Aliquam erat volutpat. Mauris et tempor dolor.
       </p>
     </div>
-
-	<div class="row">
-		<ProjectCard v-bind:key="project.id" v-bind:info="project" v-for="project in project_list"/>
-	</div>
-
-	<div class="row">
-		<Pagination/>
-	</div>
+    
+    <div v-if="partner_list"><PartnerCard v-bind:key="partner.id" v-bind:info="partner" v-for="partner in partner_list"/></div>
 </div>
 </template>
 
 <script>
-import ProjectCard from '@/components/project_card';
-import Pagination from '@/components/pagination';
 import { VueFlux, FluxPreloader } from 'vue-flux';
+
+import PartnerCard from '@/components/partner_card'
+
 import store from '@/store.js';
 
 export default {
 	components: {
 		VueFlux,
-		FluxPreloader,
-
-		ProjectCard,
-		Pagination
-	},
-	data() {
-		return{
-			project_list: null,
-			page: 1,
-			store
-		}
-	},
-	methods:{
-		change_page(new_page){
-			this.page = new_page
-			this.project_list = this.store.project_list.slice(this.page * 9 - 9, this.page * 9)
-		},
-		get_projects_number(){
-			return{
-				'total_pages': this.store.project_list.length,
-			}
-		}
-	},
-	mounted() {
-		this.change_page(1)
-	},
-	name:'Projects'
+      FluxPreloader,
+      
+      PartnerCard
+    },
+    data(){
+      return{
+        store,
+        partner_list: false
+      }
+    },
+    methods:{
+      get_partner_list(){
+        this.partner_list = this.store.partner_list
+      }
+    },
+    mounted(){
+      this.get_partner_list();
+    }
 }
 </script>
 
 <style>
-.title{
-	width: default;
-}
+
 </style>

@@ -24,8 +24,12 @@ Vue.use(VueRouter)
     path: '/Projects',
     name: 'Projects',
     component: () => import('../views/Projects.vue')
+  },
+  {
+    path: '/Partners',
+    name: 'Partners',
+    component: () => import('../views/Partners.vue')
   }
-  
 ]
 
 const router = new VueRouter({
