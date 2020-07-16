@@ -1,25 +1,16 @@
 <template>
   <div class="container">
     <div v-if="check_route">
+      
       <div class="row mt-1">
         <div class="col-md-8 col-sm-12" >
-          <img src="fipu_hr.png" class="responsive_image" style="max-height: 110px;">
+          <router-link to="/"><img src="fipu_hr.png" class="responsive_image" style="max-height: 110px;"></router-link>
         </div>
         
         <div class="col-md-4 col-sm-0 right-col mt-3">
-          <router-link to="/Login" class="login_form">Prijava <i class="fas fa-sign-in-alt" aria-hidden="true"></i> </router-link>
-          
-          <form class="form-inline d-flex justify-content-end md-form form-sm active-cyan-2">
-            <div class="input-group" style="position: relative;">
-              <div style="min-width: 225px; max-width: 400px;"></div>
-              
-              <input class="form-control form-control-sm mr-1 w-75" type="text" placeholder="Pretraživanje..." aria-label="Search">
-              <span class="input-group-btn"> <button type="submit"> <i class="fas fa-search" aria-hidden="true"> </i> </button> </span>
-            </div>
-          </form>
-
+          <router-link to="/Login"  class="login_form" style="margin: 0 10px;">Prijava <i class="fas fa-sign-in-alt" aria-hidden="true"></i> </router-link>
+          <router-link to="/Signup" class="login_form">Registracija <i class="fas fa-user-plus"  aria-hidden="true"></i> </router-link>
         </div>
-
       </div>
 
       <nav class="row navbar navbar-expand-lg navbar-light">

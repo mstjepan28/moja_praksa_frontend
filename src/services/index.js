@@ -17,8 +17,16 @@ let Auth = {
 
     async login(login_info){
         return await Service.post('/login', login_info)
-    }
-        
+    }   
+}
+
+let Content = {
+    async search_projects(search){
+        return await Service.post('/', search)
+    },
+    async search_partners(search){
+        return await Service.post('/', search)
+    },
 }
 
 
@@ -38,4 +46,4 @@ let Users = {
 
 }
 
-export { Service, Users, Auth}
+export { Service, Users, Auth, Content}

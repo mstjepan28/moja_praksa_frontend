@@ -25,15 +25,12 @@ export default {
     display: inline-block;
 
     font-weight: bold;
-    color: #636466;
+    color: #6DD0F6;
 
     border: 2px solid #A0E0F6;
     border-radius: 10%;
 
 	background: transparent;  
-}
-.pagination_element > .fas{
-    color: #636466;
 }
 .pagination_element:hover{
     color: white;

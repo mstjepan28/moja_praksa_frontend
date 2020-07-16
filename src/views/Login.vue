@@ -20,7 +20,7 @@
 
 					<div class="options">
 						<div class="mt-3">Nemate korisnički račun? <router-link to="/Signup" class="sign_up">Registrirajte se</router-link></div>
-						<button type="submit" class="login_button mt-3"> Prijava </button>
+						<button type="submit" class="button_design button_design mt-3"> Prijava </button>
 					</div>
 				</form>	
 			</div>
@@ -78,34 +78,6 @@ form{
 .options{
 	display: inline-block;
 	margin: 0 auto
-}
-
-.login_button{
-	padding: 1% 2%;
-
-	display: inline-block;
-
-	font-size: 16px;
-	font-weight: bold;
-	color: white;
-
-	border: 2px solid #A0E0F6;
-	border-radius: 10px;
-
-	background: #6DD0F6
-}
-.login_button:hover{
-	border: 2px solid #6DD0F6;
-	background: #A0E0F6;
-}
-
-input{
-	border: none;
-	border-bottom: 2px solid #A0E0F6;
-}
-input:focus{
-	border: none;
-	border-bottom: 2px solid #6DD0F6;
 }
 .fas{
 	position: relative;

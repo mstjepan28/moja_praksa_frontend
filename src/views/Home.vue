@@ -10,6 +10,7 @@
       <template v-slot:preloader> <flux-preloader /> </template>
     </vue-flux>
 
+
     <div class="row description">
       <h1 class="title">Moja Praksa</h1><br>
       <p class="description_text">
@@ -20,10 +21,12 @@
       </p>
     </div>
 
+
     <div class="row">
       <div class="col-md-7 col-sm-12">
         <img v-bind:src="partner_image" class="img-fluid" alt="Responsive image" stlyle="height: 18rem">
       </div>
+
 
       <div class="col-md-5 col-sm-12 partner_list">
         <h2>Naši partneri:</h2>
@@ -31,6 +34,7 @@
         <router-link to="/Partners" class="show_all">Prikaži sve</router-link>
       </div>
     </div>
+
 
     <div class="row" style="text-align: center;">
       <div style="width: 100%"><ProjectCard v-bind:key="partner.id" v-bind:info="partner" v-for="partner in project_list" style="margin: 3%"/></div>
@@ -101,7 +105,6 @@ export default {
 }
 
 .show_all{
-	margin-top: 5%;
 	padding: 1% 2%;
 
 	display: inline-block;

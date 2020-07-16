@@ -12,6 +12,7 @@ button{
     border: none;
     outline: none;
 }
+
 .responsive_image{
     display: block;
     max-width: 100%;
@@ -27,7 +28,6 @@ button{
 }
 .login_form:hover{
 	color: #6DD0F6;
-	text-decoration: underline;
 }
 .description_text{
     width: 75%;
@@ -35,24 +35,69 @@ button{
     margin: 2% auto;
 }
 
-.custom_button{
-	margin-top: 5%;
+/*------ Buttons -----*/
+.button_design{
 	padding: 1% 2%;
-
-	display: inline-block;
-
-	font-size: 16px;
-	font-weight: bold;
-	color: white;
-
+    display: inline-block;
+    
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    
+    border-radius: 10px;
 	border: 2px solid #A0E0F6;
-	border-radius: 10px;
 
 	background: #6DD0F6
 }
-.custom_button:hover{
-    color: white;
-	border: 2px solid #6DD0F6;
+.button_design:hover{
+    border: 2px solid #6DD0F6;
 	background: #A0E0F6;
 }
-  
+
+.disabled_button{
+	padding: 1% 2%;
+    display: inline-block;
+
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+
+    border-radius: 10px;
+    border: 2px solid rgb(128, 128, 128);
+
+	background: rgb(186, 186, 186)
+}
+.disabled_button:hover{
+	border: 2px solid rgb(186, 186, 186);
+	background: rgb(128, 128, 128);
+}
+/*--------------------*/
+
+input{
+	border: none;
+	border-bottom: 2px solid #A0E0F6;
+}
+input:focus{
+	border: none;
+	border-bottom: 2px solid #6DD0F6;
+}
+
+/*------ Filter -----*/
+.filter_search > *{
+	display: inline-block;
+}
+.form-group{
+	padding-left: 5%
+}
+.form-group > label >.fas{
+    margin-right: 20%;
+    font-size: 20px;
+}
+.col-form-label{
+	margin-right: 5px;
+}
+button > .fas{
+    padding: 5px 5px 0 5px;
+	color: white
+}
+

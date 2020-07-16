@@ -46,8 +46,8 @@
 				
 				<div class="options mt-3">
 					<div class="mt-3">Več imate korisnički račun? <router-link to="/Login" class="login_form">Prijavite se</router-link></div>
-					<button v-if="confirm_password_check" type="submit" class="registration_button mt-3"> Registrirajte se </button>
-					<button v-else type="button" class="password_match_fail mt-3" disabled> Registrirajte se </button>
+					<button v-if="confirm_password_check" type="submit" class="button_design mt-3"> Registrirajte se </button>
+					<button v-else type="button" class="disabled_button mt-3" disabled> Registrirajte se </button>
 				</div>
 			</form>
 	</div>
@@ -90,26 +90,6 @@ export default {
 </script>
 
 <style>
-.password_match_fail{
-	padding: 1% 2%;
-
-	display: inline-block;
-
-	font-size: 16px;
-	font-weight: bold;
-	color: white;
-
-	border-radius: 10px;
-	border: 2px solid rgb(128, 128, 128);
-
-	background: rgb(186, 186, 186)
-}
-.password_match_fail:hover{
-	border: 2px solid rgb(186, 186, 186);
-
-	background: rgb(128, 128, 128);
-}
-
 .input_form > span > i{
 	width: 10%;
 }
@@ -119,13 +99,10 @@ export default {
 .custom_select{
 	width: 100%;
 }
+
 input, .custom_select{
 	border: none;
 	border-bottom: 2px solid #A0E0F6;
-}
-input:focus{
-	border: none;
-	border-bottom: 2px solid #6DD0F6;
 }
 
 .registration{
@@ -137,24 +114,7 @@ input:focus{
 	display: inline-block;
 	margin: 0 auto
 }
-.registration_button{
-	padding: 1% 2%;
 
-	display: inline-block;
-
-	font-size: 16px;
-	font-weight: bold;
-	color: white;
-
-	border: 2px solid #A0E0F6;
-	border-radius: 10px;
-
-	background: #6DD0F6
-}
-.registration_button:hover{
-	border: 2px solid #6DD0F6;
-	background: #A0E0F6;
-}
 .fas{
 	position: relative;
 	top: 2px;
