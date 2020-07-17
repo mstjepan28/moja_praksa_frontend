@@ -21,9 +21,39 @@ let Auth = {
         
 }
 
+let Projects = {
+    async getProjects(){
+        let result = await Service.get('/Projects')
+        return result.data.map(doc=> {
+            return{
+                id: doc._id,
+                img: doc.url_slike,
+                company: doc.ime_poslodavca,
+                project_description: doc.opis_projekta
+            }   
+        })
+    }
+}
+
+let Partners = {
+    async getPartners(){
+        let result = await Service.get('/Partners')
+        return result.data.map(doc=> {
+            return{
+                id: doc._id,
+                img: doc.url_slike,
+                name: doc.ime_poslodavca,
+                description: doc.opis
+            }   
+        })
+    }
+}
+
+
 
 //vezani uz pojedine rute
 //Service zove instancu nad baznim i u nastavku dodaje donju rutu i vraca promise
+// samo za probu
 let Users = {
     async getUsers(){
         let result = await Service.get('/test')
@@ -38,4 +68,4 @@ let Users = {
 
 }
 
-export { Service, Users, Auth}
+export { Service, Users, Auth, Projects, Partners}

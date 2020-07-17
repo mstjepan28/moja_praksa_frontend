@@ -20,7 +20,7 @@
       </p>
     </div>
     
-    <div v-if="partner_list"><PartnerCard v-bind:key="partner.id" v-bind:info="partner" v-for="partner in partner_list"/></div>
+    <div v-if="partner_list"><PartnerCard v-bind:key="partner.id" v-bind:info="partner" v-for="partner in partner_list_test"/></div>
 </div>
 </template>
 
@@ -30,6 +30,8 @@ import { VueFlux, FluxPreloader } from 'vue-flux';
 import PartnerCard from '@/components/partner_card'
 
 import store from '@/store.js';
+
+import { Partners } from '@/services'
 
 export default {
 	components: {
@@ -41,12 +43,15 @@ export default {
     data(){
       return{
         store,
-        partner_list: false
+        partner_list: false,
+        partner_list_test: null
       }
     },
     methods:{
-      get_partner_list(){
+      async get_partner_list(){
         this.partner_list = this.store.partner_list
+        this.partner_list_test = await Partners.getPartners();
+        console.log(this.partner_list_test)
       }
     },
     mounted(){

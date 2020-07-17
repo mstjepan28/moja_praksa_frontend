@@ -1,7 +1,7 @@
 <template>
 	<div class="company">
 		<router-link to="/" style="color: white">
-			<i class="far fa-handshake"></i> {{info.company}}
+			<i class="far fa-handshake"></i> {{info.name}}
 		</router-link>
 		<br>
 	</div>

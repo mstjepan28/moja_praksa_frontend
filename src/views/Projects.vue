@@ -21,7 +21,7 @@
     </div>
 
 	<div class="row" style="text-align: center;">
-		<ProjectCard v-bind:key="project.id" v-bind:info="project" v-for="project in project_list"/>
+		<ProjectCard v-bind:key="project.id" v-bind:info="project" v-for="project in project_list_test"/>
 	</div>
 
 	<div class="row">
@@ -35,6 +35,7 @@ import ProjectCard from '@/components/project_card';
 import Pagination from '@/components/pagination';
 import { VueFlux, FluxPreloader } from 'vue-flux';
 import store from '@/store.js';
+import { Projects } from '@/services'
 
 export default {
 	components: {
@@ -47,6 +48,7 @@ export default {
 	data() {
 		return{
 			project_list: null,
+			project_list_test: null,
 			page: 1,
 			store
 		}
@@ -62,8 +64,10 @@ export default {
 			}
 		}
 	},
-	mounted() {
+	async mounted() {
 		this.change_page(1)
+		this.project_list_test = await Projects.getProjects();
+		//console.log(this.partner_list_test)
 	},
 	name:'Projects'
 }

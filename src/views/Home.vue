@@ -27,13 +27,13 @@
 
       <div class="col-md-5 col-sm-12 partner_list">
         <h2>Naši partneri:</h2>
-        <PartnerButton v-bind:key="partner.id" v-bind:info="partner" v-for="partner in partner_list"/><br>
+        <PartnerButton v-bind:key="partner.id" v-bind:info="partner" v-for="partner in partner_list_test"/><br>
         <router-link to="/Partners" class="show_all">Prikaži sve</router-link>
       </div>
     </div>
 
     <div class="row" style="text-align: center;">
-      <div style="width: 100%"><ProjectCard v-bind:key="partner.id" v-bind:info="partner" v-for="partner in project_list" style="margin: 3%"/></div>
+      <div style="width: 100%"><ProjectCard v-bind:key="partner.id" v-bind:info="partner" v-for="partner in project_list_test" style="margin: 3%"/></div>
       <router-link to="/Projects" class="show_all" style="margin: 0 auto; padding: 1% 3%;">Prikaži sve</router-link>
     </div>
 
@@ -46,7 +46,7 @@ import { VueFlux, FluxPreloader } from 'vue-flux';
 import ProjectCard from '@/components/project_card';
 import PartnerButton from '@/components/partner_button';
 import store from '@/store.js';
-//import { Users } from '@/services'
+import { Projects, Partners } from '@/services'
 
 export default {
   components: {
@@ -64,7 +64,9 @@ export default {
       partner_image: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
 
       partner_list: false,
-      project_list: false
+      project_list: false,
+      project_list_test: null,
+      partner_list_test: null,
     }
   },
   methods:{
@@ -81,11 +83,10 @@ export default {
     this.get_projects(projects);
     this.extract_company(projects);
 
-    /*
-    let proba = await fetch("http://localhost:3000/users")
-    let rezultat = await Users.getUsers()
-    console.log(rezultat)
-    */
+    this.project_list_test = await Projects.getProjects();
+    this.partner_list_test = await Partners.getPartners();
+		console.log(this.partner_list_test)
+    
   },
   name: 'Home'
 }
