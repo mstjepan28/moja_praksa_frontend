@@ -198,4 +198,26 @@ export default{
         }
     },
 
+    filter_documents(){
+        this.extract_documents()
+        let filtered_docs = this.documentData
+        
+        for(let i = 0; i < Object.keys(this.filter_params).length; i++){
+            
+          let key_ = Object.keys(this.filter_params)[i]
+          let value = this.filter_params[key_]
+          
+          let [key, comparison] = key_.split("__")
+          if(comparison == 'is'){
+            filtered_docs = filtered_docs.filter((doc) => doc[key] == value)
+          }
+          else if(comparison == 'greater'){
+            filtered_docs = filtered_docs.filter((doc) => doc[key] > value)
+          }
+          else if(comparison == 'lesser'){
+            filtered_docs = filtered_docs.filter((doc) => doc[key] < value)
+          }
+        }
+        this.documentData = filtered_docs
+      },
 }

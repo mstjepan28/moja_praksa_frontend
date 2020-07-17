@@ -18,12 +18,17 @@ export default {
 
 <style>
 .card-text{
-    overflow: hidden;
+	height: auto;
+	max-height: 170px;
+
+	overflow: hidden;
 }
 .project{
-    width: 18rem; 
+	width: 18rem; 
+	
     margin: 3% auto;
-    display: inline-block;
+	display: inline-block;
+	
     border: 2px solid #6DD0F6;
 }
 </style>

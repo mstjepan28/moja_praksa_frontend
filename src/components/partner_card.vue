@@ -14,7 +14,7 @@
         </div>
 
         <div class="row" style="text-align: center">
-            <router-link to="/" class="custom_button">Detalji</router-link>
+            <router-link to="/" class="button_design custom_button">Detalji</router-link>
         </div>
     </div>
 </div>
@@ -27,14 +27,21 @@ export default {
 </script>
 
 <style>
-.partner_description{
-    max-height: 120px;
+/*-- Card level--*/
+.partner_display_image{
+    width: 100%;
     height: auto;
-
-    margin-top: 2%;
+    max-height: 300px;
+    
+    clip-path: polygon(0 0, 100% 0%, 65% 100%, 0% 100%);
+}
+.partner_card{
+    text-align: center;
 
     overflow: hidden;
+    border: 2px solid #636466
 }
+
 
 .right_col{
     padding: 0 20px;
@@ -49,24 +56,18 @@ export default {
     text-align: center;
 }
 
+.partner_description{
+    max-height: 120px;
+    height: auto;
+
+    margin-top: 2%;
+
+    overflow: hidden;
+}
 .custom_button{
     width: 80%;
     
     margin-top: 2%;
     margin-bottom: 4%;
-}
-
-.partner_display_image{
-    width: 100%;
-    height: auto;
-    max-height: 300px;
-    
-    clip-path: polygon(0 0, 100% 0%, 65% 100%, 0% 100%);
-}
-.partner_card{
-    text-align: center;
-
-    overflow: hidden;
-    border: 2px solid #636466
 }
 </style>
