@@ -1,9 +1,9 @@
 <template>
   <div class="login">
 		<h1 class="title">Moja Praksa</h1>
-		<h2 class="mt-4">Prijava</h2>
+		<h2>Prijava</h2><hr>
 
-		<form v-on:submit.prevent="login" class="mt-4">
+		<form v-on:submit.prevent="login">
 			<div class="row">
 				<div class="col-md-4 col-sm-0"></div>
 				<div class="col-md-4 col-sm-12">
@@ -11,19 +11,20 @@
 						<span><i class="fas fa-envelope"></i></span>
 						<input v-model="email" type="email" placeholder="Email..." required/>
 					</div>
-					<div class="input_wrapper input_form_margin">
+					<div class="input_wrapper input_form_margin mt-4">
 						<span><i class="fas fa-key"></i></span>
 						<input v-model="password" type="password" placeholder="Lozinka..." required/>
 					</div>				
 				</div>
 				<div class="col-md-4 col-sm-0"></div>
-			</div>
+			</div><hr>
 
 			<div class="row" style="text-align: center"> 
-				<div class="col">
-					<span style="margin: 0 auto">Nemate korisnički račun? <router-link to="/Signup" class="sign_up">Registrirajte se</router-link></span>
-					<button type="submit" class="button_design button_design mt-3"> Prijava </button>
-				</div>
+				<span style="margin: 0 auto">Nemate korisnički račun? <router-link to="/Signup" class="login_form">Registrirajte se</router-link></span>	
+			</div>
+			
+			<div class="row mt-3" style="text-align: center">
+				<button type="submit" class="button_design login_button" style="display: inline-block; margin: 0 auto;"> Prijava </button>
 			</div>
 
 		</form>	
@@ -31,11 +32,6 @@
 </template>
 
 <script>
-/*
-				<div class="options">s
-
-				</div>
-*/
 import {Auth} from "@/services/index.js";
 
 export default {
@@ -72,7 +68,9 @@ export default {
 	text-align: center;
 	margin: 0 auto;
 }
-
+.login_button{
+	padding: 0.5% 1%
+}
 .fas{
 	position: relative;
 	top: 2px;

@@ -108,7 +108,7 @@ export default {
 			this.project_list = Content.search_projects(search);
 		}
 	},
-	mounted(){
+	async mounted(){
 		this.change_page(1)
 		this.project_list_test = await Projects.getProjects();
 		//console.log(this.partner_list_test)
