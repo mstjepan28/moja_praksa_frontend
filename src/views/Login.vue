@@ -2,36 +2,40 @@
   <div class="login">
 		<h1 class="title">Moja Praksa</h1>
 		<h2 class="mt-4">Prijava</h2>
-		
-		<div class="row">
-			<div class="col-md-3 col-sm-0"></div>
-			
-			<div class="col-md-6 col-sm-12">
-				<form v-on:submit.prevent="login" class="mt-4 form-inline d-flex justify-content-end md-form form-sm active-cyan-2">
-					<div class="input_form mt-3">
+
+		<form v-on:submit.prevent="login" class="mt-4">
+			<div class="row">
+				<div class="col-md-4 col-sm-0"></div>
+				<div class="col-md-4 col-sm-12">
+					<div class="input_wrapper input_form_margin">
 						<span><i class="fas fa-envelope"></i></span>
 						<input v-model="email" type="email" placeholder="Email..." required/>
 					</div>
-
-					<div class="input_form mt-3">
+					<div class="input_wrapper input_form_margin">
 						<span><i class="fas fa-key"></i></span>
 						<input v-model="password" type="password" placeholder="Lozinka..." required/>
-					</div>
-
-					<div class="options">
-						<div class="mt-3">Nemate korisnički račun? <router-link to="/Signup" class="sign_up">Registrirajte se</router-link></div>
-						<button type="submit" class="button_design button_design mt-3"> Prijava </button>
-					</div>
-				</form>	
+					</div>				
+				</div>
+				<div class="col-md-4 col-sm-0"></div>
 			</div>
-			
-			<div class="col-md-3 col-sm-0"></div>
-		</div>
 
+			<div class="row" style="text-align: center"> 
+				<div class="col">
+					<span style="margin: 0 auto">Nemate korisnički račun? <router-link to="/Signup" class="sign_up">Registrirajte se</router-link></span>
+					<button type="submit" class="button_design button_design mt-3"> Prijava </button>
+				</div>
+			</div>
+
+		</form>	
 	</div>
 </template>
 
 <script>
+/*
+				<div class="options">s
+
+				</div>
+*/
 import {Auth} from "@/services/index.js";
 
 export default {
@@ -61,42 +65,18 @@ export default {
 </script>
 
 <style>
-h1, h2{
-	margin: 0;
+.input_form_margin{
+	margin: 5%;
 }
-.sign_up{
-	color: #6DD0F6;
-}
-.sign_up:hover{
-	color: #6DD0F6;
-	text-decoration: underline;
+.login{
+	text-align: center;
+	margin: 0 auto;
 }
 
-form{
-	text-align: center;
-}
-.options{
-	display: inline-block;
-	margin: 0 auto
-}
 .fas{
 	position: relative;
 	top: 2px;
 	margin-right: 1%;
 	font-size: 1.2rem;
-}
-.input_form{
-	display: inline-block;
-	width: 100%;
-}
-
-.title{
-	color: black;
-	margin: 0;
-}
-.login{
-	text-align: center;
-	margin: 0 auto;
-	margin-top: 15%;
 }
 </style>

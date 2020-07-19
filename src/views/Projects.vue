@@ -1,32 +1,5 @@
 <template>
 <div>
-	<div class="modal fade" id="trigger_filter" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" style="font-weight: bold; color: #6DD0F6;">Filter Projekata</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
-				</div>
-
-				<div class="modal-body">
-						<div class="form-group">
-							<label for="recipient-name" class="col-form-label">Lokacija:</label>
-							<input type="text">
-						</div>
-						<div class="form-group">
-							<label for="recipient-name" class="col-form-label">Tehnologije:</label>
-							<input type="text">
-						</div>
-				</div>
-
-				<div class="modal-footer">
-					<button type="button" class="disabled_button" data-dismiss="modal">Odustani</button>
-					<button type="button" class="button_design" >Pretraži</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
 	<vue-flux
 	class="row"
 	:options="store.vfOptions"
@@ -45,7 +18,30 @@
 				<input v-model="search_phrase" class="custom_input" type="text" placeholder="Pretraživanje..."/>
 				<span><i class="fas fa-search"></i></span>
 			</div>
-			<button class="button_design filter_button" data-toggle="modal" data-target="#trigger_filter"><i class="fas fa-filter"></i></button>			
+
+			<!-- Filter -->
+			<div class="btn-group">
+				<button type="button" class="button_design filter_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<i class="fas fa-filter"></i>
+				</button>
+
+				<div class="dropdown-menu dropdown-menu-right">
+					<div class="dropdownHeader"> <h3>Filter</h3> </div>
+
+					<div class="dropdownBody">                   
+						<div class="filter_item">
+							<span class="filter_item_tag"><i class="fas fa-filter"></i></span>
+							<input v-model ="filter_params.iznos__lesser" type="text" class="filter_item_input" name="selectedFilter" placeholder="Placeholder...">
+						</div>
+					</div>
+
+					<div class="dropdownFooter">
+						<button type="submit" class="button_design mr-2"> Traži </button>
+						<button type="submit" class="disabled_button"> Očisti filter</button>
+					</div>
+				</div>
+			</div>
+			<!-- Filter end -->				
 		</div>
 	</div>
 
@@ -111,11 +107,11 @@ export default {
 			this.project_list = Content.search_projects(search);
 		}
 	},
-	mounted() {
+	mounted(){
 		this.change_page(1)
 	},
 	watch:{
-		"search_phrase": _.debounce(search => this.search_projects(search), 500)
+		"search_phrase": _.debounce(function(search){this.search_projects(search)}, 500)
 	},
 	name:'Projects'
 }

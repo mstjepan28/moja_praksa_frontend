@@ -3,16 +3,44 @@
     font-family: 'Montserrat', sans-serif;
     font-size: 16px;
 }
+*:focus{
+    border: none;
+    outline: none;
+}
 button{
     background: none;
     border: none;
     border-radius: none;
 }
-*:focus{
-    border: none;
-    outline: none;
+textarea, textarea:focus{
+	height: 100px;
+
+	resize: none;
+	border: 2px solid #A0E0F6;
+}
+input{
+	border: none;
+}
+input:focus{
+	border: none;
+}
+/* -- Maknut strelice --*/
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+	-moz-appearance: textfield;
 }
 
+.input_wrapper{
+	border-bottom: 2px solid #A0E0F6;
+}
+.input_wrapper > .fas{width: 10%}
+.input_wrapper > input{width: 90%;}
+
+/* --- Random --- */
 .responsive_image{
     display: block;
     max-width: 100%;
@@ -28,6 +56,7 @@ button{
 }
 .login_form:hover{
 	color: #6DD0F6;
+	text-decoration: underline;
 }
 .description_text{
     width: 75%;
@@ -73,14 +102,7 @@ button{
 }
 /*--------------------*/
 
-input{
-	border: none;
-	border-bottom: 2px solid #A0E0F6;
-}
-input:focus{
-	border: none;
-	border-bottom: 2px solid #6DD0F6;
-}
+
 
 /*------ Filter -----*/
 .filter_search > *{
@@ -101,3 +123,44 @@ button > .fas{
 	color: white
 }
 
+/* --- Filter --- */
+.dropdown-menu{
+	min-width: 250px;
+	max-width: 500px;
+
+	border: 2px solid #6DD0F6;
+}
+.dropdownHeader{
+	margin: 0 2%;
+
+	font-weight: bold;
+	color: #6DD0F6;
+}
+.filter_item{
+	margin: 5%;
+	border-bottom: 2px solid #6DD0F6;
+}
+.filter_item_tag{
+	display: inline-block;
+	width: 10%;
+
+	font-size: 1rem;
+	text-align: center;
+}
+.filter_item_input{
+	display: inline-block;
+	width: 90%;
+
+	border: none
+}
+.filter_item_input:focus{
+	border: none
+}
+
+.dropdownFooter{
+	text-align: center;
+}
+.dropdownFooter > button{
+	display: inline-block;
+	margin: 10px auto;
+}

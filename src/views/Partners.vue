@@ -20,15 +20,41 @@
 			</div>
 
 			<!-- Filter -->
-			<div class="btn-group dropleft">
-				<button type="button" class="button_design filter_button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<div class="btn-group">
+				<button type="button" class="button_design filter_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<i class="fas fa-filter"></i>
 				</button>
 
-				<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-					<div>
-						<span style="background: red"><i class="fas fa-location-arrow"></i></span>
-						<input type="text">
+				<div class="dropdown-menu dropdown-menu-right">
+					<div class="dropdownHeader"> <h3>Filter</h3> </div>
+
+					<div class="dropdownBody">                   
+						<div class="filter_item">
+							<span class="filter_item_tag"><i class="fas fa-filter"></i></span>
+							<input v-model ="filter_params.iznos__lesser" type="text" class="filter_item_input" name="selectedFilter" placeholder="Placeholder...">
+						</div>
+						<div class="filter_item">
+							<span class="filter_item_tag"><i class="fas fa-filter"></i></span>
+							<input v-model ="filter_params.iznos__lesser" type="text" class="filter_item_input" name="selectedFilter" placeholder="Placeholder...">
+						</div>
+						<div class="filter_item">
+							<span class="filter_item_tag"><i class="fas fa-filter"></i></span>
+							<input v-model ="filter_params.iznos__lesser" type="text" class="filter_item_input" name="selectedFilter" placeholder="Placeholder...">
+						</div>
+						<div class="filter_item">
+							<span class="filter_item_tag"><i class="fas fa-filter"></i></span>
+							<input v-model ="filter_params.iznos__lesser" type="text" class="filter_item_input" name="selectedFilter" placeholder="Placeholder...">
+						</div>
+						<div class="filter_item">
+							<span class="filter_item_tag"><i class="fas fa-filter"></i></span>
+							<input v-model ="filter_params.iznos__lesser" type="text" class="filter_item_input" name="selectedFilter" placeholder="Placeholder...">
+						</div>
+
+					</div>
+
+					<div class="dropdownFooter">
+						<button type="submit" class="button_design mr-2"> Traži </button>
+						<button type="submit" class="disabled_button"> Očisti filter</button>
 					</div>
 				</div>
 			</div>
@@ -90,7 +116,7 @@ export default {
 		}
 	},
 	watch: {
-		"search_phrase": _.debounce(search => this.search_partners(search), 500)
+		"search_phrase": _.debounce(function(search){this.search_partners(search)}, 500)
 	},
 	mounted(){
 		this.get_partner_list();
