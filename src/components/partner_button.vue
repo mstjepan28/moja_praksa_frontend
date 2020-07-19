@@ -1,6 +1,9 @@
 <template>
-	<div>
-		<router-link to="/" class="button_design company_button"> <i class="far fa-handshake"></i> {{info.company}} </router-link>
+	<div class="company">
+		<router-link to="/" style="color: white">
+			<i class="far fa-handshake"></i> {{info.name}}
+		</router-link>
+		<br>
 	</div>
 </template>
 

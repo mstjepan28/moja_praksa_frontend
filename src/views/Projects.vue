@@ -56,7 +56,7 @@
 	</div>
 
 	<div class="row" style="text-align: center;">
-		<ProjectCard v-bind:key="project.id" v-bind:info="project" v-for="project in project_list"/>
+		<ProjectCard v-bind:key="project.id" v-bind:info="project" v-for="project in project_list_test"/>
 	</div>
 
 	<div class="row">
@@ -73,7 +73,7 @@ import ProjectCard from '@/components/project_card';
 import Pagination from '@/components/pagination';
 
 import store from '@/store.js';
-import { Content } from '@/services';
+import { Projects, Content } from '@/services'
 
 export default {
 	components: {
@@ -86,6 +86,7 @@ export default {
 	data() {
 		return{
 			project_list: null,
+			project_list_test: null,
 			page: 1,
 			store,
 
@@ -109,6 +110,8 @@ export default {
 	},
 	mounted(){
 		this.change_page(1)
+		this.project_list_test = await Projects.getProjects();
+		//console.log(this.partner_list_test)
 	},
 	watch:{
 		"search_phrase": _.debounce(function(search){this.search_projects(search)}, 500)

@@ -74,7 +74,7 @@
 		</p>
 	</div>
 
-	<div v-if="partner_list"><PartnerCard v-bind:key="partner.id" v-bind:info="partner" v-for="partner in partner_list"/></div>
+	<div v-if="partner_list"><PartnerCard v-bind:key="partner.id" v-bind:info="partner" v-for="partner in partner_list_test"/></div>
 
 	<div class="row"><Pagination/></div>
 </div>
@@ -90,6 +90,8 @@ import Pagination from '@/components/pagination';
 import store from '@/store.js';
 import { Content } from '@/services';
 
+import { Partners } from '@/services'
+
 export default {
 	components: {
 		VueFlux,
@@ -101,15 +103,17 @@ export default {
 	data(){
 		return{
 			store,
-			partner_list: false,
+      partner_list: false,
+      partner_list_test: null,
 
 			search_phrase: null,
 			filter_params:{}
 		}
 	},
 	methods:{
-		get_partner_list(){
-			this.partner_list = this.store.partner_list
+		async get_partner_list(){
+      this.partner_list = this.store.partner_list
+      this.partner_list_test = await Partners.getPartners()
 		},
 		search_partners(search){
 			this.partner_list = Content.search_partners(search);
@@ -119,7 +123,7 @@ export default {
 		"search_phrase": _.debounce(function(search){this.search_partners(search)}, 500)
 	},
 	mounted(){
-		this.get_partner_list();
+    this.get_partner_list();
 	}
 }
 </script>
