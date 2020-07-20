@@ -88,8 +88,6 @@ import PartnerCard from '@/components/partner_card';
 import Pagination from '@/components/pagination';
 
 import store from '@/store.js';
-import { Content } from '@/services';
-
 import { Partners } from '@/services'
 
 export default {
@@ -112,11 +110,12 @@ export default {
 	},
 	methods:{
 		async get_partner_list(){
-      this.partner_list = this.store.partner_list
-      this.partner_list_test = await Partners.getPartners()
+			this.partner_list = this.store.partner_list
+			this.partner_list_test = await Partners.getPartners()
 		},
-		search_partners(search){
-			this.partner_list = Content.search_partners(search);
+		async search_partners(search){
+			this.partner_list = await Partners.getPartners(search);
+			console.log(this.partner_list)
 		}
 	},
 	watch: {

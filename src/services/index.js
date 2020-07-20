@@ -20,18 +20,19 @@ let Auth = {
     }   
 }
 
-let Content = {
-    async search_projects(search){
-        return await Service.post('/', search)
-    },
-    async search_partners(search){
-        return await Service.post('/', search)
-    },
-}
 
 let Projects = {
-    async getProjects(){
-        let result = await Service.get('/Projects')
+    async getProjects(search){
+
+        let options = {};
+
+        if (search) {
+            options.params = {
+                _any: search,
+            };
+        }
+
+        let result = await Service.get('/projects', options)
         return result.data.map(doc=> {
             return{
                 id: doc._id,
@@ -40,12 +41,23 @@ let Projects = {
                 project_description: doc.opis_projekta
             }   
         })
-    }
+    },
+
+    
 }
 
 let Partners = {
-    async getPartners(){
-        let result = await Service.get('/Partners')
+    async getPartners(search){
+
+        let options = {};
+
+        if (search) {
+            options.params = {
+                _any: search,
+            };
+        }
+
+        let result = await Service.get('/partners', options)
         return result.data.map(doc=> {
             return{
                 id: doc._id,
@@ -76,5 +88,5 @@ let Users = {
 
 }
 
-export { Service, Users, Auth, Projects, Partners, Content}
+export { Service, Users, Auth, Projects, Partners}
 

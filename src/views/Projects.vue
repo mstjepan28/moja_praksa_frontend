@@ -73,7 +73,7 @@ import ProjectCard from '@/components/project_card';
 import Pagination from '@/components/pagination';
 
 import store from '@/store.js';
-import { Projects, Content } from '@/services'
+import { Projects } from '@/services'
 
 export default {
 	components: {
@@ -104,8 +104,9 @@ export default {
 				'total_pages': this.store.project_list.length,
 			}
 		},
-		search_projects(search){
-			this.project_list = Content.search_projects(search);
+		async search_projects(search){
+			this.project_list = await Projects.getProjects(search);
+			console.log(this.project_list)
 		}
 	},
 	async mounted(){
