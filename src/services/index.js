@@ -41,7 +41,7 @@ let Projects = {
     },
 
     async getOneProject(id){
-        let result = await Service.get('/', {'_id': id})
+        let result = await Service.get(`/projects/${id}`)
 
         return result.data.map(doc=> {
             return{
@@ -86,7 +86,7 @@ let Partners = {
         })
     },
     async getOnePartner(id){
-        let result = await Service.get('/', {'_id': id})
+        let result = await Service.get((`/partners/${id}`))
 
         return result.data.map(doc=> {
             return{

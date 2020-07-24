@@ -125,7 +125,7 @@
 				<div class="col-md-4 col-sm-12">
 					<div class="input_wrapper input_form_margin">
 						<span><i class="fas fa-at"></i></span>
-						<input v-model="new_user.email" type="email" placeholder="Kontakt email..." />
+						<input v-model="new_user.contact_email" type="email" placeholder="Kontakt email..." />
 					</div>
 					<div class="input_wrapper input_form_margin">
 						<span><i class="fas fa-code"></i></span>

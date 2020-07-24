@@ -13,7 +13,7 @@
     "jquery": "^3.5.1",
     "vue": "^2.6.11",
     "vue-flux": "^6.2.0",
-    "vue-horizontal-list": "^1.0.11",
+    "vue-horizontal-list": "^1.0.12",
     "vue-router": "^3.2.0"
   },
   "devDependencies": {
