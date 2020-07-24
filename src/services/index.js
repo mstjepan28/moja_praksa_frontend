@@ -23,13 +23,10 @@ let Auth = {
 
 let Projects = {
     async getProjects(search){
-
         let options = {};
 
-        if (search) {
-            options.params = {
-                _any: search,
-            };
+        if(search) {
+            options.params = {_any: search,};
         }
 
         let result = await Service.get('/projects', options)
@@ -43,18 +40,39 @@ let Projects = {
         })
     },
 
+    async getOneProject(id){
+        let result = await Service.get('/', {'_id': id})
+
+        return result.data.map(doc=> {
+            return{
+                id: doc._id,
+                img: doc.url_slike,
+                company: doc.ime_poslodavca,
+                project_description: doc.opis_projekta
+            }   
+        })      
+    },
     
+    async getPartnerProjects(project_list){
+        let result = await Service.get('/', {'project_list': project_list})
+
+        return result.data.map(doc=> {
+            return{
+                id: doc._id,
+                img: doc.url_slike,
+                company: doc.ime_poslodavca,
+                project_description: doc.opis_projekta
+            }   
+        })       
+    }
 }
 
 let Partners = {
     async getPartners(search){
-
         let options = {};
 
         if (search) {
-            options.params = {
-                _any: search,
-            };
+            options.params = { _any: search};
         }
 
         let result = await Service.get('/partners', options)
@@ -66,6 +84,18 @@ let Partners = {
                 description: doc.opis
             }   
         })
+    },
+    async getOnePartner(id){
+        let result = await Service.get('/', {'_id': id})
+
+        return result.data.map(doc=> {
+            return{
+                id: doc._id,
+                img: doc.url_slike,
+                name: doc.ime_poslodavca,
+                description: doc.opis
+            }    
+        })      
     }
 }
 

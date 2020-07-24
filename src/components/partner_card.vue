@@ -14,7 +14,7 @@
         </div>
 
         <div class="row" style="text-align: center">
-            <router-link to="/" class="button_design custom_button">Detalji</router-link>
+            <router-link v-bind:to="'/PartnersInfo/' + info.id" class="button_design custom_button">Detalji</router-link>
         </div>
     </div>
 </div>
@@ -69,5 +69,8 @@ export default {
     
     margin-top: 2%;
     margin-bottom: 4%;
+
+    color: white;
 }
+.custom_button:hover{color:white}
 </style>

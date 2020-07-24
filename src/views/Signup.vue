@@ -41,12 +41,9 @@
 						<input v-model="new_user.email" type="email" placeholder="Email..." required/>
 					</div>
 
-					<div class="input_form_margin">
-						<div class="input_wrapper">
-							<span><i class="fas fa-code-branch"></i></span>
-							<input v-model="new_user.technology" type="text" placeholder="Tehnologije..." required/>							
-						</div>
-						<small style="color: red">Tehnologije odvajajte zarezom(Python,C++)</small>
+					<div class="input_wrapper input_form_margin">
+						<span><i class="fas fa-code-branch"></i></span>
+						<input v-model="new_user.technology" type="text" placeholder="Tehnologije..." required/>
 					</div>
 				</div>
 				<div class="col-md-4 col-sm-12">
@@ -91,12 +88,9 @@
 						<input v-model="new_user.password" type="password" placeholder="Lozinka..." required/>
 					</div>
 
-					<div class="input_form_margin">
-						<div class="input_wrapper">
-							<span><i class="fas fa-code-branch"></i></span>
-							<input v-model="new_user.technology" type="text" placeholder="Tehnologije..." required/>							
-						</div>
-						<small style="color: red">Tehnologije odvajajte zarezom(Python,C++)</small>
+					<div class="input_wrapper input_form_margin">
+						<span><i class="fas fa-code-branch"></i></span>
+						<input v-model="new_user.technology" type="text" placeholder="Tehnologije..." required/>
 					</div>
 				</div>
 				<div class="col-md-4 col-sm-12">
@@ -115,8 +109,8 @@
 					</div>
 
 					<div class="input_wrapper input_form_margin">
-						<span><i class="fas fa-location-arrow"></i></span>
-						<input v-model="new_user.location" type="text" placeholder="Lokacija..." required/>
+						<span><i class="fas fa-map-marker-alt"></i></span>
+						<input v-model="new_user.adress" type="text" placeholder="Adreasa..." />
 					</div>
 				</div>
 				<div class="col-md-2 col-sm-0"></div><div class="w-100"></div>
@@ -139,10 +133,6 @@
 					</div>
 				</div>
 				<div class="col-md-4 col-sm-12">
-					<div class="input_wrapper input_form_margin">
-						<span><i class="fas fa-map-marker-alt"></i></span>
-						<input v-model="new_user.adress" type="text" placeholder="Adreasa..." />
-					</div>
 					<div class="input_wrapper input_form_margin">
 						<span><i class="fas fa-phone"></i></span>
 						<input v-model="new_user.telephone_number" type="tel" placeholder="Broj telefona..." />

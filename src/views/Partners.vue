@@ -13,14 +13,14 @@
 	<div class="row mt-3 h-100">
 		<div class="col-md-8 col-sm-0"></div>
 
-		<div class="filter_search col-md-4 col-sm-12 my-auto" style="text-align: right">
-			<div class="search_projects mr-3">
+		<div class="filter_search col-md-4 col-sm-12 my-auto">
+			<div class="input_wrapper mr-3">
 				<input v-model="search_phrase" class="custom_input" type="text" placeholder="Pretraživanje..."/>
 				<span><i class="fas fa-search"></i></span>
 			</div>
 
 			<!-- Filter -->
-			<div class="btn-group">
+			<div class="btn-group" style="display: inline-block">
 				<button type="button" class="button_design filter_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<i class="fas fa-filter"></i>
 				</button>
@@ -62,7 +62,7 @@
 		</div>
 
 
-	</div>
+	</div><hr>
 
 	<div class="row" style="text-align: center">
 		<h1 class="title" style="margin-top: 0">Partneri</h1><br>
@@ -72,7 +72,7 @@
 			Nam at dolor eu massa facilisis vehicula. Proin consequat eros ligula, ac congue neque rutrum at. 
 			Nulla lacinia porta gravida. Curabitur tincidunt aliquet auctor. Aliquam erat volutpat. Mauris et tempor dolor.
 		</p>
-	</div>
+	</div><hr>
 
 	<div v-if="partner_list"><PartnerCard v-bind:key="partner.id" v-bind:info="partner" v-for="partner in partner_list_test"/></div>
 
@@ -101,8 +101,8 @@ export default {
 	data(){
 		return{
 			store,
-      partner_list: false,
-      partner_list_test: null,
+	partner_list: false,
+	partner_list_test: null,
 
 			search_phrase: null,
 			filter_params:{}
@@ -122,7 +122,7 @@ export default {
 		"search_phrase": _.debounce(function(search){this.search_partners(search)}, 500)
 	},
 	mounted(){
-    this.get_partner_list();
+		this.get_partner_list();
 	}
 }
 </script>

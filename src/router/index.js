@@ -26,10 +26,20 @@ Vue.use(VueRouter)
     component: () => import('../views/Projects.vue')
   },
   {
+    path: '/ProjectInfo/:id',
+    name: 'ProjectInfo',
+    component: () => import('../views/ProjectInfo.vue')
+  },
+  {
     path: '/Partners',
     name: 'Partners',
     component: () => import('../views/Partners.vue')
-  }
+  },
+  {
+    path: '/PartnersInfo/:id',
+    name: 'PartnersInfo',
+    component: () => import('../views/PartnersInfo.vue')
+  },
 ]
 
 const router = new VueRouter({

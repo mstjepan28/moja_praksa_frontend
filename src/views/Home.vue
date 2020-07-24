@@ -18,22 +18,22 @@
         Nam at dolor eu massa facilisis vehicula. Proin consequat eros ligula, ac congue neque rutrum at. 
         Nulla lacinia porta gravida. Curabitur tincidunt aliquet auctor. Aliquam erat volutpat. Mauris et tempor dolor.
       </p>
-    </div>
+    </div><hr>
 
-    <div class="row">
-      <div class="col-md-7 col-sm-12">
-        <img v-bind:src="partner_image" class="img-fluid" alt="Responsive image" stlyle="height: 18rem">
+    <div class="row h-100">
+      <div class="col-md-7 col-sm-12  my-auto" style="maging: 0">
+        <img v-bind:src="partner_image" class="img-fluid" alt="Responsive image" stlyle="height: 18rem;">
       </div>
 
-      <div class="col-md-5 col-sm-12 partner_list">
+      <div class="col-md-5 col-sm-12  my-auto partner_list">
         <h2>Naši partneri:</h2>
-        <PartnerButton v-bind:key="partner.id" v-bind:info="partner" v-for="partner in partner_list_test"/><br>
+        <PartnerButton v-bind:key="partner.id" v-bind:info="partner" v-for="partner in partner_list"/><br>
         <router-link to="/Partners" class="show_all">Prikaži sve</router-link>
       </div>
-    </div>
+    </div><hr>
 
     <div class="row" style="text-align: center;">
-      <div style="width: 100%"><ProjectCard v-bind:key="partner.id" v-bind:info="partner" v-for="partner in project_list_test" style="margin: 3%"/></div>
+      <div style="width: 100%"><ProjectCard v-bind:key="partner.id" v-bind:info="partner" v-for="partner in project_list" style="margin: 0 3% 3% 3%"/></div>
       <router-link to="/Projects" class="show_all" style="margin: 0 auto; padding: 1% 3%;">Prikaži sve</router-link>
     </div>
 
@@ -65,28 +65,21 @@ export default {
 
       partner_list: false,
       project_list: false,
-      project_list_test: null,
-      partner_list_test: null,
     }
   },
   methods:{
-    get_projects(projects){
+    async get_projects(){
+      const projects = await Projects.getProjects();
       this.project_list = projects.slice(0, 3)
     },
-    extract_company(projects){
-      //Dohvaca 4 objekta sa razlicitim company vrijednostima
-      this.partner_list = [...new Map( projects.map(item => [item.company, item]) ).values()].slice(0, 4)
+    async get_partner(){
+      const partners = await Partners.getPartners();
+      this.partner_list = partners.slice(0, 4)
     }
   },
   async mounted(){
-    let projects = this.store.project_list
-    this.get_projects(projects);
-    this.extract_company(projects);
-
-    this.project_list_test = await Projects.getProjects();
-    this.partner_list_test = await Partners.getPartners();
-		console.log(this.project_list_test)
-    
+    this.get_projects();
+    this.get_partner();
   },
   name: 'Home'
 }
@@ -124,7 +117,5 @@ export default {
 .partner_list{
   text-align: center;
 }
-.description{
-  text-align: center;
-}
+
 </style>

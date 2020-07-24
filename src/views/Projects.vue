@@ -14,7 +14,7 @@
 		<div class="col-md-8 col-sm-0"></div>
 
 		<div class="filter_search col-md-4 col-sm-12 my-auto" style="text-align: right">
-			<div class="search_projects mr-3">
+			<div class="input_wrapper mr-3">
 				<input v-model="search_phrase" class="custom_input" type="text" placeholder="Pretraživanje..."/>
 				<span><i class="fas fa-search"></i></span>
 			</div>
@@ -43,17 +43,17 @@
 			</div>
 			<!-- Filter end -->				
 		</div>
-	</div>
+	</div><hr>
 
 	<div class="row" style="text-align: center">
-	<h1 class="title" style="margin-top: 0">Projekti</h1><br>
-	<p class="description_text">
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce auctor elit nisl, eget venenatis arcu gravida pretium. 
-		Praesent vel odio mauris. Etiam porta sapien odio, eu fermentum lectus ultricies convallis. 
-		Nam at dolor eu massa facilisis vehicula. Proin consequat eros ligula, ac congue neque rutrum at. 
-		Nulla lacinia porta gravida. Curabitur tincidunt aliquet auctor. Aliquam erat volutpat. Mauris et tempor dolor.
-	</p>
-	</div>
+		<h1 class="title" style="margin-top: 0">Projekti</h1><br>
+		<p class="description_text">
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce auctor elit nisl, eget venenatis arcu gravida pretium. 
+			Praesent vel odio mauris. Etiam porta sapien odio, eu fermentum lectus ultricies convallis. 
+			Nam at dolor eu massa facilisis vehicula. Proin consequat eros ligula, ac congue neque rutrum at. 
+			Nulla lacinia porta gravida. Curabitur tincidunt aliquet auctor. Aliquam erat volutpat. Mauris et tempor dolor.
+		</p>
+	</div><hr>
 
 	<div class="row" style="text-align: center;">
 		<ProjectCard v-bind:key="project.id" v-bind:info="project" v-for="project in project_list_test"/>

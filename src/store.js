@@ -188,8 +188,8 @@ export default{
           {end: 576, size: 1},
           {start: 576, end: 768, size: 2},
           {start: 768, end: 992, size: 3},
-          {start: 992, end: 1200, size: 4},
-          {start: 1200, size: 5}
+          {start: 992, end: 1200, size: 3},
+          {start: 1200, size: 4}
         ],
         navigation: {
           // when to show navigation

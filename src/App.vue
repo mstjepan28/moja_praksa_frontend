@@ -4,7 +4,7 @@
       
       <div class="row mt-1">
         <div class="col-md-8 col-sm-12" >
-          <router-link to="/"><img src="fipu_hr.png" class="responsive_image" style="max-height: 110px;"></router-link>
+          <router-link to="/"><img src="@/../public/fipu_hr.png" class="responsive_image" style="max-height: 110px;"></router-link>
         </div>
         
         <div class="col-md-4 col-sm-0 right-col mt-3">

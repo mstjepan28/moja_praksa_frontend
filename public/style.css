@@ -34,29 +34,46 @@ input[type=number] {
 	-moz-appearance: textfield;
 }
 
+h4, h5{
+	margin: 0
+}
+
 .input_wrapper{
+	white-space: nowrap;
 	border-bottom: 2px solid #A0E0F6;
 }
 .input_wrapper > .fas{width: 10%}
 .input_wrapper > input{width: 90%;}
 
 /* --- Random --- */
+.subtitles{
+	width: 100%;
+	border-bottom: black 1px solid;
+	text-align: start;
+	margin: 2% 0;
+}
+
 .responsive_image{
     display: block;
     max-width: 100%;
     height: auto;
 }
-.title{
-    width: 100%;
-    font-size: 75px;
-    margin: 2% auto;
-}
+
 .login_form{
 	color: #6DD0F6;
 }
 .login_form:hover{
 	color: #6DD0F6;
 	text-decoration: underline;
+}
+/*---- Description & title ----*/
+.title{
+    width: 100%;
+    font-size: 75px;
+    margin: 2% auto;
+}
+.description{
+	text-align: center;
 }
 .description_text{
     width: 75%;
@@ -79,6 +96,7 @@ input[type=number] {
 	background: #6DD0F6
 }
 .button_design:hover{
+	color: white;
     border: 2px solid #6DD0F6;
 	background: #A0E0F6;
 }
@@ -105,6 +123,10 @@ input[type=number] {
 
 
 /*------ Filter -----*/
+.filter_search{
+	text-align: right;
+	white-space: nowrap;
+}
 .filter_search > *{
 	display: inline-block;
 }
