@@ -80,11 +80,12 @@ export default {
 	},
 	methods:{
 		async get_partner_info(){
-			//this.project_info = await Partners.getOnePartner(); // Treba backend ruta
+			this.project_info = await Partners.getOnePartner(this.$route.params.id); 
+			console.log(this.project_info)
 
 			// Privremeno
-			const partners = await Partners.getPartners(); 
-			this.partners_info = partners.filter(partners => partners.id == this.id)[0]	
+			//const partners = await Partners.getPartners(); 
+			//this.partners_info = partners.filter(partners => partners.id == this.id)[0]	
 		},
 		async get_projects(){
 			//this.project_list = await Projects.getPartnerProjects(this.partners_info.project_list);

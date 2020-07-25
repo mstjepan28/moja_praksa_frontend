@@ -54,11 +54,12 @@ export default {
 	},
 	methods:{
 		async get_project_info(){
-			//this.project_info = await Projects.getOneProject(); // Treba backend ruta
-
+			this.project_info = await Projects.getOneProject(this.$route.params.id); 
+			//console.log(this.project_info)
+			
 			// Privremeno
-			const projects = await Projects.getProjects(); 
-			this.project_info = projects.filter(project => project.id == this.id)[0]	
+			//const projects = await Projects.getProjects(); 
+			//this.project_info = projects.filter(project => project.id == this.id)[0]	
 		}
 
 	},
