@@ -42,7 +42,7 @@
 	<div class="row">
 		<h5>Kontakt broj:</h5>{{partners_info.telephone_number}}
 	</div>
-	<div class="row">
+	<div class="row mt-3">
 		<h5>Kontakt email:</h5>{{partners_info.telephone_number}}
 	</div><hr>
 
