@@ -108,11 +108,13 @@ export default {
 		},
 
 		async get_project_info(){
-			//this.project_info = await Projects.getOneProject(); // Treba backend ruta
-
-			// Privremeno
+			this.project_info = await Projects.getOneProject(this.$route.params.id); 
+			//console.log(this.project_info)
+			
+			/* Privremeno
 			const projects = await Projects.getProjects(); 
-			this.project_info = projects.filter(project => project.id == this.id)[0]	
+			this.project_info = projects.filter(project => project.id == this.id)[0]
+			*/	
 		},
 		update_project(){
 			const result = Projects.UpdateProject(this.project_info);

@@ -39,20 +39,23 @@ let Projects = {
     },
     async getOneProject(id){
         let result = await Service.get(`/projects/${id}`)
-
-        return result.data.map(doc=> {
+        let data = [result.data]
+        
+        return data.map(doc=> {
             return{
                 id: doc._id,
                 img: doc.url_slike,
                 company: doc.ime_poslodavca,
                 project_description: doc.opis_projekta
             }   
-        })      
+        })  
     },
-    async getPartnerProjects(project_list){
-        let result = await Service.get('/', {'project_list': project_list})
+    
+    async getPartnerProjects(id){
+        let result = await Service.get(`/partnerProjects/${id}`)
+        let data = [result.data]
 
-        return result.data.map(doc=> {
+        return data.map(doc=> {
             return{
                 id: doc._id,
                 img: doc.url_slike,
@@ -91,9 +94,10 @@ let Partners = {
         })
     },
     async getOnePartner(id){
-        let result = await Service.get((`/partners/${id}`))
+        let result = await Service.get(`/partners/${id}`)
+        let data = [result.data]
 
-        return result.data.map(doc=> {
+        return data.map(doc=> {
             return{
                 id: doc._id,
                 img: doc.url_slike,
