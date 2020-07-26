@@ -17,6 +17,7 @@ textarea, textarea:focus{
 
 	resize: none;
 	border: 2px solid #A0E0F6;
+	background: rgb(245, 245, 245);
 }
 input{
 	border: none;
@@ -41,9 +42,14 @@ h4, h5{
 .input_wrapper{
 	white-space: nowrap;
 	border-bottom: 2px solid #A0E0F6;
+	background: rgb(245, 245, 245);
 }
 .input_wrapper > .fas{width: 10%}
-.input_wrapper > input{width: 90%;}
+.input_wrapper > input{
+	width: 90%;
+	background: rgb(245, 245, 245);
+}
+.input_wrapper:focus{border-bottom: 2px solid #A0E0F6;}
 
 /* --- Random --- */
 .subtitles{
@@ -106,6 +112,25 @@ h4, h5{
 	color: white;
     border: 2px solid #6DD0F6;
 	background: #A0E0F6;
+}
+
+.alert_button{
+	padding: 1% 2%;
+    display: inline-block;
+    
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    
+    border-radius: 10px;
+	border: 2px solid rgb(255, 59, 59);
+
+	background: red
+}
+.alert_button:hover{
+	color: white;
+    border: 2px solid red;
+	background: rgb(255, 59, 59);
 }
 
 .disabled_button{
@@ -194,4 +219,9 @@ button > .fas{
 .dropdownFooter > button{
 	display: inline-block;
 	margin: 10px auto;
+}
+
+.subtitles ~ input, textarea{
+	margin: 0 5%;
+	width: 100%;
 }

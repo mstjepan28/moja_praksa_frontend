@@ -219,5 +219,5 @@ export default{
           }
         }
         this.documentData = filtered_docs
-      },
+      }
 }

@@ -10,52 +10,69 @@
 		<template v-slot:preloader> <flux-preloader /> </template>
 	</vue-flux>
 
-
-	
 	<div v-if="edit_enabled">
-		<div class="row option_buttons">
-			<div class="col-md-8" style="background: red"></div>
-			<div class="col-md-4" style="background: blue">
+		<div class="row option_buttons mt-3">
+			<div class="col-md-8"></div>
+			<div class="col-md-4">
 				<button type="button" class="button_design" v-on:click="switch_edit"> Pohrani promjene </button>
 				<button type="button" class="disabled_button" v-on:click="switch_edit"> Odustani </button>
 			</div>
 		</div>
 
-		<div class="row">
+		<div class="row description">
+			<h1 class="title">
+				<input type="text" class="input_wrapper" placeholder="Naziv poduzeća..." v-model="project_info.company" style="text-align: center; width: 100%;">
+			</h1><br>
+			
+			<textarea placeholder="Kratak opis projekta..." v-model="project_info.project_description" style="text-align: center"></textarea>
+		</div>
 
+		<div class="row">
+			<h4 class="subtitles">Kontakt:</h4> <input type="text" class="input_wrapper" placeholder="Kontakt odgovorne osobe za projekt..." v-model="project_info.project_contact">
+
+			<h4 class="subtitles">Tehnologije:</h4> <input type="text" class="input_wrapper" placeholder="Tehnologije koje se koriste u projektu..." v-model="project_info.project_technologies">
+
+			<h4 class="subtitles">Preference:</h4> <input type="text" class="input_wrapper" placeholder="Preference za osobe koje bi obavljale projekt..." v-model="project_info.project_prefrences">
+
+			<h4 class="subtitles">Potrebno imati:</h4> <input type="text" class="input_wrapper" placeholder="Potrebno znannje ili oprema za izvršavanje projekta..." v-model="project_info.project_required">
+
+			<h4 class="subtitles">Trajanje:</h4> <input type="text" class="input_wrapper" placeholder="Vremensko trajanje projekta..." v-model="project_info.project_duration">
+
+			<h4 class="subtitles">Lokacija:</h4> <input type="text" class="input_wrapper" placeholder="Lokacija za izvršavanje projekta..." v-model="project_info.project_location">
+
+			<h4 class="subtitles">Napomena:</h4> <textarea placeholder="Napomena vezana za projekt..." v-model="project_info.project_note"></textarea>
 		</div>
 	</div>
 
 	<div v-else>
-		<div class="row option_buttons">
-			<div class="col-md-11"></div>
-			<div class="col-md-1">
+		<div class="row option_buttons mt-3">
+			<div class="col-md-8"></div>
+			<div class="col-md-4">
 				<button type="button" class="button_design" v-on:click="switch_edit"> Uredi </button>
+				<button type="button" class="alert_button" v-on:click="delete_project"> Izbriši </button>
 			</div>
 		</div>
+			
+		<div class="row description">
+			<h1 class="title">{{project_info.company}}</h1><br>
+			<p class="description_text">{{project_info.project_description}}</p>
+		</div><hr>
 
 		<div class="row">
-			<!--
-			<h4 class="subtitles">Opis projekta:</h4> {{project_info.project_description}}
+			<h4 class="subtitles">Kontakt osoba:</h4> {{project_info.project_contact}}
 
-			<h4 class="subtitles">Naziv poduzeća:</h4> {{project_info.company}}
+			<h4 class="subtitles">Tehnologije:</h4> {{project_info.project_technologies}}
 
-			<h4 class="subtitles">Kontakt osoba:</h4> {{project_info}}
+			<h4 class="subtitles">Preference:</h4> {{project_info.project_prefrences}}
 
-			<h4 class="subtitles">Opis projekta:</h4> {{project_info.project_description}}
+			<h4 class="subtitles">Potrebno imati:</h4> {{project_info.project_required}}
 
-			<h4 class="subtitles">Tehnologije</h4> {{project_info}}
+			<h4 class="subtitles">Trajanje:</h4> {{project_info.project_duration}}
 
-			<h4 class="subtitles">Preference</h4> {{project_info}}
+			<h4 class="subtitles">Lokacija:</h4> {{project_info.project_location}}
 
-			<h4 class="subtitles">Potrebno imati:</h4> {{project_info}}
-
-			<h4 class="subtitles">Trajanje:</h4> {{project_info}}
-
-			<h4 class="subtitles">Lokacija:</h4> {{project_info}}
-
-			<h4 class="subtitles">Napomena:</h4> {{project_info}}
-			-->
+			<h4 class="subtitles">Napomena:</h4> {{project_info.project_note}}
+			
 		</div>
 	</div>
 	
@@ -85,6 +102,11 @@ export default {
 		}
 	},
 	methods:{
+		switch_edit(){
+			if(this.edit_enabled) this.edit_enabled = false;
+			else this.edit_enabled = true
+		},
+
 		async get_project_info(){
 			//this.project_info = await Projects.getOneProject(); // Treba backend ruta
 
@@ -92,12 +114,13 @@ export default {
 			const projects = await Projects.getProjects(); 
 			this.project_info = projects.filter(project => project.id == this.id)[0]	
 		},
-		switch_edit(){
-			if(this.edit_enabled) this.edit_enabled = false;
-			else this.edit_enabled = true
-		},
 		update_project(){
-
+			const result = Projects.UpdateProject(this.project_info);
+			console.log(result);
+		},
+		delete_project(){
+			const result = Projects.DeleteProject(this.project_info._id);
+			console.log(result);
 		}
 	},
 	mounted(){

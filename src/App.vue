@@ -30,6 +30,9 @@
             <li class="nav-item">
               <router-link to="/Partners">Partneri</router-link>
             </li>
+            <li class="nav-item">
+              <router-link to="/AddProject">Dodaj projekt</router-link>
+            </li>
           </ul>
         </div>
 
@@ -105,9 +108,10 @@ footer{
 }
 .nav-item{
   margin: 2%;
+  white-space: nowrap;
 }
 .nav-item > a{
-  font-size: 18px;
+  font-size: 16px;
   color: white;
 }
 .nav-item > a:hover{

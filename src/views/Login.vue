@@ -24,7 +24,7 @@
 			</div>
 			
 			<div class="row mt-3" style="text-align: center">
-				<button type="submit" class="button_design login_button" style="display: inline-block; margin: 0 auto;"> Prijava </button>
+				<button type="submit" class="button_design" style="display: inline-block; margin: 0 auto;"> Prijava </button>
 			</div>
 
 		</form>	
@@ -61,15 +61,10 @@ export default {
 </script>
 
 <style>
-.input_form_margin{
-	margin: 5%;
-}
+.input_form_margin{margin: 5%;}
 .login{
 	text-align: center;
 	margin: 0 auto;
-}
-.login_button{
-	padding: 0.5% 1%
 }
 .fas{
 	position: relative;

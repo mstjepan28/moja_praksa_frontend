@@ -25,9 +25,7 @@ let Projects = {
     async getProjects(search){
         let options = {};
 
-        if(search) {
-            options.params = {_any: search,};
-        }
+        if(search){options.params = {_any: search,};}
 
         let result = await Service.get('/projects', options)
         return result.data.map(doc=> {
@@ -39,7 +37,6 @@ let Projects = {
             }   
         })
     },
-
     async getOneProject(id){
         let result = await Service.get(`/projects/${id}`)
 
@@ -52,7 +49,6 @@ let Projects = {
             }   
         })      
     },
-    
     async getPartnerProjects(project_list){
         let result = await Service.get('/', {'project_list': project_list})
 
@@ -64,6 +60,15 @@ let Projects = {
                 project_description: doc.opis_projekta
             }   
         })       
+    },
+    async UpdateProject(project){
+        return await Service.patch('/', project)
+    },
+    async AddProject(project){
+        return await Service.put('/', project)
+    },
+    async DeleteProject(project_id){
+        return await Service.delete('/', {'_id': project_id})
     }
 }
 
@@ -96,7 +101,7 @@ let Partners = {
                 description: doc.opis
             }    
         })      
-    }
+    },
 }
 
 
