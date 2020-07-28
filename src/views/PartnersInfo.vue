@@ -51,17 +51,20 @@
 			<h4 class="subtitles">Kontakt email:</h4> <input type="text" class="input_wrapper" placeholder="Tehnologije koje se koriste u projektu..." v-model="partners_info.contact_email">
 		</div>
 
-		<div class="row mt-3">
+		<div class="row contact_buttons">
 			<h4 class="subtitles">Kontakt poveznice:</h4>
 
-			<div class="input_wrapper button_design contact_input">
-				<i class="fab fa-twitter"></i> Twitter: <input type="text" class="" placeholder="Twitter link..." v-model="partners_info.twitter">
+			<div class="input_wrapper button_design col-md-4 col-sm-12 mt-3">
+				<span class="col-6"><i class="fab fa-twitter"></i> Twitter: </span>
+				<input type="text" class="col-6" placeholder="http://twitter.com/..." v-model="partners_info.twitter">
 			</div>
-			<div class="input_wrapper button_design contact_input">
-				<i class="fab fa-facebook-f"></i> Facebook: <input type="text" class="" placeholder="Facebook link..." v-model="partners_info.facebook">
+			<div class="input_wrapper button_design col-md-4 col-sm-12 mt-3">
+				<span class="col-6"><i class="fab fa-facebook-f "></i> Facebook: </span>
+				<input type="text" class="col-6" placeholder="http://facebook.com/..." v-model="partners_info.facebook">
 			</div>
-			<div class="input_wrapper button_design contact_input">
-				<i class="fas fa-link" style="color: white"></i> Website: <input type="text" class="" placeholder="Website link..." v-model="partners_info.website">
+			<div class="input_wrapper button_design col-md-4 col-sm-12 mt-3">
+				<span class="col-6"><i class="fas fa-link" style="color: white;"></i> Website: </span>
+				<input type="text" class="col-6" placeholder="http://mojastranica.com/..." v-model="partners_info.website">
 			</div>
 		</div>
 	</div>
@@ -148,12 +151,8 @@ export default {
 	},
 	methods:{
 		async get_partner_info(){
-			this.project_info = await Partners.getOnePartner(this.$route.params.id); 
-			console.log(this.project_info)
-
-			// Privremeno
-			//const partners = await Partners.getPartners(); 
-			//this.partners_info = partners.filter(partners => partners.id == this.id)[0]	
+			const result = await Partners.getOnePartner(this.$route.params.id);
+			this.partners_info = result[0]
 		},
 		async get_projects(){
 			//this.project_list = await Projects.getPartnerProjects(this.partners_info.project_list);
@@ -177,23 +176,5 @@ export default {
 	width: 100%;
 	margin: 0 auto;
 	display: inline-block;
-}
-
-.contact_buttons{
-	padding: 0.5% 1%;
-	margin: 0 2%;
-}
-
-.contact_buttons > .fas{color: white}
-.contact_buttons > .fas, .fab{padding: 0 3px;}
-
-.contact_input{
-	text-align: center;
-	width: 33%;
-}
-.contact_buttons > *{display: inline-block}
-.contact_input > input{
-	margin-left: 10px;
-	width: 200px;
 }
 </style>

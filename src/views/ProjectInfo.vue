@@ -14,7 +14,7 @@
 		<div class="row option_buttons mt-3">
 			<div class="col-md-8"></div>
 			<div class="col-md-4">
-				<button type="button" class="button_design" v-on:click="switch_edit"> Pohrani promjene </button>
+				<button type="button" class="button_design" v-on:click="update_project"> Pohrani promjene </button>
 				<button type="button" class="disabled_button" v-on:click="switch_edit"> Odustani </button>
 			</div>
 		</div>
@@ -106,19 +106,15 @@ export default {
 			if(this.edit_enabled) this.edit_enabled = false;
 			else this.edit_enabled = true
 		},
-
 		async get_project_info(){
-			this.project_info = await Projects.getOneProject(this.$route.params.id); 
-			//console.log(this.project_info)
-			
-			/* Privremeno
-			const projects = await Projects.getProjects(); 
-			this.project_info = projects.filter(project => project.id == this.id)[0]
-			*/	
+			const result = await Projects.getOneProject(this.$route.params.id);
+			this.project_info = result[0];
 		},
 		update_project(){
 			const result = Projects.UpdateProject(this.project_info);
 			console.log(result);
+
+			this.edit_enabled = false;
 		},
 		delete_project(){
 			const result = Projects.DeleteProject(this.project_info._id);
