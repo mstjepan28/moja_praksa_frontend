@@ -1,16 +1,41 @@
 <template>
 <span class="pagination">
-    <div class="pagination_element"><i class="fas fa-chevron-left"></i></div>
-    <div class="pagination_element">1</div>
-    <div class="pagination_element">2</div>
-    <div class="pagination_element">3</div>
-    <div class="pagination_element"><i class="fas fa-chevron-right"></i></div>
+    <div class="pagination_element" v-on:click="previousPage"><i class="fas fa-chevron-left"></i></div>
+    
+    <div class="pagination_element" v-on:click="changePage(current_page)">{{current_page}}</div>
+    <div class="pagination_element" v-if="current_page + 1 <= totalPages" v-on:click="changePage(current_page+1)">{{current_page + 1}}</div>
+    <div class="pagination_element" v-if="current_page + 2 <= totalPages" v-on:click="changePage(current_page+2)">{{current_page + 2}}</div>
+    
+    <div class="pagination_element" v-on:click="nextPage"><i class="fas fa-chevron-right"></i></div>
 </span>
 </template>
 
 <script>
 export default {
+    props: ['info'],
+    data() {
+        return{
+            totalPages: null,
+            current_page: 1,
+        }
+    },
+    methods:{
+        nextPage(){
+            if(this.current_page + 2 < this.totalPages) this.current_page++;
+        },
+        previousPage(){
+            if(this.current_page > 1) this.current_page--;
+        },
+        changePage(page){
+            this.current_page = page;
+        }
+    },
+    mounted(){
+        this.current_page = this.info.total_items;
 
+        const total_items = 36; 
+        this.totalPages = Math.ceil(total_items / 9)
+    }
 }
 </script>
 
@@ -18,6 +43,7 @@ export default {
 .pagination{
     margin: 0 auto;
     display: inline-block;
+    user-select: none;
 }
 .pagination_element{
     padding: 5px 10px;

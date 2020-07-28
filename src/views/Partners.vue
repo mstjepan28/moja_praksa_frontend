@@ -74,9 +74,11 @@
 		</p>
 	</div><hr>
 
-	<div v-if="partner_list"><PartnerCard v-bind:key="partner.id" v-bind:info="partner" v-for="partner in partner_list_test"/></div>
+	<div v-if="partner_list"><PartnerCard v-bind:key="partner.id" v-bind:info="partner" v-for="partner in partner_list"/></div>
 
-	<div class="row"><Pagination/></div>
+	<div class="row">
+		<Pagination v-bind:info="total_items"/>
+	</div>
 </div>
 </template>
 
@@ -101,27 +103,29 @@ export default {
 	data(){
 		return{
 			store,
-	partner_list: false,
-	partner_list_test: null,
+			partner_list: false,
+			total_items: null,
 
 			search_phrase: null,
 			filter_params:{}
 		}
 	},
 	methods:{
+		async get_partner_number(){
+			this.total_items = await Partners.getPartnersNumber();
+		},
 		async get_partner_list(){
-			this.partner_list = this.store.partner_list
-			this.partner_list_test = await Partners.getPartners()
+			this.partner_list = await Partners.getPartners()
 		},
 		async search_partners(search){
 			this.partner_list = await Partners.getPartners(search);
-			console.log(this.partner_list)
 		}
 	},
 	watch: {
 		"search_phrase": _.debounce(function(search){this.search_partners(search)}, 500)
 	},
 	mounted(){
+		this.get_partner_number();
 		this.get_partner_list();
 	}
 }

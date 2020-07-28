@@ -22,6 +22,9 @@ let Auth = {
 
 
 let Projects = {
+    async getProjectNumber(){
+        return await Service.get('/');
+    },
     async getProjects(search){
         let options = {};
 
@@ -76,6 +79,9 @@ let Projects = {
 }
 
 let Partners = {
+    async getPartnersNumber(){
+        return await Service.get('/');
+    },
     async getPartners(search){
         let options = {};
 

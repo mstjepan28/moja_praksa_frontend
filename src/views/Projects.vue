@@ -56,11 +56,11 @@
 	</div><hr>
 
 	<div class="row" style="text-align: center;">
-		<ProjectCard v-bind:key="project.id" v-bind:info="project" v-for="project in project_list_test"/>
+		<ProjectCard v-bind:key="project.id" v-bind:info="project" v-for="project in project_list"/>
 	</div>
 
 	<div class="row">
-		<Pagination/>
+		<Pagination v-bind:info="total_items"/>
 	</div>
 </div>
 </template>
@@ -86,8 +86,7 @@ export default {
 	data() {
 		return{
 			project_list: null,
-			project_list_test: null,
-			page: 1,
+			total_items: null,
 			store,
 
 			search_phrase: null,
@@ -95,14 +94,8 @@ export default {
 		}
 	},
 	methods:{
-		change_page(new_page){
-			this.page = new_page
-			this.project_list = this.store.project_list.slice(this.page * 9 - 9, this.page * 9)
-		},
-		get_projects_number(){
-			return{
-				'total_pages': this.store.project_list.length,
-			}
+		async get_projects_number(){
+			this.total_items = await Projects.getProjectNumber();
 		},
 		async search_projects(search){
 			this.project_list = await Projects.getProjects(search);
@@ -110,8 +103,8 @@ export default {
 		}
 	},
 	async mounted(){
-		this.change_page(1)
-		this.project_list_test = await Projects.getProjects();
+		this.get_projects_number();
+		this.project_list = await Projects.getProjects();
 		//console.log(this.partner_list_test)
 	},
 	watch:{
