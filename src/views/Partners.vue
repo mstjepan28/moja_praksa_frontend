@@ -76,8 +76,35 @@
 
 	<div v-if="partner_list"><PartnerCard v-bind:key="partner.id" v-bind:info="partner" v-for="partner in partner_list"/></div>
 
-	<div class="row">
-		<Pagination v-bind:info="total_items"/>
+	<div class="row" style="text-align: center">
+		<paginate
+			v-if="total_pages"
+			v-model="page"
+			
+			:page-count="total_pages"
+			
+			:prev-text="prev"
+			:next-text="next"
+
+			:click-handler="clickCallback"
+
+			:container-class="'pagination'"
+			:page-class="'pagination_buttons'"
+			:prev-class="'pagination_buttons'"
+			:next-class="'pagination_buttons'"
+
+			style="margin: 0 auto;"
+		>
+			<span slot="prevContent">Changed previous button</span>
+			<span slot="nextContent">Changed next button</span>
+			<span slot="breakViewContent">
+				<svg width="16" height="4" viewBox="0 0 16 4">
+					<circle fill="#999999" cx="2" cy="2" r="2" />
+					<circle fill="#999999" cx="8" cy="2" r="2" />
+					<circle fill="#999999" cx="14" cy="2" r="2" />
+				</svg>
+			</span>
+		</paginate>
 	</div>
 </div>
 </template>
@@ -85,9 +112,9 @@
 <script>
 import _ from 'lodash';
 import { VueFlux, FluxPreloader } from 'vue-flux';
+import Paginate from 'vuejs-paginate';
 
 import PartnerCard from '@/components/partner_card';
-import Pagination from '@/components/pagination';
 
 import store from '@/store.js';
 import { Partners } from '@/services'
@@ -96,36 +123,61 @@ export default {
 	components: {
 		VueFlux,
 		FluxPreloader,
+		Paginate,
 
 		PartnerCard,
-		Pagination
 	},
 	data(){
 		return{
 			store,
 			partner_list: false,
-			total_items: null,
 
 			search_phrase: null,
-			filter_params:{}
+			filter_params:{},
+
+			total_pages: null,
+			prev: "Prethodna",
+			next: "Sljedeća",
+			page: 1
+
 		}
 	},
 	methods:{
-		async get_partner_number(){
-			this.total_items = await Partners.getPartnersNumber();
+		async get_total_pages(){
+			const total_items = await Partners.getPartnersNumber();
+			this.total_pages = Math.ceil(total_items / 9);
 		},
 		async get_partner_list(){
 			this.partner_list = await Partners.getPartners()
 		},
 		async search_partners(search){
 			this.partner_list = await Partners.getPartners(search);
+		},
+		
+		async clickCallback(pageNum){
+			const first_item = pageNum * 3 - 3 + 1 
+			const last_item = pageNum * 3
+			
+			if(this.store.partner_list.length < last_item){
+				const new_items = await Partners.get_partner_ammount({first: first_item, second: last_item})
+				
+				this.partner_list = new_items;
+				this.store.partner_list = this.store.partner_list.concat(new_items)
+			}
+			else{
+				this.partner_list = this.store.partner_list.slice(first_item, last_item-1)
+			}
+
+			console.log(first_item, last_item)
 		}
 	},
 	watch: {
 		"search_phrase": _.debounce(function(search){this.search_partners(search)}, 500)
 	},
 	mounted(){
-		this.get_partner_number();
+		//this.get_total_pages();
+		this.total_pages = 36;
+
 		this.get_partner_list();
 	}
 }

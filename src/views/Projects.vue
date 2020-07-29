@@ -59,8 +59,35 @@
 		<ProjectCard v-bind:key="project.id" v-bind:info="project" v-for="project in project_list"/>
 	</div>
 
-	<div class="row">
-		<Pagination v-bind:info="total_items"/>
+	<div class="row" style="text-align: center">
+		<paginate
+			v-if="total_pages"
+			v-model="page"
+			
+			:page-count="total_pages"
+			
+			:prev-text="prev"
+			:next-text="next"
+
+			:click-handler="clickCallback"
+
+			:container-class="'pagination'"
+			:page-class="'pagination_buttons'"
+			:prev-class="'pagination_buttons'"
+			:next-class="'pagination_buttons'"
+
+			style="margin: 0 auto;"
+		>
+			<span slot="prevContent">Changed previous button</span>
+			<span slot="nextContent">Changed next button</span>
+			<span slot="breakViewContent">
+				<svg width="16" height="4" viewBox="0 0 16 4">
+					<circle fill="#999999" cx="2" cy="2" r="2" />
+					<circle fill="#999999" cx="8" cy="2" r="2" />
+					<circle fill="#999999" cx="14" cy="2" r="2" />
+				</svg>
+			</span>
+		</paginate>
 	</div>
 </div>
 </template>
@@ -70,7 +97,7 @@ import _ from 'lodash';
 import { VueFlux, FluxPreloader } from 'vue-flux';
 
 import ProjectCard from '@/components/project_card';
-import Pagination from '@/components/pagination';
+import Paginate from 'vuejs-paginate';
 
 import store from '@/store.js';
 import { Projects } from '@/services'
@@ -81,31 +108,52 @@ export default {
 		FluxPreloader,
 
 		ProjectCard,
-		Pagination
+		Paginate
 	},
 	data() {
 		return{
-			project_list: null,
-			total_items: null,
 			store,
+			project_list: null,
 
 			search_phrase: null,
-			filter_params:{}
+			filter_params:{},
+
+			total_pages: null,
+			prev: "Prethodna",
+			next: "Sljedeća",
+			page: 1,
 		}
 	},
 	methods:{
-		async get_projects_number(){
-			this.total_items = await Projects.getProjectNumber();
+		async get_total_pages(){
+			const total_items = await Projects.getProjectNumber();
+			this.total_pages = Math.ceil(total_items / 9);
 		},
 		async search_projects(search){
 			this.project_list = await Projects.getProjects(search);
 			console.log(this.project_list)
+		},
+		async clickCallback(pageNum){
+			const first_item = pageNum * 3 - 3 + 1 
+			const last_item = pageNum * 3
+			
+			if(this.store.partner_list.length < last_item){
+				const new_items = await Projects.get_project_ammount({first: first_item, second: last_item})
+				
+				this.project_list = new_items;
+				this.store.project_list = this.store.project_list.concat(new_items)
+			}
+			else{
+				this.project_list = this.store.project_list.slice(first_item, last_item-1)
+			}
+
+			console.log(first_item, last_item)
 		}
 	},
 	async mounted(){
-		this.get_projects_number();
+		//this.get_total_pages();
+		this.total_pages = 36;
 		this.project_list = await Projects.getProjects();
-		//console.log(this.partner_list_test)
 	},
 	watch:{
 		"search_phrase": _.debounce(function(search){this.search_projects(search)}, 500)

@@ -14,7 +14,8 @@
     "vue": "^2.6.11",
     "vue-flux": "^6.2.0",
     "vue-horizontal-list": "^1.0.12",
-    "vue-router": "^3.2.0"
+    "vue-router": "^3.2.0",
+    "vuejs-paginate": "^2.1.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.4.0",

@@ -20,11 +20,15 @@ export default {
         }
     },
     methods:{
-        nextPage(){
-            if(this.current_page + 2 < this.totalPages) this.current_page++;
+        async nextPage(){
+            if(this.current_page + 2 > this.totalPages) return;
+            
+            this.current_page++;
         },
-        previousPage(){
-            if(this.current_page > 1) this.current_page--;
+        async previousPage(){
+            if(this.current_page < 1) return;
+
+            this.current_page--;
         },
         changePage(page){
             this.current_page = page;

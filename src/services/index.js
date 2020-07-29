@@ -75,6 +75,9 @@ let Projects = {
     },
     async DeleteProject(project_id){
         return await Service.delete('/', {'_id': project_id})
+    },
+    async get_project_ammount(items){
+        console.log(items);
     }
 }
 
@@ -112,6 +115,9 @@ let Partners = {
             }    
         })      
     },
+    async get_partner_ammount(items){
+        console.log(items);
+    }
 }
 
 

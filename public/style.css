@@ -225,3 +225,11 @@ button > .fas{
 	margin: 0 5%;
 	width: 100%;
 }
+
+.pagination_buttons{
+	user-select: none;
+	margin: 0 5px;
+
+	color: #6DD0F6;
+}
+.pagination_buttons:hover{text-decoration: underline;}
