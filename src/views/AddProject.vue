@@ -9,7 +9,7 @@
     >
         <template v-slot:preloader> <flux-preloader /> </template>
     </vue-flux>
-    <form v-on:submit.prevent="UpdateProject">
+    <form v-on:submit.prevent="addProject">
         <div class="row description mt-3">
             <h1 class="title">
                 <input type="text" class="input_wrapper" placeholder="Naziv poduzeća..." v-model="project_info.company" style="text-align: center; width: 100%;" required>
@@ -60,8 +60,9 @@ export default {
 		}
     },
     methods:{
-        async UpdateProject(){
-            await Projects.AddProject(this.project_info);
+        async addProject(){
+            let result = await Projects.AddProject(this.project_info);
+            console.log(result)
         }
     }
 }

@@ -110,14 +110,14 @@ export default {
 			const result = await Projects.getOneProject(this.$route.params.id);
 			this.project_info = result[0];
 		},
-		update_project(){
-			const result = Projects.UpdateProject(this.project_info);
+		async update_project(){
+			const result = await Projects.UpdateProject(this.project_info, this.$route.params.id, true);
 			console.log(result);
 
 			this.edit_enabled = false;
 		},
-		delete_project(){
-			const result = Projects.DeleteProject(this.project_info._id);
+		async delete_project(){
+			const result = await Projects.DeleteProject(this.$route.params.id, false);
 			console.log(result);
 		}
 	},

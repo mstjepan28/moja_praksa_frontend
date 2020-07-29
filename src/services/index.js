@@ -21,10 +21,13 @@ let Auth = {
 }
 
 
+
 let Projects = {
+
     async getProjectNumber(){
         return await Service.get('/');
     },
+
     async getProjects(search){
         let options = {};
 
@@ -40,6 +43,7 @@ let Projects = {
             }   
         })
     },
+    
     async getOneProject(id){
         let result = await Service.get(`/projects/${id}`)
         let data = [result.data]
@@ -49,7 +53,14 @@ let Projects = {
                 id: doc._id,
                 img: doc.url_slike,
                 company: doc.ime_poslodavca,
-                project_description: doc.opis_projekta
+                project_description: doc.opis_projekta,
+                project_contact: doc.email_kontakt_osobe,
+                project_technologies: doc.tehnologije,
+                project_prefrences: doc.preference,
+                project_required: doc.potrebe_za_obavljanje,
+                project_duration: doc.trajanje,
+                project_location: doc.lokacija,
+                project_note: doc.napomena
             }   
         })  
     },
@@ -67,19 +78,19 @@ let Projects = {
             }   
         })       
     },
-    async UpdateProject(project){
-        return await Service.patch('/', project)
+    async UpdateProject(project_info,id,updateDoc){
+        return await Service.patch(`/projects/${id}/${updateDoc}`, project_info)
     },
-    async AddProject(project){
-        return await Service.put('/', project)
+    async AddProject(project_info){
+        return await Service.post('/projects', project_info)
     },
-    async DeleteProject(project_id){
-        return await Service.delete('/', {'_id': project_id})
-    },
-    async get_project_ammount(items){
-        console.log(items);
+    async DeleteProject(project_id, updateDoc){
+        return await Service.delete(`/projects/${project_id}/${updateDoc}`)
     }
 }
+    
+
+
 
 let Partners = {
     async getPartnersNumber(){
