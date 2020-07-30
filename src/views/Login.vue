@@ -62,6 +62,7 @@ export default {
 
 <style>
 .input_form_margin{margin: 5%;}
+
 .login{
 	text-align: center;
 	margin: 0 auto;

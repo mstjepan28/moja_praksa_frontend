@@ -1,5 +1,5 @@
 <template>
-<div v-if="partners_info">
+<div v-if="partners_info && authenticated">
 	<vue-flux
 		class="row"
 		:options="store.vfOptions"
@@ -130,7 +130,7 @@
 import VueHorizontalList from 'vue-horizontal-list';
 import { VueFlux, FluxPreloader } from 'vue-flux';
 
-import { Partners, /*Projects*/ } from '@/services'
+import { Partners, Projects } from '@/services'
 import store from '@/store.js';
 
 export default {
@@ -155,16 +155,19 @@ export default {
 			this.partners_info = result[0]
 		},
 		async get_projects(){
-			//this.project_list = await Projects.getPartnerProjects(this.partners_info.project_list);
-
-			this.project_list = this.store.project_list//await Projects.getProjects();
+			this.project_list = await Projects.getPartnerProjects(this.partners_info.project_list);
 		},
 		switch_edit(){
 			if(this.edit_enabled) this.edit_enabled = false;
 			else this.edit_enabled = true
+		},
+		authenticated(){
+			const a = false
+			if(a) this.$router.push({ name: 'Login' })
 		}
 	},
 	mounted(){
+		this.authenticated();
 		this.get_partner_info();
 		this.get_projects();
 	}

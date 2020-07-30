@@ -148,7 +148,8 @@ export default {
 			this.total_pages = Math.ceil(total_items / 9);
 		},
 		async get_partner_list(){
-			this.partner_list = await Partners.getPartners()
+			if(!this.store.partner_list) this.store.partner_list = await Partners.getPartners();
+			else this.partner_list = this.store.partner_list
 		},
 		async search_partners(search){
 			this.partner_list = await Partners.getPartners(search);

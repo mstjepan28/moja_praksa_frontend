@@ -28,13 +28,13 @@
       <div class="col-md-5 col-sm-12  my-auto partner_list">
         <h2>Naši partneri:</h2>
         <PartnerButton v-bind:key="partner.id" v-bind:info="partner" v-for="partner in partner_list"/><br>
-        <router-link to="/Partners" class="show_all">Prikaži sve</router-link>
+        <router-link to="/Partners" class="button_design">Prikaži sve</router-link>
       </div>
     </div><hr>
 
     <div class="row" style="text-align: center;">
       <div style="width: 100%"><ProjectCard v-bind:key="partner.id" v-bind:info="partner" v-for="partner in project_list" style="margin: 0 3% 3% 3%"/></div>
-      <router-link to="/Projects" class="show_all" style="margin: 0 auto; padding: 1% 3%;">Prikaži sve</router-link>
+      <router-link to="/Projects" class="button_design" style="margin: 0 auto; padding: 1% 3%;">Prikaži sve</router-link>
     </div>
 
   </div>
@@ -69,53 +69,30 @@ export default {
   },
   methods:{
     async get_projects(){
-      const projects = await Projects.getProjects();
-      this.project_list = projects.slice(0, 3)
+      if(!this.store.project_list) this.store.project_list = await Projects.getProjects();
+
+      this.project_list = this.store.project_list.slice(0, 3)
     },
+
     async get_partner(){
-      const partners = await Partners.getPartners();
-      this.partner_list = partners.slice(0, 4)
+      if(!this.store.partner_list) this.store.partner_list = await Partners.getPartners();
+      
+      this.partner_list = this.store.partner_list.slice(0, 4)   
     }
   },
   async mounted(){
-    this.get_projects();
     this.get_partner();
+    this.get_projects();
   },
   name: 'Home'
 }
 </script>
 
 <style scoped>
+.col-sm-12{margin-top: 3%;}
 
-.col-sm-12{
-  margin-top: 3%;
-}
-.col-7, .col-5{
-  padding: 0
-}
+.col-7, .col-5{padding: 0}
 
-.show_all{
-	margin-top: 5%;
-	padding: 1% 2%;
-
-	display: inline-block;
-
-	font-size: 16px;
-	font-weight: bold;
-	color: white;
-
-	border: 2px solid #A0E0F6;
-	border-radius: 10px;
-
-	background: #6DD0F6
-}
-.show_all:hover{
-	border: 2px solid #6DD0F6;
-	background: #A0E0F6;
-}
-
-.partner_list{
-  text-align: center;
-}
+.partner_list{text-align: center;}
 
 </style>

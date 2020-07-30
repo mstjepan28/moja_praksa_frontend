@@ -129,10 +129,17 @@ export default {
 			const total_items = await Projects.getProjectNumber();
 			this.total_pages = Math.ceil(total_items / 9);
 		},
+		
 		async search_projects(search){
 			this.project_list = await Projects.getProjects(search);
 			console.log(this.project_list)
 		},
+
+		async get_projects(){
+			if(!this.store.project_list) this.store.project_list = await Projects.getProjects();
+			else this.project_list = this.store.project_list;
+		},
+
 		async clickCallback(pageNum){
 			const first_item = pageNum * 3 - 3 + 1 
 			const last_item = pageNum * 3
@@ -153,7 +160,8 @@ export default {
 	async mounted(){
 		//this.get_total_pages();
 		this.total_pages = 36;
-		this.project_list = await Projects.getProjects();
+
+		this.get_projects();
 	},
 	watch:{
 		"search_phrase": _.debounce(function(search){this.search_projects(search)}, 500)

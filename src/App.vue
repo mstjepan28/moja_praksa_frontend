@@ -2,12 +2,12 @@
   <div class="container">
     <div v-if="check_route">
       
-      <div class="row mt-1">
-        <div class="col-md-8 col-sm-12" >
+      <div class="row mt-1 h-100">
+        <div class="col-md-8 col-sm-12 my-auto" >
           <router-link to="/"><img src="@/../public/fipu_hr.png" class="responsive_image" style="max-height: 110px;"></router-link>
         </div>
         
-        <div class="col-md-4 col-sm-0 right-col mt-3">
+        <div class="col-md-4 col-sm-0 right-col mt-3 my-auto">
           <router-link to="/Login"  class="login_form" style="margin: 0 10px;">Prijava <i class="fas fa-sign-in-alt" aria-hidden="true"></i> </router-link>
           <router-link to="/Signup" class="login_form">Registracija <i class="fas fa-user-plus"  aria-hidden="true"></i> </router-link>
         </div>

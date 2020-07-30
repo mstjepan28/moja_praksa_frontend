@@ -74,6 +74,11 @@
 			<h4 class="subtitles">Napomena:</h4> {{project_info.project_note}}
 			
 		</div>
+
+		<div class="row mt-3" style="text-align: center">
+			<button type="button" class="alert_button" style="display:inline-block; margin: 0 auto;" v-if="project_selected" v-on:click="unselect_project">Ukloni odabir</button>
+			<button type="button" class="button_design" style="display:inline-block; margin: 0 auto;" v-else  v-on:click="select_project">Odaberi projekt</button>
+		</div>
 	</div>
 	
 
@@ -98,6 +103,7 @@ export default {
 
 			id: this.$route.params.id,
 			project_info: false,
+			project_selected: false,
 			edit_enabled: false
 		}
 	},
@@ -105,6 +111,10 @@ export default {
 		switch_edit(){
 			if(this.edit_enabled) this.edit_enabled = false;
 			else this.edit_enabled = true
+		},
+		authenticated(){
+			const a = false
+			if(a) this.$router.push({ name: 'Login' })
 		},
 		async get_project_info(){
 			const result = await Projects.getOneProject(this.$route.params.id);
@@ -119,10 +129,42 @@ export default {
 		async delete_project(){
 			const result = await Projects.DeleteProject(this.$route.params.id, false);
 			console.log(result);
+		},
+
+
+		select_project(){
+			let selected_projects = JSON.parse(localStorage.getItem('selected_projects'));
+
+			if(!selected_projects)
+				localStorage.setItem('selected_projects', JSON.stringify([this.project_info]));
+			else if(selected_projects.length >= 3) 
+				return;
+			else{
+				selected_projects.push(this.project_info);
+				localStorage.setItem('selected_projects', JSON.stringify(selected_projects));
+			}
+			this.is_selected()
+		},
+
+		unselect_project(){
+			let selected_projects = JSON.parse(localStorage.getItem('selected_projects'));
+			selected_projects = selected_projects.filter(project => project.id != this.id);
+			
+			localStorage.setItem('selected_projects', JSON.stringify(selected_projects));
+			this.is_selected()
+		},
+		is_selected(){
+			const selected_projects = JSON.parse(localStorage.getItem('selected_projects'));
+			const result = selected_projects.filter(project => project.id == this.id);
+			
+			if(result.length == 1) this.project_selected = true;
+			else this.project_selected = false
 		}
 	},
 	mounted(){
-		this.get_project_info()
+		this.is_selected();
+		this.authenticated();
+		this.get_project_info();
 	}
 }
 </script>
