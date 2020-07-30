@@ -112,25 +112,28 @@ export default {
 			if(this.edit_enabled) this.edit_enabled = false;
 			else this.edit_enabled = true
 		},
+
 		authenticated(){
 			const a = false
 			if(a) this.$router.push({ name: 'Login' })
 		},
+		
 		async get_project_info(){
 			const result = await Projects.getOneProject(this.$route.params.id);
 			this.project_info = result[0];
 		},
+
 		async update_project(){
 			const result = await Projects.UpdateProject(this.project_info, this.$route.params.id, true);
 			console.log(result);
 
 			this.edit_enabled = false;
 		},
+
 		async delete_project(){
 			const result = await Projects.DeleteProject(this.$route.params.id, false);
 			console.log(result);
 		},
-
 
 		select_project(){
 			let selected_projects = JSON.parse(localStorage.getItem('selected_projects'));
@@ -153,12 +156,18 @@ export default {
 			localStorage.setItem('selected_projects', JSON.stringify(selected_projects));
 			this.is_selected()
 		},
+		
 		is_selected(){
 			const selected_projects = JSON.parse(localStorage.getItem('selected_projects'));
-			const result = selected_projects.filter(project => project.id == this.id);
 			
-			if(result.length == 1) this.project_selected = true;
-			else this.project_selected = false
+			if(!selected_projects)
+				this.project_selected = false;
+			else{
+				const result = selected_projects.filter(project => project.id == this.id);
+				
+				if(result.length == 1) this.project_selected = true;
+				else this.project_selected = false;
+			}
 		}
 	},
 	mounted(){

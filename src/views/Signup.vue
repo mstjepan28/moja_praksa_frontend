@@ -143,7 +143,7 @@
 
 			<!-- No selection -->
 			<div v-if="!new_user.account_type" class="row" style="text-align: center">
-				<span class="account_type_message">Odaberite tip korisničkog računa</span>
+				<span class="no_info_message">Odaberite tip korisničkog računa</span>
 			</div>
 			<hr>
 
@@ -175,24 +175,23 @@ export default {
 	},
 	methods:{
 		async signup() {
-			let res = await Auth.register(this.new_user);
+			const responce = await Auth.register(this.new_user);
 			
-			if(res){
-				console.log("success");
+			if(responce) this.login();
+			else console.log('signup fail');
+		},
+		async login(){
+			Auth.login({'email': this.new_user.email, 'password': this.new_user.password});
+		
+			this.new_user = {};
+			this.confirm_password = undefined;
 
-				this.new_user = {};
-				this.confirm_password = undefined;
-			}
-			else console.log('fail');
+			this.$router.push({ name: 'Home'});
 		}
 	},
 	computed:{
 		confirm_password_check(){
-			if(this.new_user.password == this.confirm_password){
-				console.log(true);
-				return true;
-			}
-			console.log(false)
+			if(this.new_user.password == this.confirm_password) return true;
 			return false;
 		}
 	}
@@ -205,16 +204,6 @@ export default {
 .about_us{
 	width: 100%;
 }
-.account_type_message{
-	margin: 0 auto;	
-
-	color: #6DD0F6;
-	text-decoration: underline;
-
-	font-weight: bold;
-	font-size: 20px;
-}
-
 .input_form_margin{
 	margin: 5%;
 }

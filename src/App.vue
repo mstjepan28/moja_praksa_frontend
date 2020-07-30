@@ -6,11 +6,15 @@
         <div class="col-md-8 col-sm-12 my-auto" >
           <router-link to="/"><img src="@/../public/fipu_hr.png" class="responsive_image" style="max-height: 110px;"></router-link>
         </div>
-        
-        <div class="col-md-4 col-sm-0 right-col mt-3 my-auto">
-          <router-link to="/Login"  class="login_form" style="margin: 0 10px;">Prijava <i class="fas fa-sign-in-alt" aria-hidden="true"></i> </router-link>
-          <router-link to="/Signup" class="login_form">Registracija <i class="fas fa-user-plus"  aria-hidden="true"></i> </router-link>
+
+        <div v-if="authenticated" class="col-md-4 col-sm-0 right-col mt-3 my-auto">
+          <span class="login_form" v-on:click="logout"> Odjava <i class="fas fa-sign-in-alt" aria-hidden="true"></i> </span>
+        </div>        
+        <div v-else class="col-md-4 col-sm-0 right-col mt-3 my-auto">
+          <router-link to="/Login"  class="login_form" style="margin: 0 10px;"> Prijava <i class="fas fa-sign-in-alt" aria-hidden="true"></i> </router-link>
+          <router-link to="/Signup" class="login_form"> Registracija <i class="fas fa-user-plus"  aria-hidden="true"></i> </router-link>
         </div>
+
       </div>
 
       <nav class="row navbar navbar-expand-lg navbar-light">
@@ -32,6 +36,9 @@
             </li>
             <li class="nav-item">
               <router-link to="/AddProject">Dodaj projekt</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/SelectedProjects">Odabrani projekti</router-link>
             </li>
           </ul>
         </div>
@@ -56,12 +63,35 @@
 </template>
 
 <script>
+import {Auth} from "@/services/index.js";
+
 export default {
+  data(){
+    return{
+      authenticated: false,
+    }
+  },
+
+  methods: {
+    logout(){
+      Auth.logout();
+      this.$router.push({ name: 'Login'});
+    },
+    
+    isAuthenticated(){
+      this.authenticated = Auth.isAuthenticated();
+    }
+  },
+
   computed:{
     check_route(){
       if(this.$route.path == "/Login" || this.$route.path == "/Signup") return false
       else return true
     }
+  },
+
+  mounted(){
+    this.isAuthenticated();
   }
 }
 </script>

@@ -1,7 +1,6 @@
 // servis za komunikaciju s backendom
 import axios from 'axios'
 
-
 //instanciranje varijable za kom. s backendom
 //vezan uz konkretni backend
 let Service = axios.create({
@@ -16,11 +15,42 @@ let Auth = {
     },
 
     async login(login_info){
-        return await Service.post('/login', login_info)
-    }   
+        const response = await Service.post('/login', login_info)
+        
+        if(response.data){
+            const user = response.data;
+            localStorage.setItem('user', JSON.stringify(user));
+            
+            return true
+        }
+        console.log("Failed to login!")
+        return false
+              
+    },
+
+    logout() {
+        localStorage.removeItem('user');
+        localStorage.removeItem('selected_projects');
+
+        
+    },
+
+    isAuthenticated(){
+        if(Auth.getToken()) return true;
+        else return false;
+    },
+
+    getToken() {
+        const user = Auth.getUser();
+
+        if (user && user.token) return user.token;
+        else return null
+    },
+
+    getUser() {
+        return JSON.parse(localStorage.getItem('user'));
+    },
 }
-
-
 
 let Projects = {
 
@@ -88,9 +118,6 @@ let Projects = {
         return await Service.delete(`/projects/${project_id}/${updateDoc}`)
     }
 }
-    
-
-
 
 let Partners = {
     async getPartnersNumber(){
@@ -130,8 +157,6 @@ let Partners = {
         console.log(items);
     }
 }
-
-
 
 //vezani uz pojedine rute
 //Service zove instancu nad baznim i u nastavku dodaje donju rutu i vraca promise

@@ -45,6 +45,11 @@ Vue.use(VueRouter)
     name: 'AddProject',
     component: () => import('../views/AddProject.vue')
   },
+  {
+    path: '/SelectedProjects',
+    name: 'SelectedProjects',
+    component: () => import('../views/SelectedProjects.vue')
+  },
 ]
 
 const router = new VueRouter({

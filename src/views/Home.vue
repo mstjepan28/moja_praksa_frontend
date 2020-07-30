@@ -70,13 +70,11 @@ export default {
   methods:{
     async get_projects(){
       if(!this.store.project_list) this.store.project_list = await Projects.getProjects();
-
       this.project_list = this.store.project_list.slice(0, 3)
     },
 
     async get_partner(){
       if(!this.store.partner_list) this.store.partner_list = await Partners.getPartners();
-      
       this.partner_list = this.store.partner_list.slice(0, 4)   
     }
   },

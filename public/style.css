@@ -67,10 +67,21 @@ h4, h5{
 
 .login_form{
 	color: #6DD0F6;
+	user-select: none;
+	cursor: pointer;
 }
 .login_form:hover{
 	color: #6DD0F6;
 	text-decoration: underline;
+}
+.no_info_message{
+	margin: 0 auto;	
+
+	color: #6DD0F6;
+	text-decoration: underline;
+
+	font-weight: bold;
+	font-size: 20px;
 }
 /*---- Description & title ----*/
 .title{

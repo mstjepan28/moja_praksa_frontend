@@ -45,15 +45,14 @@ export default {
 	},
 	methods:{
 		async login(){
-			let res = await Auth.login({'email': this.email, 'password': this.password});
-			
-			if(res){
-				console.log("success");
-				
+			const result = await Auth.login({'email': this.email, 'password': this.password});
+			console.log(result)
+			if(result){
 				this.email = null;
 				this.password = null;
+				
+				this.$router.push({ name: 'Home'});
 			}
-			else console.log('fail');
 		}
 	},
 	name:"Login"
