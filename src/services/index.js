@@ -97,9 +97,8 @@ let Projects = {
     
     async getPartnerProjects(id){
         let result = await Service.get(`/partnerProjects/${id}`)
-        let data = [result.data[0]]
 
-        return data.map(doc=> {
+        return result.data.map(doc=> {
             return{
                 id: doc._id,
                 img: doc.url_slike,
@@ -140,8 +139,8 @@ let Partners = {
             return{
                 id: doc._id,
                 img: doc.url_slike,
-                name: doc.ime_poslodavca,
-                description: doc.opis
+                name: doc.name,
+                description: doc.aboutUs
             }   
         })
     },
