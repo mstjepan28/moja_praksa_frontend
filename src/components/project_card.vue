@@ -20,7 +20,6 @@ export default {
 .card-text{
 	min-height: 170px;
 	max-height: 170px;
-	line-height: 170px;
 
 	overflow: hidden;
 }

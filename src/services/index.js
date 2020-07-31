@@ -20,6 +20,7 @@ let Auth = {
         if(response.data){
             const user = response.data;
             localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('selected_projects', JSON.stringify([]));	
             
             return true
         }
@@ -53,9 +54,16 @@ let Auth = {
 }
 
 let Projects = {
+    async submit_projects(projects){
+        let user_data = Auth.getUser();
+        delete user_data.token;
 
+        const result = await Service.get(`/`, {'user': user_data, 'selection': projects});
+        return result.data;
+    },
     async getProjectNumber(){
-        return await Service.get('/');
+        const result = await Service.get('/');
+        return result.data
     },
 
     async getProjects(search){
@@ -126,7 +134,8 @@ let Projects = {
 
 let Partners = {
     async getPartnersNumber(){
-        return await Service.get('/');
+        const result = await Service.get('/');
+        return result.data;
     },
     async getPartners(search){
         let options = {};

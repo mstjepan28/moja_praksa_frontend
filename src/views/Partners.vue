@@ -176,8 +176,8 @@ export default {
 		"search_phrase": _.debounce(function(search){this.search_partners(search)}, 500)
 	},
 	mounted(){
-		//this.get_total_pages();
-		this.total_pages = 36;
+		this.get_total_pages();
+		//this.total_pages = 36;
 
 		this.get_partner_list();
 	}

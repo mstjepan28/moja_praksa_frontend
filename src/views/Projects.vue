@@ -158,8 +158,8 @@ export default {
 		}
 	},
 	async mounted(){
-		//this.get_total_pages();
-		this.total_pages = 36;
+		this.get_total_pages();
+		//this.total_pages = 36;
 
 		this.get_projects();
 	},
