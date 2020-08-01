@@ -133,13 +133,11 @@ export default {
 		
 		async search_projects(search){
 			this.project_list = await Projects.getProjects(search);
-			console.log(this.project_list)
 		},
 
 		async get_projects(){
 			if(!this.store.project_list) this.store.project_list = await Projects.getProjects();
 			this.project_list = this.store.project_list;
-			console.log(this.project_list)
 		},
 
 		async clickCallback(pageNum){

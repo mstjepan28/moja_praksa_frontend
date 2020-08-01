@@ -216,7 +216,6 @@ export default {
 		},
 		async get_projects(){
 			this.project_list = await Projects.getPartnerProjects(this.$route.params.id);
-			console.log('projects:',this.project_list)
 		},
 		switch_edit(){
 			if(this.edit_enabled) this.edit_enabled = false;

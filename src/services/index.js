@@ -73,26 +73,8 @@ let Projects = {
         const result = await Service.get('/');
         return result.data
     },
-    async getProjects(search){
-        let options = {};
-
-        if(search){options.params = {_any: search,};}
-
-        let result = await Service.get('/projects', options)
-        return result.data.map(doc=> {
-            return{
-                id: doc._id,
-                img: doc.url_slike,
-                company: doc.ime_poslodavca,
-                project_description: doc.opis_projekta
-            }   
-        })
-    },
-    async getOneProject(id){
-        let result = await Service.get(`/projects/${id}`)
-        let data = [result.data]
-        
-        return data.map(doc=> {
+    mapProjects(projects){
+        return projects.map(doc=> {
             return{
                 id: doc._id,
                 img: doc.url_slike,
@@ -106,24 +88,22 @@ let Projects = {
                 project_location: doc.lokacija,
                 project_note: doc.napomena
             }   
-        })  
+        })
+    },
+    async getProjects(search){
+        let options = {};
+        if(search){options.params = {_any: search,};}
+
+        const result = await Service.get('/projects', options)
+        return this.mapProjects(result.data);
+    },
+    async getOneProject(id){
+        const result = await Service.get(`/projects/${id}`);
+        return this.mapProjects([result.data]); 
     },
     async getPartnerProjects(id){
-        let result = await Service.get(`/partnerProjects/${id}`)
-
-        return result.data.map(doc=> {
-            return{
-                id: doc._id,
-                img: doc.url_slike,
-                company: doc.ime_poslodavca,
-                project_description: doc.opis_projekta,
-                adress: doc.adress,
-                telephone_number: doc.contactNumber,
-                email: doc.contactEmail,
-                technology: doc.technology,
-                about_us: doc.aboutUs
-            }   
-        })       
+        const result = await Service.get(`/partnerProjects/${id}`);
+        return this.mapProjects(result.data);       
     },
     async UpdateProject(project_info,id,updateDoc){
         return await Service.patch(`/projects/${id}/${updateDoc}`, project_info)
@@ -143,39 +123,30 @@ let Partners = {
         const result = await Service.get('/');
         return result.data;
     },
-    async getPartners(search){
-        let options = {};
-
-        if (search) {
-            options.params = { _any: search};
-        }
-
-        let result = await Service.get('/partners', options)
-        return result.data.map(doc=> {
+    mapPartner(partners){
+        return partners.map(doc=> {
             return{
                 id: doc._id,
                 img: doc.url_slike,
                 name: doc.name,
-                description: doc.aboutUs
-            }   
-        })
-    },
-    async getOnePartner(id){
-        let result = await Service.get(`/partners/${id}`)
-        let data = [result.data]
-
-        return data.map(doc=> {
-            return{
-                id: doc._id,
-                img: doc.url_slike,
-                name: doc.ime_poslodavca,
                 adress: doc.adress,
                 telephone_number: doc.contactNumber,
                 contact_email: doc.contactEmail,
                 technology: doc.technology,
-                about_us: doc.aboutUs
-            }    
-        })      
+                description: doc.aboutUs
+            }   
+        })
+    },
+    async getPartners(search){
+        let options = {};
+        if (search) {options.params = { _any: search}}
+
+        const result = await Service.get('/partners', options);
+        return this.mapPartner(result.data);
+    },
+    async getOnePartner(id){
+        const result = await Service.get(`/partners/${id}`);
+        return this.mapPartner([result.data]);     
     },
 }
 
