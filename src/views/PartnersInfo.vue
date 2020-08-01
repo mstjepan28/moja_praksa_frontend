@@ -42,8 +42,7 @@
 		:options="store.vfOptions"
 		:images="store.vfImages_partners"
 		:transitions="store.vfTransitions"
-		ref="slider"
-	>
+		ref="slider">
 		<template v-slot:preloader> <flux-preloader /> </template>
 	</vue-flux>
 
@@ -66,26 +65,36 @@
 		<div class="row">
 			<h4 class="subtitles">Tehnologije:</h4> <input type="text" class="input_wrapper" placeholder="Tehnologije koje se koriste u projektu..." v-model="partners_info.technology">
 		</div>
-		
-		<section v-if="project_list" style="text-align: center;">
-			<vue-horizontal-list :items="project_list" :options="store.carousel_options">
-				<template v-slot:default="{item}">
-					<router-link v-bind:to="'/ProjectInfo/' + item.id" class="card project">
-						<img class="card-img-top" v-bind:src="item.img" alt="Card image cap" >
-						
-						<div class="card-body">
-							<h5 class="card-title">{{item.project_name}}</h5>
-							<p class="card-text">{{item.project_description}}</p>
-						</div>
-					</router-link>
-				</template>
-			</vue-horizontal-list>
-		</section><hr>
+
+		<div class="row">
+			<h4 class="subtitles">Projekti:</h4>
+		</div>
+		<div v-if="project_list">
+			<section style="text-align: center;">
+				<vue-horizontal-list :items="project_list" :options="store.carousel_options">
+					<template v-slot:default="{item}">
+						<router-link v-bind:to="'/ProjectInfo/' + item.id" class="card project">
+							<img class="card-img-top" v-bind:src="item.img" alt="Card image cap" >
+							
+							<div class="card-body">
+								<h5 class="card-title">{{item.project_name}}</h5>
+								<p class="card-text">{{item.project_description}}</p>
+							</div>
+						</router-link>
+					</template>
+				</vue-horizontal-list>
+			</section><hr>		
+		</div>
+		<div v-else class="no_info_message no_projects_message">
+			<span>Vaši projekti će se prikazivati ovdje</span><br>
+			<router-link to="/AddProject">Dodajte novi projekt ovdje</router-link>
+		</div>
+
 
 		<div class="row">
 			<h4 class="subtitles">Adresa:</h4> <input type="text" class="input_wrapper" placeholder="Tehnologije koje se koriste u projektu..." v-model="partners_info.adress">
-			<h4 class="subtitles">Kontakt broj:</h4> <input type="text" class="input_wrapper" placeholder="Tehnologije koje se koriste u projektu..." v-model="partners_info.telephone_number">
-			<h4 class="subtitles">Kontakt email:</h4> <input type="text" class="input_wrapper" placeholder="Tehnologije koje se koriste u projektu..." v-model="partners_info.contact_email">
+			<h4 class="subtitles">Broj telefona:</h4> <input type="text" class="input_wrapper" placeholder="Tehnologije koje se koriste u projektu..." v-model="partners_info.telephone_number">
+			<h4 class="subtitles">Email adresa:</h4> <input type="text" class="input_wrapper" placeholder="Tehnologije koje se koriste u projektu..." v-model="partners_info.contact_email">
 		</div>
 
 		<div class="row contact_buttons">
@@ -120,34 +129,44 @@
 		</div><hr>
 
 		<div class="row">
-			<h4>Tehnologije:</h4><br>
-			{{partners_info.technology}}
-		</div><hr>
-
-		<section v-if="project_list" style="text-align: center;">
-			<vue-horizontal-list :items="project_list" :options="store.carousel_options">
-				<template v-slot:default="{item}">
-					<router-link v-bind:to="'/ProjectInfo/' + item.id" class="card project">
-						<img class="card-img-top" v-bind:src="item.img" alt="Card image cap" >
-						
-						<div class="card-body">
-							<h5 class="card-title">{{item.project_name}}</h5>
-							<p class="card-text">{{item.project_description}}</p>
-						</div>
-					</router-link>
-				</template>
-			</vue-horizontal-list>
-		</section><hr>
-
-		<div class="row">
-			<h4>Adresa:</h4><br>{{partners_info.adress}}
-		</div><hr>
-
-		<div class="row">
-			<h5>Kontakt broj:</h5>{{partners_info.telephone_number}}
+			<h4 class="subtitles">Tehnologije: {{partners_info.technology}}</h4>
 		</div>
-		<div class="row mt-3">
-			<h5>Kontakt email:</h5>{{partners_info.contact_email}}
+		
+		<div class="row">
+			<h4 class="subtitles">Projekti:</h4>
+		</div>
+		<div v-if="project_list">
+			<section style="text-align: center;">
+				<vue-horizontal-list :items="project_list" :options="store.carousel_options">
+					<template v-slot:default="{item}">
+						<router-link v-bind:to="'/ProjectInfo/' + item.id" class="card project">
+							<img class="card-img-top" v-bind:src="item.img" alt="Card image cap" >
+							
+							<div class="card-body">
+								<h5 class="card-title">{{item.project_name}}</h5>
+								<p class="card-text">{{item.project_description}}</p>
+							</div>
+						</router-link>
+					</template>
+				</vue-horizontal-list>
+			</section><hr>			
+		</div>
+		<div v-else class="no_info_message no_projects_message">
+			<span>Vaši projekti će se prikazivati ovdje</span><br>
+			<router-link to="/AddProject">Dodajte novi projekt ovdje</router-link>
+		</div>
+
+		<div class="row">
+			<h4 class="subtitles">Adresa: {{partners_info.adress}}</h4>
+		</div>
+
+		<div class="row">
+			<h4 class="subtitles">Kontakti:</h4>
+		</div>
+		
+		<div class="row" style="text-align: center">
+			<div class="col"><h5>Broj telefona: {{partners_info.telephone_number}}</h5></div>
+			<div class="col"><h5>Email adresa: {{partners_info.contact_email}}</h5></div>
 		</div><hr>
 
 		<div class="row" style="text-align: center">
@@ -188,8 +207,12 @@ export default {
 	},
 	methods:{
 		async get_partner_info(){
-			const result = await Partners.getOnePartner(this.$route.params.id);
-			this.partners_info = result[0]
+			if(this.store.partner_list)
+				this.partners_info = this.store.partner_list.filter(partner => partner.id == this.id)[0];
+			else{
+				const result = await Partners.getOnePartner(this.$route.params.id);
+				this.partners_info = result[0]				
+			}
 		},
 		async get_projects(){
 			this.project_list = await Projects.getPartnerProjects(this.$route.params.id);
@@ -215,5 +238,14 @@ export default {
 	width: 100%;
 	margin: 0 auto;
 	display: inline-block;
+}
+.no_projects_message{
+	text-align: center;
+
+	margin: 2%;
+	padding: 5% 0; 
+
+	border: solid 2px #6DD0F6;
+	background: rgb(245, 245, 245);
 }
 </style>

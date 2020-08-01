@@ -146,13 +146,7 @@ export default {
 			const last_item = pageNum * this.items_per_page
 
 			const saved_projects = this.store.project_list
-			if(saved_projects.length < first_item){
-				const new_items = await Projects.get_project_ammount({first: first_item, second: last_item})
-				
-				this.project_list = new_items;
-				this.store.project_list = this.store.project_list.concat(new_items)
-			}
-			else if(saved_projects.length < last_item && saved_projects.length >= first_item){
+			if(saved_projects.length < last_item && saved_projects.length >= first_item){
 				this.project_list = this.store.project_list.slice(first_item-1, saved_projects.length+1)
 			}
 			else{

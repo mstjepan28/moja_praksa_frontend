@@ -142,8 +142,12 @@ export default {
 		},
 		
 		async get_project_info(){
-			const result = await Projects.getOneProject(this.$route.params.id);
-			this.project_info = result[0];
+			if(this.store.project_list)
+				this.project_info = this.store.project_list.filter(project => project.id == this.id)[0];
+			else{
+				const result = await Projects.getOneProject(this.$route.params.id);
+				this.project_info = result[0];				
+			}
 		},
 
 		async update_project(){

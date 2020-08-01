@@ -154,19 +154,12 @@ export default {
 		async search_partners(search){
 			this.partner_list = await Partners.getPartners(search);
 		},
-		
 		async clickCallback(pageNum){
 			const first_item = pageNum * this.items_per_page - this.items_per_page + 1 
 			const last_item = pageNum * this.items_per_page
 
 			const saved_partners = this.store.partner_list
-			if(saved_partners.length < first_item){
-				const new_items = await Partners.get_partner_ammount({first: first_item, second: last_item})
-				
-				this.partner_list = new_items;
-				this.store.partner_list = this.store.partner_list.concat(new_items)
-			}
-			else if(saved_partners.length < last_item && saved_partners.length >= first_item){
+			if(saved_partners.length < last_item && saved_partners.length >= first_item){
 				this.partner_list = this.store.partner_list.slice(first_item-1, saved_partners.length+1)
 			}
 			else{
@@ -179,7 +172,6 @@ export default {
 	},
 	mounted(){
 		this.get_total_pages();
-
 		this.get_partner_list();
 	}
 }

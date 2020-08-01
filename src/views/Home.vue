@@ -34,7 +34,7 @@
 
     <div class="row" style="text-align: center;">
       <div style="width: 100%"><ProjectCard v-bind:key="partner.id" v-bind:info="partner" v-for="partner in project_list" style="margin: 0 3% 3% 3%"/></div>
-      <router-link to="/Projects" class="button_design" style="margin: 0 auto; padding: 1% 3%;">Prikaži sve</router-link>
+      <router-link to="/Projects" class="button_design" style="margin: 0 auto;">Prikaži sve</router-link>
     </div>
 
   </div>

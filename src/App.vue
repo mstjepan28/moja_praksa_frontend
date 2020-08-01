@@ -35,10 +35,10 @@
               <router-link to="/Partners">Partneri</router-link>
             </li>
             <li class="nav-item">
-              <router-link to="/AddProject">Dodaj projekt</router-link>
+              <router-link v-if="accountType == 'Poslodavac'" to="/AddProject">Dodaj projekt</router-link>
             </li>
             <li class="nav-item">
-              <router-link to="/SelectedProjects">Odabrani projekti</router-link>
+              <router-link v-if="accountType == 'Student'" to="/SelectedProjects">Odabrani projekti</router-link>
             </li>
           </ul>
         </div>
@@ -69,6 +69,7 @@ export default {
   data(){
     return{
       authenticated: false,
+      accountType: false
     }
   },
 
@@ -80,6 +81,11 @@ export default {
     
     isAuthenticated(){
       this.authenticated = Auth.isAuthenticated();
+
+      if(this.authenticated){
+        const user_data = Auth.getUser();
+        this.accountType = user_data.accountType;
+      }
     }
   },
 

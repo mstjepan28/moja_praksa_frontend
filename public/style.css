@@ -239,6 +239,7 @@ button > .fas{
 
 .pagination_buttons{
 	user-select: none;
+	font-weight: bold;
 	margin: 0 5px;
 
 	color: #6DD0F6;

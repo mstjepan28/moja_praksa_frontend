@@ -35,6 +35,21 @@ let Auth = {
         if(Auth.getToken()) return true;
         else return false;
     },
+    isStudent(){
+        const user_data = this.getUser();
+        if(user_data.accountType == "Student") return true;
+        else return false;
+    },
+    isCompany(){
+        const user_data = this.getUser();
+        if(user_data.accountType == "Poslodavac") return true;
+        else return false;
+    },
+    isAdmin(){
+        const user_data = this.getUser();
+        if(user_data.accountType == "Admin") return true;
+        else return false;
+    },
     getToken() {
         const user = Auth.getUser();
 
@@ -92,18 +107,6 @@ let Projects = {
                 project_note: doc.napomena
             }   
         })  
-    },
-    async get_project_ammount(items_range){
-        let result = await Service.get('/', items_range);
-
-        return result.data.map(doc=> {
-            return{
-                id: doc._id,
-                img: doc.url_slike,
-                company: doc.ime_poslodavca,
-                project_description: doc.opis_projekta
-            }   
-        })   
     },
     async getPartnerProjects(id){
         let result = await Service.get(`/partnerProjects/${id}`)
@@ -165,7 +168,6 @@ let Partners = {
                 img: doc.url_slike,
                 name: doc.ime_poslodavca,
                 adress: doc.adress,
-                project_description: doc.opis_projekta,
                 telephone_number: doc.contactNumber,
                 contact_email: doc.contactEmail,
                 technology: doc.technology,
@@ -173,18 +175,6 @@ let Partners = {
             }    
         })      
     },
-    async get_partner_ammount(item_range){
-        let result = await Service.get('/', item_range);
-
-        return result.data.map(doc=> {
-            return{
-                id: doc._id,
-                img: doc.url_slike,
-                name: doc.name,
-                description: doc.aboutUs
-            }   
-        })   
-    }
 }
 
 //vezani uz pojedine rute

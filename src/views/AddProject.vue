@@ -44,7 +44,7 @@
 
 <script>
 import { VueFlux, FluxPreloader } from 'vue-flux';
-import { Projects } from '@/services'
+import { Projects, Auth } from '@/services'
 import store from '@/store.js';
 
 export default {
@@ -63,7 +63,17 @@ export default {
         async addProject(){
             let result = await Projects.AddProject(this.project_info);
             console.log(result)
+        },
+        isAuth(){
+
         }
+    },
+    mounted(){
+        if(!(Auth.isAdmin() || Auth.isCompany())){
+            console.log("no access");
+            //this.$router.push({ name: 'Home' });
+        }
+            
     }
 }
 </script>

@@ -144,7 +144,7 @@
 
 <script>
 import store from '@/store.js';
-import { Projects } from '@/services'
+import { Projects, Auth } from '@/services'
 
 export default {
     name: 'SelectedProjects',
@@ -218,6 +218,10 @@ export default {
         },
     },
     mounted(){
+        if(!Auth.isStudent()){
+            console.log("no access");
+            this.$router.push({ name: 'Home' });
+        }
         this.adjust_priority();
         this.get_projects();
     }
