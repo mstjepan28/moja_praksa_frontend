@@ -117,7 +117,7 @@ import Paginate from 'vuejs-paginate';
 import PartnerCard from '@/components/partner_card';
 
 import store from '@/store.js';
-import { Partners } from '@/services'
+import { Partners, Projects } from '@/services'
 
 export default {
 	components: {
@@ -138,38 +138,40 @@ export default {
 			total_pages: null,
 			prev: "Prethodna",
 			next: "Sljedeća",
-			page: 1
-
+			page: 1,
+			items_per_page: 3
 		}
 	},
 	methods:{
 		async get_total_pages(){
-			const total_items = await Partners.getPartnersNumber();
-			this.total_pages = Math.ceil(total_items / 9);
+			const total_items = await Projects.getDocAmmount();
+			this.total_pages = Math.ceil(total_items.partnersCounter / this.items_per_page);
 		},
 		async get_partner_list(){
 			if(!this.store.partner_list) this.store.partner_list = await Partners.getPartners();
-			this.partner_list = this.store.partner_list
+			this.partner_list = this.store.partner_list.slice(0, this.items_per_page)
 		},
 		async search_partners(search){
 			this.partner_list = await Partners.getPartners(search);
 		},
 		
 		async clickCallback(pageNum){
-			const first_item = pageNum * 3 - 3 + 1 
-			const last_item = pageNum * 3
-			
-			if(this.store.partner_list.length < last_item){
+			const first_item = pageNum * this.items_per_page - this.items_per_page + 1 
+			const last_item = pageNum * this.items_per_page
+
+			const saved_partners = this.store.partner_list
+			if(saved_partners.length < first_item){
 				const new_items = await Partners.get_partner_ammount({first: first_item, second: last_item})
 				
 				this.partner_list = new_items;
 				this.store.partner_list = this.store.partner_list.concat(new_items)
 			}
-			else{
-				this.partner_list = this.store.partner_list.slice(first_item, last_item-1)
+			else if(saved_partners.length < last_item && saved_partners.length >= first_item){
+				this.partner_list = this.store.partner_list.slice(first_item-1, saved_partners.length+1)
 			}
-
-			console.log(first_item, last_item)
+			else{
+				this.partner_list = this.store.partner_list.slice(first_item-1, last_item)
+			}
 		}
 	},
 	watch: {
@@ -177,7 +179,6 @@ export default {
 	},
 	mounted(){
 		this.get_total_pages();
-		//this.total_pages = 36;
 
 		this.get_partner_list();
 	}
