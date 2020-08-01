@@ -61,7 +61,8 @@ export default {
     },
     methods:{
         async addProject(){
-            let result = await Projects.AddProject(this.project_info);
+            let user = JSON.parse(localStorage.user)
+            let result = await Projects.AddProject(this.project_info, user._id);
             console.log(result)
         },
         isAuth(){
@@ -75,6 +76,7 @@ export default {
         }
             
     }
+
 }
 </script>
 

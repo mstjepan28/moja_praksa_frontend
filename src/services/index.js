@@ -128,7 +128,9 @@ let Projects = {
     async UpdateProject(project_info,id,updateDoc){
         return await Service.patch(`/projects/${id}/${updateDoc}`, project_info)
     },
-    async AddProject(project_info){
+    async AddProject(project_info, partnerID){
+        project_info.partnerID = partnerID
+        
         return await Service.post('/projects', project_info)
     },
     async DeleteProject(project_id, updateDoc){
