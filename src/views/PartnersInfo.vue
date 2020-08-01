@@ -203,7 +203,7 @@ export default {
 	mounted(){
 		if(Auth.isAuthenticated()){
 			this.get_partner_info();
-			//this.get_projects();			
+			this.get_projects();			
 		}
 		else this.$router.push({ name: 'Login' })
 	}
