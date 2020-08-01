@@ -1,5 +1,33 @@
 <template>
 <div v-if="project_info">
+
+    <div class="modal fade" id="DeleteConfirmation" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="text-align: center">
+            <div class="modal-content">
+                <h4 class="modal-body">
+                    Projekata izbrisan!
+                </h4>
+                <div class="modal-footer" style="display: inline-block; margin: 0 auto;">
+                    <button type="button" class="button_design" data-dismiss="modal">Uredu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteProject" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="text-align: center">
+            <div class="modal-content">
+                <h4 class="modal-body">
+                    Jeste li sigurni da želite izbrisati ovaj projekt?
+                </h4>
+                <div class="modal-footer" style="display: inline-block; margin: 0 auto;">
+                    <button type="button" v-on:click="delete_project" class="alert_button" data-dismiss="modal" data-toggle="modal" data-target="#DeleteConfirmation">Pošalji odabir</button>
+                    <button type="button" class="disabled_button" data-dismiss="modal">Odustani</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 	<vue-flux
 		class="row"
 		:options="store.vfOptions"
@@ -49,7 +77,7 @@
 			<div class="col-md-8"></div>
 			<div class="col-md-4">
 				<button type="button" class="button_design" v-on:click="switch_edit"> Uredi </button>
-				<button type="button" class="alert_button" v-on:click="delete_project"> Izbriši </button>
+				<button type="button" class="alert_button" v-on:click="delete_project" data-toggle="modal" data-target="#deleteProject"> Izbriši </button>
 			</div>
 		</div>
 			
@@ -89,7 +117,7 @@
 
 <script>
 import { VueFlux, FluxPreloader } from 'vue-flux';
-import { Projects } from '@/services'
+import { Projects, Auth } from '@/services'
 import store from '@/store.js';
 
 export default {
@@ -112,11 +140,6 @@ export default {
 			if(this.edit_enabled) this.edit_enabled = false;
 			else this.edit_enabled = true
 		},
-
-		authenticated(){
-			const a = false
-			if(a) this.$router.push({ name: 'Login' })
-		},
 		
 		async get_project_info(){
 			const result = await Projects.getOneProject(this.$route.params.id);
@@ -138,20 +161,20 @@ export default {
 		select_project(){
 			let selected_projects = JSON.parse(localStorage.getItem('selected_projects'));
 
-			if(!selected_projects)
-				localStorage.setItem('selected_projects', JSON.stringify([this.project_info]));
-			else if(selected_projects.length >= 3) 
-				return;
-			else{
-				selected_projects.push(this.project_info);
-				localStorage.setItem('selected_projects', JSON.stringify(selected_projects));
-			}
+			if(selected_projects.length >= 3) return;
+
+			this.project_info.priority = selected_projects.length + 1;
+			selected_projects.push(this.project_info);
+			localStorage.setItem('selected_projects', JSON.stringify(selected_projects));
+			
 			this.is_selected()
 		},
 
 		unselect_project(){
 			let selected_projects = JSON.parse(localStorage.getItem('selected_projects'));
 			selected_projects = selected_projects.filter(project => project.id != this.id);
+
+			selected_projects.map((project, index) => project.priority = index+1)
 			
 			localStorage.setItem('selected_projects', JSON.stringify(selected_projects));
 			this.is_selected()
@@ -160,7 +183,7 @@ export default {
 		is_selected(){
 			const selected_projects = JSON.parse(localStorage.getItem('selected_projects'));
 			
-			if(!selected_projects)
+			if(selected_projects.length == 0)
 				this.project_selected = false;
 			else{
 				const result = selected_projects.filter(project => project.id == this.id);
@@ -171,9 +194,12 @@ export default {
 		}
 	},
 	mounted(){
-		this.is_selected();
-		this.authenticated();
-		this.get_project_info();
+		if(Auth.isAuthenticated()){
+			this.is_selected();
+			this.get_project_info();			
+		}
+		else this.$router.push({ name: 'Login' });
+
 	}
 }
 </script>

@@ -122,12 +122,13 @@ export default {
 			prev: "Prethodna",
 			next: "Sljedeća",
 			page: 1,
+			items_per_page: 9
 		}
 	},
 	methods:{
 		async get_total_pages(){
-			const total_items = await Projects.getProjectNumber();
-			this.total_pages = Math.ceil(total_items / 9);
+			const total_items = await Projects.getDocAmmount();
+			this.total_pages = Math.ceil(total_items.projectsCounter / this.items_per_page);
 		},
 		
 		async search_projects(search){
@@ -142,26 +143,26 @@ export default {
 		},
 
 		async clickCallback(pageNum){
-			const first_item = pageNum * 3 - 3 + 1 
-			const last_item = pageNum * 3
-			
-			if(this.store.partner_list.length < last_item){
+			const first_item = pageNum * this.items_per_page - this.items_per_page + 1 
+			const last_item = pageNum * this.items_per_page
+
+			const saved_projects = this.store.project_list
+			if(saved_projects.length < first_item){
 				const new_items = await Projects.get_project_ammount({first: first_item, second: last_item})
 				
 				this.project_list = new_items;
 				this.store.project_list = this.store.project_list.concat(new_items)
 			}
-			else{
-				this.project_list = this.store.project_list.slice(first_item, last_item-1)
+			else if(saved_projects.length < last_item && saved_projects.length >= first_item){
+				this.project_list = this.store.project_list.slice(first_item-1, saved_projects.length+1)
 			}
-
-			console.log(first_item, last_item)
+			else{
+				this.project_list = this.store.project_list.slice(first_item-1, last_item)
+			}
 		}
 	},
 	async mounted(){
-		//this.get_total_pages();
-		this.total_pages = 36;
-
+		this.get_total_pages();
 		this.get_projects();
 	},
 	watch:{

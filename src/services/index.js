@@ -13,13 +13,13 @@ let Auth = {
         //pass ide preko SSL-a pa ga nije nužno heshirati
         return await Service.post('/register', new_user)
     },
-
     async login(login_info){
         const response = await Service.post('/login', login_info)
         
         if(response.data){
             const user = response.data;
             localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('selected_projects', JSON.stringify([]));	
             
             return true
         }
@@ -27,37 +27,37 @@ let Auth = {
         return false
               
     },
-
     logout() {
         localStorage.removeItem('user');
         localStorage.removeItem('selected_projects');
-
-        
     },
-
     isAuthenticated(){
         if(Auth.getToken()) return true;
         else return false;
     },
-
     getToken() {
         const user = Auth.getUser();
 
         if (user && user.token) return user.token;
         else return null
     },
-
     getUser() {
         return JSON.parse(localStorage.getItem('user'));
     },
 }
 
 let Projects = {
+    async submit_projects(projects){
+        let user_data = Auth.getUser();
+        delete user_data.token;
 
-    async getProjectNumber(){
-        return await Service.get('/');
+        const result = await Service.get(`/`, {'user': user_data, 'selection': projects});
+        return result.data;
     },
-
+    async getDocAmmount(){
+        const result = await Service.get('/');
+        return result.data
+    },
     async getProjects(search){
         let options = {};
 
@@ -73,7 +73,6 @@ let Projects = {
             }   
         })
     },
-    
     async getOneProject(id){
         let result = await Service.get(`/projects/${id}`)
         let data = [result.data]
@@ -94,7 +93,18 @@ let Projects = {
             }   
         })  
     },
-    
+    async get_project_ammount(items_range){
+        let result = await Service.get('/', items_range);
+
+        return result.data.map(doc=> {
+            return{
+                id: doc._id,
+                img: doc.url_slike,
+                company: doc.ime_poslodavca,
+                project_description: doc.opis_projekta
+            }   
+        })   
+    },
     async getPartnerProjects(id){
         let result = await Service.get(`/partnerProjects/${id}`)
 
@@ -127,7 +137,8 @@ let Projects = {
 
 let Partners = {
     async getPartnersNumber(){
-        return await Service.get('/');
+        const result = await Service.get('/');
+        return result.data;
     },
     async getPartners(search){
         let options = {};
@@ -164,8 +175,17 @@ let Partners = {
             }    
         })      
     },
-    async get_partner_ammount(items){
-        console.log(items);
+    async get_partner_ammount(item_range){
+        let result = await Service.get('/', item_range);
+
+        return result.data.map(doc=> {
+            return{
+                id: doc._id,
+                img: doc.url_slike,
+                name: doc.name,
+                description: doc.aboutUs
+            }   
+        })   
     }
 }
 

@@ -1,5 +1,42 @@
 <template>
-<div v-if="partners_info && authenticated">
+<div v-if="partners_info">
+	<div class="modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Modal title</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<div class="modal-body">
+					<p>Modal body text goes here.</p>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary">Save changes</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<p>Nastavite s brisanjem?</p>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="alert_button">Izbriši</button>
+					<button type="button" class="button_design" data-dismiss="modal">Odustani</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<vue-flux
 		class="row"
 		:options="store.vfOptions"
@@ -30,7 +67,7 @@
 			<h4 class="subtitles">Tehnologije:</h4> <input type="text" class="input_wrapper" placeholder="Tehnologije koje se koriste u projektu..." v-model="partners_info.technology">
 		</div>
 		
-		<section style="text-align: center;">
+		<section v-if="project_list" style="text-align: center;">
 			<vue-horizontal-list :items="project_list" :options="store.carousel_options">
 				<template v-slot:default="{item}">
 					<router-link v-bind:to="'/ProjectInfo/' + item.id" class="card project">
@@ -87,7 +124,7 @@
 			{{partners_info.technology}}
 		</div><hr>
 
-		<section style="text-align: center;">
+		<section v-if="project_list" style="text-align: center;">
 			<vue-horizontal-list :items="project_list" :options="store.carousel_options">
 				<template v-slot:default="{item}">
 					<router-link v-bind:to="'/ProjectInfo/' + item.id" class="card project">
@@ -130,7 +167,7 @@
 import VueHorizontalList from 'vue-horizontal-list';
 import { VueFlux, FluxPreloader } from 'vue-flux';
 
-import { Partners, Projects } from '@/services'
+import { Partners, Projects, Auth } from '@/services'
 import store from '@/store.js';
 
 export default {
@@ -161,16 +198,14 @@ export default {
 		switch_edit(){
 			if(this.edit_enabled) this.edit_enabled = false;
 			else this.edit_enabled = true
-		},
-		authenticated(){
-			const a = false
-			if(a) this.$router.push({ name: 'Login' })
 		}
 	},
 	mounted(){
-		this.authenticated();
-		this.get_partner_info();
-		this.get_projects();
+		if(Auth.isAuthenticated()){
+			this.get_partner_info();
+			//this.get_projects();			
+		}
+		else this.$router.push({ name: 'Login' })
 	}
 }
 </script>
