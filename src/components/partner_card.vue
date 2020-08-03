@@ -14,7 +14,7 @@
         </div>
 
         <div class="row" style="text-align: center">
-            <router-link v-bind:to="'/PartnersInfo/' + info.id" class="button_design custom_button">Detalji</router-link>
+            <router-link v-bind:to="'/PartnersInfo/' + info._id" class="button_design custom_button">Detalji</router-link>
         </div>
     </div>
 </div>

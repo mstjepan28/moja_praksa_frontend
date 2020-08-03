@@ -34,11 +34,11 @@
             <li class="nav-item">
               <router-link to="/Partners">Partneri</router-link>
             </li>
-            <li class="nav-item">
-              <router-link v-if="accountType == 'Poslodavac'" to="/AddProject">Dodaj projekt</router-link>
+            <li class="nav-item" v-if="accountType == 'Poslodavac'">
+              <router-link to="/AddProject">Dodaj projekt</router-link>
             </li>
-            <li class="nav-item">
-              <router-link v-if="accountType == 'Student'" to="/SelectedProjects">Odabrani projekti</router-link>
+            <li class="nav-item" v-if="accountType == 'Student'">
+              <router-link to="/SelectedProjects">Odabrani projekti</router-link>
             </li>
           </ul>
         </div>

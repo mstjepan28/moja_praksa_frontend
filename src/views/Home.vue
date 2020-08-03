@@ -27,13 +27,13 @@
 
       <div class="col-md-5 col-sm-12  my-auto partner_list">
         <h2>Naši partneri:</h2>
-        <PartnerButton v-bind:key="partner.id" v-bind:info="partner" v-for="partner in partner_list"/><br>
+        <PartnerButton v-bind:key="partner._id" v-bind:info="partner" v-for="partner in partner_list"/><br>
         <router-link to="/Partners" class="button_design">Prikaži sve</router-link>
       </div>
     </div><hr>
 
     <div class="row" style="text-align: center;">
-      <div style="width: 100%"><ProjectCard v-bind:key="partner.id" v-bind:info="partner" v-for="partner in project_list" style="margin: 0 3% 3% 3%"/></div>
+      <div style="width: 100%"><ProjectCard v-bind:key="partner._id" v-bind:info="partner" v-for="partner in project_list" style="margin: 0 3% 3% 3%"/></div>
       <router-link to="/Projects" class="button_design" style="margin: 0 auto;">Prikaži sve</router-link>
     </div>
 
