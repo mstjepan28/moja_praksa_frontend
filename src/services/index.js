@@ -112,8 +112,6 @@ let Partners = {
         if (search) {options.params = { _any: search}}
 
         const result = await Service.get('/partners', options);
-        result.id = result._id
-        delete result._id
 
         return result.data;
     },

@@ -124,8 +124,8 @@
 		</div>
 
 		<div class="row description">
-			<h1 class="title">{{partners_info.name}}</h1><br>
-			<p class="description_text">{{partners_info.description}}</p>
+			<h1 class="title">{{partners_info.company}}</h1><br>
+			<p class="description_text">{{partners_info.about_us}}</p>
 		</div><hr>
 
 		<div class="row">
@@ -143,7 +143,7 @@
 							<img class="card-img-top" v-bind:src="item.img" alt="Card image cap" >
 							
 							<div class="card-body">
-								<h5 class="card-title">{{item.project_name}}</h5>
+								<h5 class="card-title">{{item.company}}</h5>
 								<p class="card-text">{{item.project_description}}</p>
 							</div>
 						</router-link>

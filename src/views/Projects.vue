@@ -56,7 +56,7 @@
 	</div><hr>
 
 	<div class="row" style="text-align: center;">
-		<ProjectCard v-bind:key="project._id" v-bind:info="project" v-for="project in project_list"/>
+		<ProjectCard v-bind:key="project.id" v-bind:info="project" v-for="project in project_list"/>
 	</div>
 
 	<div class="row" style="text-align: center">
