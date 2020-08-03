@@ -137,7 +137,7 @@ export default {
 
 		async get_projects(){
 			if(!this.store.project_list) this.store.project_list = await Projects.getProjects();
-			this.project_list = this.store.project_list;
+			this.project_list = this.store.project_list.slice(0, this.items_per_page);
 		},
 
 		async clickCallback(pageNum){

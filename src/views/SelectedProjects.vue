@@ -41,9 +41,9 @@
                 <br><span class="active_subtitle">Prvi odabir</span>
 
                 <div class="selected_project_options">
-                    <button type="button" v-on:click="shift_priority_negative"><i class="fas fa-chevron-left"></i></button>
+                    <button type="button" v-on:click="shift_priority_negative(first_choice.id)"><i class="fas fa-chevron-left"></i></button>
                     <button type="button" class="button_design" v-on:click="unselect_project('first_choice', first_choice.id)">Ukloni odabir</button>
-                    <button type="button" v-on:click="shift_priority_positive"><i class="fas fa-chevron-right"></i></button>                    
+                    <button type="button" v-on:click="shift_priority_positive(first_choice.id)"><i class="fas fa-chevron-right"></i></button>                    
                 </div>
             </div>
             <div v-else class="selection_place no_project">
@@ -76,9 +76,9 @@
                 <br><span class="active_subtitle">Drugi odabir</span>
 
                 <div class="selected_project_options">
-                    <button type="button" v-on:click="shift_priority_negative"><i class="fas fa-chevron-left"></i></button>
+                    <button type="button" v-on:click="shift_priority_negative(second_choice.id)"><i class="fas fa-chevron-left"></i></button>
                     <button type="button" class="button_design" v-on:click="unselect_project('second_choice', second_choice.id)">Ukloni odabir</button>
-                    <button type="button" v-on:click="shift_priority_positive"><i class="fas fa-chevron-right"></i></button>                    
+                    <button type="button" v-on:click="shift_priority_positive(second_choice.id)"><i class="fas fa-chevron-right"></i></button>                    
                 </div>         
             </div>   
             <div v-else class="selection_place no_project">
@@ -111,9 +111,9 @@
                 <br><span class="active_subtitle">Treći odabir</span>
 
                 <div class="selected_project_options">
-                    <button type="button" v-on:click="shift_priority_negative"><i class="fas fa-chevron-left"></i></button>
+                    <button type="button" v-on:click="shift_priority_negative(third_choice.id)"><i class="fas fa-chevron-left"></i></button>
                     <button type="button" class="button_design" v-on:click="unselect_project('third_choice', third_choice.id)">Ukloni odabir</button>
-                    <button type="button" v-on:click="shift_priority_positive"><i class="fas fa-chevron-right"></i></button>                    
+                    <button type="button" v-on:click="shift_priority_positive(third_choice.id)"><i class="fas fa-chevron-right"></i></button>                    
                 </div>             
             </div>
             <div v-else class="selection_place no_project">
@@ -152,6 +152,8 @@ export default {
         return{
             store,
 
+            project_list: false,
+
             first_choice: false,
             second_choice: false,
             third_choice: false
@@ -163,67 +165,93 @@ export default {
             const result = await Projects.submit_projects(selection);
             console.log("Project selection result: ", result)
         },
-        adjust_priority(){
-            let result = JSON.parse(localStorage.getItem('selected_projects'));
-            if(!(result && result.length >= 1)) return;
 
-            result.sort(function (a, b){return a.priority - b.priority})
+        // Mijenja prioritet svakog projekta za +1
+        shift_priority_positive(project_id){
+            let selected_projects = this.project_list;
 
-            localStorage.setItem('selected_projects', JSON.stringify(result));
+            const object_index = selected_projects.findIndex(project => project.id == project_id);
+
+            let project = selected_projects[object_index];
+            if(project.priority == 3 || selected_projects.length == project.priority){
+                project.priority = 1;
+                selected_projects[0].priority = object_index + 1
+            }
+            else{
+                project.priority++;
+                selected_projects[object_index + 1].priority = object_index + 1
+            }
+
+            this.update_projects(selected_projects)
+            this.set_projects();
         },
+
+        // Mijenja prioritet svakog projekta za -1
+        shift_priority_negative(project_id){
+            let selected_projects = this.project_list;
+
+            const object_index = selected_projects.findIndex(project => project.id == project_id);
+
+            let project = selected_projects[object_index];
+            if(project.priority == 1){
+                project.priority = selected_projects.length;
+                selected_projects[object_index].priority = object_index + 1
+            }
+            else{
+                project.priority--;
+                selected_projects[object_index - 1].priority = object_index + 1
+            }
+            
+            this.update_projects(selected_projects)
+            this.set_projects();
+        },
+
+        // Cita projekte iz localstorage i sortira ih po prioritetu
         get_projects(){
-            const result = JSON.parse(localStorage.getItem('selected_projects'));
-            if(!(result && result.length >= 1)) return;
-            
-            this.first_choice = result[0];
-            this.second_choice = result[1];
-            this.third_choice = result[2];
+            this.project_list = JSON.parse(localStorage.getItem('selected_projects'));
+            this.project_list.sort(function (a, b){return a.priority - b.priority})
+        },
+        // Update projekata u localstorage
+        update_projects(selected_projects){
+            selected_projects.sort(function (a, b){return a.priority - b.priority})
+            localStorage.setItem('selected_projects', JSON.stringify(selected_projects));
         },
 
+        // Dohvati i postavi projekte u varijable
+        set_projects(){
+            this.get_projects();
+            if(!this.project_list) return;
+
+            this.first_choice = this.project_list[0];
+            this.second_choice = this.project_list[1];
+            this.third_choice = this.project_list[2];
+
+            console.log(this.first_choice.id, this.first_choice.priority)
+            console.log(this.second_choice.id, this.second_choice.priority)
+            console.log(this.third_choice.id, this.third_choice.priority)
+        },
+
+        // Ukloni projekt iz liste odabranih
 		unselect_project(choice, project_id){
-			let selected_projects = JSON.parse(localStorage.getItem('selected_projects'));
-            selected_projects = selected_projects.filter(project => project.id != project_id);
-            
-            selected_projects.map((project, index) => project.priority = index+1)
-            localStorage.setItem('selected_projects', JSON.stringify(selected_projects));
+            this.project_list = this.project_list.filter(project => project.id != project_id);
+            this.project_list.map((project, index) => project.priority = index+1);
+
+            this.update_projects(this.project_list);
             
             if(choice == 'first_choice') this.first_choice = false;
             else if(choice == 'second_choice') this.second_choice = false;
             else if(choice == 'third_choice') this.third_choice = false;
         },
         
-        shift_priority_positive(){
-            let selected_projects = JSON.parse(localStorage.getItem('selected_projects'));
 
-            selected_projects.map(project => {
-                if(project.priority == 3 || selected_projects.length == project.priority) project.priority = 1;
-                else project.priority++
-            });
-            selected_projects.sort(function (a, b){return a.priority - b.priority})
-            
-            localStorage.setItem('selected_projects', JSON.stringify(selected_projects));
-            this.get_projects();
-        },
-        shift_priority_negative(){
-            let selected_projects = JSON.parse(localStorage.getItem('selected_projects'));
-
-            selected_projects.map(project => {
-                if(project.priority == 1) project.priority = selected_projects.length;
-                else project.priority--
-            });
-            selected_projects.sort(function (a, b){return a.priority - b.priority})
-            
-            localStorage.setItem('selected_projects', JSON.stringify(selected_projects));
-            this.get_projects();
-        },
     },
     mounted(){
+        // Samo student moze birati projekte, ako korisnik nije student, vraca se na home
         if(!Auth.isStudent()){
             console.log("no access");
             this.$router.push({ name: 'Home' });
         }
-        this.adjust_priority();
-        this.get_projects();
+        this.set_projects();
     }
 
 }
