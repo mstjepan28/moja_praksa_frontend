@@ -30,7 +30,7 @@
     <div class="row mt-5">
         <div class="selected_projects">
             <div v-if="first_choice" class="selection_place">
-                <router-link v-bind:to="'/ProjectInfo/' + first_choice._id" class="card project">
+                <router-link v-bind:to="'/ProjectInfo/' + first_choice.id" class="card project">
                     <img class="card-img-top" v-bind:src="first_choice.img_url" alt="Card image cap" >
                     
                     <div class="card-body">
@@ -41,9 +41,9 @@
                 <br><span class="active_subtitle">Prvi odabir</span>
 
                 <div class="selected_project_options">
-                    <button type="button" v-on:click="shift_priority_negative(first_choice._id)"><i class="fas fa-chevron-left"></i></button>
-                    <button type="button" class="button_design" v-on:click="unselect_project('first_choice', first_choice._id)">Ukloni odabir</button>
-                    <button type="button" v-on:click="shift_priority_positive(first_choice._id)"><i class="fas fa-chevron-right"></i></button>                    
+                    <button type="button" v-on:click="shift_priority_negative(first_choice.id)"><i class="fas fa-chevron-left"></i></button>
+                    <button type="button" class="button_design" v-on:click="unselect_project('first_choice', first_choice.id)">Ukloni odabir</button>
+                    <button type="button" v-on:click="shift_priority_positive(first_choice.id)"><i class="fas fa-chevron-right"></i></button>                    
                 </div>
             </div>
             <div v-else class="selection_place no_project">
@@ -65,7 +65,7 @@
             </div>
 
             <div v-if="second_choice" class="selection_place">
-                <router-link v-bind:to="'/ProjectInfo/' + second_choice._id" class="card project">
+                <router-link v-bind:to="'/ProjectInfo/' + second_choice.id" class="card project">
                     <img class="card-img-top" v-bind:src="second_choice.img_url" alt="Card image cap" >
                     
                     <div class="card-body">
@@ -76,9 +76,9 @@
                 <br><span class="active_subtitle">Drugi odabir</span>
 
                 <div class="selected_project_options">
-                    <button type="button" v-on:click="shift_priority_negative(second_choice._id)"><i class="fas fa-chevron-left"></i></button>
-                    <button type="button" class="button_design" v-on:click="unselect_project('second_choice', second_choice._id)">Ukloni odabir</button>
-                    <button type="button" v-on:click="shift_priority_positive(second_choice._id)"><i class="fas fa-chevron-right"></i></button>                    
+                    <button type="button" v-on:click="shift_priority_negative(second_choice.id)"><i class="fas fa-chevron-left"></i></button>
+                    <button type="button" class="button_design" v-on:click="unselect_project('second_choice', second_choice.id)">Ukloni odabir</button>
+                    <button type="button" v-on:click="shift_priority_positive(second_choice.id)"><i class="fas fa-chevron-right"></i></button>                    
                 </div>         
             </div>   
             <div v-else class="selection_place no_project">
@@ -100,7 +100,7 @@
             </div>
 
             <div v-if="third_choice" class="selection_place">
-                <router-link v-bind:to="'/ProjectInfo/' + third_choice._id" class="card project">
+                <router-link v-bind:to="'/ProjectInfo/' + third_choice.id" class="card project">
                     <img class="card-img-top" v-bind:src="third_choice.img_url" alt="Card image cap" >
                     
                     <div class="card-body">
@@ -111,9 +111,9 @@
                 <br><span class="active_subtitle">Treći odabir</span>
 
                 <div class="selected_project_options">
-                    <button type="button" v-on:click="shift_priority_negative(third_choice._id)"><i class="fas fa-chevron-left"></i></button>
-                    <button type="button" class="button_design" v-on:click="unselect_project('third_choice', third_choice._id)">Ukloni odabir</button>
-                    <button type="button" v-on:click="shift_priority_positive(third_choice._id)"><i class="fas fa-chevron-right"></i></button>                    
+                    <button type="button" v-on:click="shift_priority_negative(third_choice.id)"><i class="fas fa-chevron-left"></i></button>
+                    <button type="button" class="button_design" v-on:click="unselect_project('third_choice', third_choice.id)">Ukloni odabir</button>
+                    <button type="button" v-on:click="shift_priority_positive(third_choice.id)"><i class="fas fa-chevron-right"></i></button>                    
                 </div>             
             </div>
             <div v-else class="selection_place no_project">
@@ -161,16 +161,16 @@ export default {
     },
     methods:{
         async send_project_selection(){
-            const selection = {firstPriority: this.first_choice._id, secondPriority: this.second_choice._id, thirdPrioirity: this.third_choice._id};
+            const selection = {firstPriority: this.first_choice.id, secondPriority: this.second_choice.id, thirdPrioirity: this.third_choice.id};
             const result = await Projects.submit_projects(selection);
             console.log("Project selection result: ", result)
         },
 
         // Mijenja prioritet svakog projekta za +1
-        shift_priority_positive(project_id){
+        shift_priority_positive(projectid){
             let selected_projects = this.project_list;
 
-            const object_index = selected_projects.findIndex(project => project._id == project_id);
+            const object_index = selected_projects.findIndex(project => project.id == projectid);
 
             let project = selected_projects[object_index];
             if(project.priority == 3 || selected_projects.length == project.priority){
@@ -187,10 +187,10 @@ export default {
         },
 
         // Mijenja prioritet svakog projekta za -1
-        shift_priority_negative(project_id){
+        shift_priority_negative(projectid){
             let selected_projects = this.project_list;
 
-            const object_index = selected_projects.findIndex(project => project._id == project_id);
+            const object_index = selected_projects.findIndex(project => project.id == projectid);
 
             let project = selected_projects[object_index];
             if(project.priority == 1){
@@ -228,8 +228,8 @@ export default {
         },
 
         // Ukloni projekt iz liste odabranih
-		unselect_project(choice, project_id){
-            this.project_list = this.project_list.filter(project => project._id != project_id);
+		unselect_project(choice, projectid){
+            this.project_list = this.project_list.filter(project => project.id != projectid);
             this.project_list.map((project, index) => project.priority = index+1);
 
             this.update_projects(this.project_list);

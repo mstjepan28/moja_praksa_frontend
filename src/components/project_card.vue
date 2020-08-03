@@ -1,5 +1,5 @@
 <template>
-	<router-link v-bind:to="'/ProjectInfo/' + info._id" class="card project">
+	<router-link v-bind:to="'/ProjectInfo/' + info.id" class="card project">
 		<img class="card-img-top" v-bind:src="info.img_url" alt="Card image cap" >
 		
 		<div class="card-body">

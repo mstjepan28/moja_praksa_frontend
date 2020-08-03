@@ -73,7 +73,7 @@
 			<section style="text-align: center;">
 				<vue-horizontal-list :items="project_list" :options="store.carousel_options">
 					<template v-slot:default="{item}">
-						<router-link v-bind:to="'/ProjectInfo/' + item._id" class="card project">
+						<router-link v-bind:to="'/ProjectInfo/' + item.id" class="card project">
 							<img class="card-img-top" v-bind:src="item.img" alt="Card image cap" >
 							
 							<div class="card-body">
@@ -139,7 +139,7 @@
 			<section style="text-align: center;">
 				<vue-horizontal-list :items="project_list" :options="store.carousel_options">
 					<template v-slot:default="{item}">
-						<router-link v-bind:to="'/ProjectInfo/' + item._id" class="card project">
+						<router-link v-bind:to="'/ProjectInfo/' + item.id" class="card project">
 							<img class="card-img-top" v-bind:src="item.img_url" alt="Card image cap" >
 							
 							<div class="card-body">
@@ -208,7 +208,7 @@ export default {
 	methods:{
 		async get_partner_info(){
 			if(this.store.partner_list)
-				this.partners_info = this.store.partner_list.filter(partner => partner._id == this.id)[0];
+				this.partners_info = this.store.partner_list.filter(partner => partner.id == this.id)[0];
 			else{
 				const result = await Partners.getOnePartner(this.id);
 				this.partners_info = result[0]		

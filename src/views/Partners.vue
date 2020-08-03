@@ -74,7 +74,7 @@
 		</p>
 	</div><hr>
 
-	<div v-if="partner_list"><PartnerCard v-bind:key="partner._id" v-bind:info="partner" v-for="partner in partner_list"/></div>
+	<div v-if="partner_list"><PartnerCard v-bind:key="partner.id" v-bind:info="partner" v-for="partner in partner_list"/></div>
 
 	<div class="row" style="text-align: center">
 		<paginate

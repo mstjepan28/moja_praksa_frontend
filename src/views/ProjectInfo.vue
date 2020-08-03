@@ -143,9 +143,9 @@ export default {
 		
 		async get_project_info(){
 			if(this.store.project_list)
-				this.project_info = this.store.project_list.filter(project => project._id == this.id)[0];
+				this.project_info = this.store.project_list.filter(project => project.id == this.id)[0];
 			else{
-				const result = await Projects.getOneProject(this.$route.params._id);
+				const result = await Projects.getOneProject(this.$route.params.id);
 				this.project_info = result[0];				
 			}
 		},
@@ -158,7 +158,7 @@ export default {
 		},
 
 		async delete_project(){
-			const result = await Projects.DeleteProject(this.$route.params._id, false);
+			const result = await Projects.DeleteProject(this.$route.params.id, false);
 			console.log(result);
 		},
 
@@ -176,7 +176,7 @@ export default {
 
 		unselect_project(){
 			let selected_projects = JSON.parse(localStorage.getItem('selected_projects'));
-			selected_projects = selected_projects.filter(project => project._id != this.id);
+			selected_projects = selected_projects.filter(project => project.id != this.id);
 
 			selected_projects.map((project, index) => project.priority = index+1)
 			
@@ -190,7 +190,7 @@ export default {
 			if(selected_projects.length == 0)
 				this.project_selected = false;
 			else{
-				const result = selected_projects.filter(project => project._id == this.id);
+				const result = selected_projects.filter(project => project.id == this.id);
 				
 				if(result.length == 1) this.project_selected = true;
 				else this.project_selected = false;
