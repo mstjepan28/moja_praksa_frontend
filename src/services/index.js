@@ -37,17 +37,17 @@ let Auth = {
     },
     isStudent(){
         const user_data = this.getUser();
-        if(user_data.accountType == "Student") return true;
+        if(user_data.account_type == "Student") return true;
         else return false;
     },
     isCompany(){
         const user_data = this.getUser();
-        if(user_data.accountType == "Poslodavac") return true;
+        if(user_data.account_type == "Poslodavac") return true;
         else return false;
     },
     isAdmin(){
         const user_data = this.getUser();
-        if(user_data.accountType == "Admin") return true;
+        if(user_data.account_type == "Admin") return true;
         else return false;
     },
     getToken() {
@@ -86,7 +86,7 @@ let Projects = {
         return [result.data]; 
     },
     async getPartnerProjects(id){
-        const result = await Service.get(`/partnerProjects/${id}`);
+        const result = await Service.get(`/partner_projects/${id}`);
         return result.data;       
     },
     async UpdateProject(project_info,id,updateDoc){
