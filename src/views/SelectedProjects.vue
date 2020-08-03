@@ -159,7 +159,7 @@ export default {
     },
     methods:{
         async send_project_selection(){
-            const selection = {first: this.first_choice, second: this.second_choice, third: this.third_choice};
+            const selection = {firstPriority: this.first_choice.id, secondPriority: this.second_choice.id, thirdPrioirity: this.third_choice.id};
             const result = await Projects.submit_projects(selection);
             console.log("Project selection result: ", result)
         },

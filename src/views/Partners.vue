@@ -150,6 +150,7 @@ export default {
 		async get_partner_list(){
 			if(!this.store.partner_list) this.store.partner_list = await Partners.getPartners();
 			this.partner_list = this.store.partner_list.slice(0, this.items_per_page)
+			console.log(this.partner_list)
 		},
 		async search_partners(search){
 			this.partner_list = await Partners.getPartners(search);

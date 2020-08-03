@@ -211,7 +211,8 @@ export default {
 				this.partners_info = this.store.partner_list.filter(partner => partner.id == this.id)[0];
 			else{
 				const result = await Partners.getOnePartner(this.$route.params.id);
-				this.partners_info = result[0]				
+				this.partners_info = result[0]		
+				console.log(this.partners_info)		
 			}
 		},
 		async get_projects(){

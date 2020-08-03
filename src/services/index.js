@@ -66,44 +66,28 @@ let Projects = {
         let user_data = Auth.getUser();
         delete user_data.token;
 
-        const result = await Service.get(`/`, {'user': user_data, 'selection': projects});
+        const result = await Service.post(`/chosen_projects`, {'user': user_data._id, 'selection': projects});
+        
         return result.data;
     },
     async getDocAmmount(){
         const result = await Service.get('/');
         return result.data
     },
-    mapProjects(projects){
-        return projects.map(doc=> {
-            return{
-                id: doc._id,
-                img: doc.url_slike,
-                company: doc.ime_poslodavca,
-                project_description: doc.opis_projekta,
-                project_contact: doc.email_kontakt_osobe,
-                project_technologies: doc.tehnologije,
-                project_prefrences: doc.preference,
-                project_required: doc.potrebe_za_obavljanje,
-                project_duration: doc.trajanje,
-                project_location: doc.lokacija,
-                project_note: doc.napomena
-            }   
-        })
-    },
     async getProjects(search){
         let options = {};
         if(search){options.params = {_any: search,};}
 
         const result = await Service.get('/projects', options)
-        return this.mapProjects(result.data);
+        return result.data;
     },
     async getOneProject(id){
         const result = await Service.get(`/projects/${id}`);
-        return this.mapProjects([result.data]); 
+        return [result.data]; 
     },
     async getPartnerProjects(id){
         const result = await Service.get(`/partnerProjects/${id}`);
-        return this.mapProjects(result.data);       
+        return result.data;       
     },
     async UpdateProject(project_info,id,updateDoc){
         return await Service.patch(`/projects/${id}/${updateDoc}`, project_info)
@@ -123,30 +107,19 @@ let Partners = {
         const result = await Service.get('/');
         return result.data;
     },
-    mapPartner(partners){
-        return partners.map(doc=> {
-            return{
-                id: doc._id,
-                img: doc.url_slike,
-                name: doc.name,
-                adress: doc.adress,
-                telephone_number: doc.contactNumber,
-                contact_email: doc.contactEmail,
-                technology: doc.technology,
-                description: doc.aboutUs
-            }   
-        })
-    },
     async getPartners(search){
         let options = {};
         if (search) {options.params = { _any: search}}
 
         const result = await Service.get('/partners', options);
-        return this.mapPartner(result.data);
+        result.id = result._id
+        delete result._id
+
+        return result.data;
     },
     async getOnePartner(id){
         const result = await Service.get(`/partners/${id}`);
-        return this.mapPartner([result.data]);     
+        return [result.data];     
     },
 }
 

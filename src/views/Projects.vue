@@ -56,7 +56,7 @@
 	</div><hr>
 
 	<div class="row" style="text-align: center;">
-		<ProjectCard v-bind:key="project.id" v-bind:info="project" v-for="project in project_list"/>
+		<ProjectCard v-bind:key="project._id" v-bind:info="project" v-for="project in project_list"/>
 	</div>
 
 	<div class="row" style="text-align: center">
@@ -138,6 +138,7 @@ export default {
 		async get_projects(){
 			if(!this.store.project_list) this.store.project_list = await Projects.getProjects();
 			this.project_list = this.store.project_list;
+			console.log(this.project_list)
 		},
 
 		async clickCallback(pageNum){

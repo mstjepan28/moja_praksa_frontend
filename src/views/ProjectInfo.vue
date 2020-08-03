@@ -52,23 +52,23 @@
 				<input type="text" class="input_wrapper" placeholder="Naziv poduzeća..." v-model="project_info.company" style="text-align: center; width: 100%;">
 			</h1><br>
 			
-			<textarea placeholder="Kratak opis projekta..." v-model="project_info.project_description" style="text-align: center"></textarea>
+			<textarea placeholder="Kratak opis projekta..." v-model="project_info.description" style="text-align: center"></textarea>
 		</div>
 
 		<div class="row">
-			<h4 class="subtitles">Kontakt:</h4> <input type="text" class="input_wrapper" placeholder="Kontakt odgovorne osobe za projekt..." v-model="project_info.project_contact">
+			<h4 class="subtitles">Kontakt:</h4> <input type="text" class="input_wrapper" placeholder="Kontakt odgovorne osobe za projekt..." v-model="project_info.contact">
 
-			<h4 class="subtitles">Tehnologije:</h4> <input type="text" class="input_wrapper" placeholder="Tehnologije koje se koriste u projektu..." v-model="project_info.project_technologies">
+			<h4 class="subtitles">Tehnologije:</h4> <input type="text" class="input_wrapper" placeholder="Tehnologije koje se koriste u projektu..." v-model="project_info.technologies">
 
-			<h4 class="subtitles">Preference:</h4> <input type="text" class="input_wrapper" placeholder="Preference za osobe koje bi obavljale projekt..." v-model="project_info.project_prefrences">
+			<h4 class="subtitles">Preference:</h4> <input type="text" class="input_wrapper" placeholder="Preference za osobe koje bi obavljale projekt..." v-model="project_info.prefrences">
 
-			<h4 class="subtitles">Potrebno imati:</h4> <input type="text" class="input_wrapper" placeholder="Potrebno znannje ili oprema za izvršavanje projekta..." v-model="project_info.project_required">
+			<h4 class="subtitles">Potrebno imati:</h4> <input type="text" class="input_wrapper" placeholder="Potrebno znannje ili oprema za izvršavanje projekta..." v-model="project_info.requirements">
 
-			<h4 class="subtitles">Trajanje:</h4> <input type="text" class="input_wrapper" placeholder="Vremensko trajanje projekta..." v-model="project_info.project_duration">
+			<h4 class="subtitles">Trajanje:</h4> <input type="text" class="input_wrapper" placeholder="Vremensko trajanje projekta..." v-model="project_info.duration">
 
-			<h4 class="subtitles">Lokacija:</h4> <input type="text" class="input_wrapper" placeholder="Lokacija za izvršavanje projekta..." v-model="project_info.project_location">
+			<h4 class="subtitles">Lokacija:</h4> <input type="text" class="input_wrapper" placeholder="Lokacija za izvršavanje projekta..." v-model="project_info.location">
 
-			<h4 class="subtitles">Napomena:</h4> <textarea placeholder="Napomena vezana za projekt..." v-model="project_info.project_note"></textarea>
+			<h4 class="subtitles">Napomena:</h4> <textarea placeholder="Napomena vezana za projekt..." v-model="project_info.note"></textarea>
 		</div>
 	</div>
 
@@ -87,19 +87,19 @@
 		</div><hr>
 
 		<div class="row">
-			<h4 class="subtitles">Kontakt osoba:</h4> {{project_info.project_contact}}
+			<h4 class="subtitles">Kontakt osoba:</h4> {{project_info.contact}}
 
-			<h4 class="subtitles">Tehnologije:</h4> {{project_info.project_technologies}}
+			<h4 class="subtitles">Tehnologije:</h4> {{project_info.technologies}}
 
-			<h4 class="subtitles">Preference:</h4> {{project_info.project_prefrences}}
+			<h4 class="subtitles">Preference:</h4> {{project_info.prefrences}}
 
-			<h4 class="subtitles">Potrebno imati:</h4> {{project_info.project_required}}
+			<h4 class="subtitles">Potrebno imati:</h4> {{project_info.requirements}}
 
-			<h4 class="subtitles">Trajanje:</h4> {{project_info.project_duration}}
+			<h4 class="subtitles">Trajanje:</h4> {{project_info.duration}}
 
-			<h4 class="subtitles">Lokacija:</h4> {{project_info.project_location}}
+			<h4 class="subtitles">Lokacija:</h4> {{project_info.location}}
 
-			<h4 class="subtitles">Napomena:</h4> {{project_info.project_note}}
+			<h4 class="subtitles">Napomena:</h4> {{project_info.note}}
 			
 		</div>
 

@@ -1,16 +1,16 @@
 <template>
 <div class="partner_card row h-100 mb-5">
     <div class="col-md-4" style="padding: 0">
-        <img v-bind:src="info.img" alt="" class="partner_display_image">
+        <img v-bind:src="info.img_url" alt="" class="partner_display_image">
     </div>
 
     <div class="col-md-8 right_col my-auto">
         <div class="row">
-            <h2 style="mt-1">{{info.name}}</h2>
+            <h2 style="mt-1">{{info.company}}</h2>
         </div>
 
         <div class="row partner_description">
-            <p>{{info.description}}</p>
+            <p>{{info.about_us}}</p>
         </div>
 
         <div class="row" style="text-align: center">
