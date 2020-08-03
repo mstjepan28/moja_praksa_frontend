@@ -34,10 +34,10 @@
             <li class="nav-item">
               <router-link to="/Partners">Partneri</router-link>
             </li>
-            <li class="nav-item" v-if="accountType == 'Poslodavac'">
+            <li class="nav-item" v-if="isCompany">
               <router-link to="/AddProject">Dodaj projekt</router-link>
             </li>
-            <li class="nav-item" v-if="accountType == 'Student'">
+            <li class="nav-item" v-if="isStudent">
               <router-link to="/SelectedProjects">Odabrani projekti</router-link>
             </li>
           </ul>
@@ -69,35 +69,35 @@ export default {
   data(){
     return{
       authenticated: false,
-      accountType: false
+      account_type: false
     }
   },
-
   methods: {
     logout(){
       Auth.logout();
       this.$router.push({ name: 'Login'});
     },
-    
     isAuthenticated(){
       this.authenticated = Auth.isAuthenticated();
-
-      if(this.authenticated){
-        const user_data = Auth.getUser();
-        this.accountType = user_data.accountType;
-      }
-    }
+    },
   },
-
   computed:{
     check_route(){
       if(this.$route.path == "/Login" || this.$route.path == "/Signup") return false
       else return true
+    },
+    isStudent(){
+      return Auth.isStudent();
+    },
+    isCompany(){
+      return Auth.isCompany();
+    },
+    isAdmin(){
+      return Auth.isAdmin();
     }
   },
-
   mounted(){
-    this.isAuthenticated();
+    this.isAuthenticated()
   }
 }
 </script>
