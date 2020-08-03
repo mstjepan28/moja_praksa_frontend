@@ -77,7 +77,7 @@
 							<img class="card-img-top" v-bind:src="item.img" alt="Card image cap" >
 							
 							<div class="card-body">
-								<h5 class="card-title">{{item.project_name}}</h5>
+								<h5 class="card-title">{{item.project_company}}</h5>
 								<p class="card-text">{{item.project_description}}</p>
 							</div>
 						</router-link>
