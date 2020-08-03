@@ -1,7 +1,7 @@
 <template>
 <div>
-	<router-link v-bind:to="'/PartnersInfo/' + info.id" class="company_button button_design" style="color: white">
-		<i class="far fa-handshake"></i> {{info.name}}
+	<router-link v-bind:to="'/PartnersInfo/' + info._id" class="company_button button_design" style="color: white">
+		<i class="far fa-handshake"></i> {{info.company}}
 	</router-link>
 	<br>
 </div>

@@ -52,23 +52,23 @@
 				<input type="text" class="input_wrapper" placeholder="Naziv poduzeća..." v-model="project_info.company" style="text-align: center; width: 100%;">
 			</h1><br>
 			
-			<textarea placeholder="Kratak opis projekta..." v-model="project_info.project_description" style="text-align: center"></textarea>
+			<textarea placeholder="Kratak opis projekta..." v-model="project_info.description" style="text-align: center"></textarea>
 		</div>
 
 		<div class="row">
-			<h4 class="subtitles">Kontakt:</h4> <input type="text" class="input_wrapper" placeholder="Kontakt odgovorne osobe za projekt..." v-model="project_info.project_contact">
+			<h4 class="subtitles">Kontakt:</h4> <input type="text" class="input_wrapper" placeholder="Kontakt odgovorne osobe za projekt..." v-model="project_info.contact">
 
-			<h4 class="subtitles">Tehnologije:</h4> <input type="text" class="input_wrapper" placeholder="Tehnologije koje se koriste u projektu..." v-model="project_info.project_technologies">
+			<h4 class="subtitles">Tehnologije:</h4> <input type="text" class="input_wrapper" placeholder="Tehnologije koje se koriste u projektu..." v-model="project_info.technologies">
 
-			<h4 class="subtitles">Preference:</h4> <input type="text" class="input_wrapper" placeholder="Preference za osobe koje bi obavljale projekt..." v-model="project_info.project_prefrences">
+			<h4 class="subtitles">Preference:</h4> <input type="text" class="input_wrapper" placeholder="Preference za osobe koje bi obavljale projekt..." v-model="project_info.prefrences">
 
-			<h4 class="subtitles">Potrebno imati:</h4> <input type="text" class="input_wrapper" placeholder="Potrebno znannje ili oprema za izvršavanje projekta..." v-model="project_info.project_required">
+			<h4 class="subtitles">Potrebno imati:</h4> <input type="text" class="input_wrapper" placeholder="Potrebno znannje ili oprema za izvršavanje projekta..." v-model="project_info.requirements">
 
-			<h4 class="subtitles">Trajanje:</h4> <input type="text" class="input_wrapper" placeholder="Vremensko trajanje projekta..." v-model="project_info.project_duration">
+			<h4 class="subtitles">Trajanje:</h4> <input type="text" class="input_wrapper" placeholder="Vremensko trajanje projekta..." v-model="project_info.duration">
 
-			<h4 class="subtitles">Lokacija:</h4> <input type="text" class="input_wrapper" placeholder="Lokacija za izvršavanje projekta..." v-model="project_info.project_location">
+			<h4 class="subtitles">Lokacija:</h4> <input type="text" class="input_wrapper" placeholder="Lokacija za izvršavanje projekta..." v-model="project_info.location">
 
-			<h4 class="subtitles">Napomena:</h4> <textarea placeholder="Napomena vezana za projekt..." v-model="project_info.project_note"></textarea>
+			<h4 class="subtitles">Napomena:</h4> <textarea placeholder="Napomena vezana za projekt..." v-model="project_info.note"></textarea>
 		</div>
 	</div>
 
@@ -87,19 +87,19 @@
 		</div><hr>
 
 		<div class="row">
-			<h4 class="subtitles">Kontakt osoba:</h4> {{project_info.project_contact}}
+			<h4 class="subtitles">Kontakt osoba:</h4> {{project_info.contact}}
 
-			<h4 class="subtitles">Tehnologije:</h4> {{project_info.project_technologies}}
+			<h4 class="subtitles">Tehnologije:</h4> {{project_info.technologies}}
 
-			<h4 class="subtitles">Preference:</h4> {{project_info.project_prefrences}}
+			<h4 class="subtitles">Preference:</h4> {{project_info.prefrences}}
 
-			<h4 class="subtitles">Potrebno imati:</h4> {{project_info.project_required}}
+			<h4 class="subtitles">Potrebno imati:</h4> {{project_info.requirements}}
 
-			<h4 class="subtitles">Trajanje:</h4> {{project_info.project_duration}}
+			<h4 class="subtitles">Trajanje:</h4> {{project_info.duration}}
 
-			<h4 class="subtitles">Lokacija:</h4> {{project_info.project_location}}
+			<h4 class="subtitles">Lokacija:</h4> {{project_info.location}}
 
-			<h4 class="subtitles">Napomena:</h4> {{project_info.project_note}}
+			<h4 class="subtitles">Napomena:</h4> {{project_info.note}}
 			
 		</div>
 
@@ -143,22 +143,22 @@ export default {
 		
 		async get_project_info(){
 			if(this.store.project_list)
-				this.project_info = this.store.project_list.filter(project => project.id == this.id)[0];
+				this.project_info = this.store.project_list.filter(project => project._id == this.id)[0];
 			else{
-				const result = await Projects.getOneProject(this.$route.params.id);
+				const result = await Projects.getOneProject(this.$route.params._id);
 				this.project_info = result[0];				
 			}
 		},
 
 		async update_project(){
-			const result = await Projects.UpdateProject(this.project_info, this.$route.params.id, true);
+			const result = await Projects.UpdateProject(this.project_info, this.id, true);
 			console.log(result);
 
 			this.edit_enabled = false;
 		},
 
 		async delete_project(){
-			const result = await Projects.DeleteProject(this.$route.params.id, false);
+			const result = await Projects.DeleteProject(this.$route.params._id, false);
 			console.log(result);
 		},
 
@@ -176,7 +176,7 @@ export default {
 
 		unselect_project(){
 			let selected_projects = JSON.parse(localStorage.getItem('selected_projects'));
-			selected_projects = selected_projects.filter(project => project.id != this.id);
+			selected_projects = selected_projects.filter(project => project._id != this.id);
 
 			selected_projects.map((project, index) => project.priority = index+1)
 			
@@ -190,7 +190,7 @@ export default {
 			if(selected_projects.length == 0)
 				this.project_selected = false;
 			else{
-				const result = selected_projects.filter(project => project.id == this.id);
+				const result = selected_projects.filter(project => project._id == this.id);
 				
 				if(result.length == 1) this.project_selected = true;
 				else this.project_selected = false;

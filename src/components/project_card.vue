@@ -1,9 +1,9 @@
 <template>
-	<router-link v-bind:to="'/ProjectInfo/' + info.id" class="card project">
-		<img class="card-img-top" v-bind:src="info.img" alt="Card image cap" >
+	<router-link v-bind:to="'/ProjectInfo/' + info._id" class="card project">
+		<img class="card-img-top" v-bind:src="info.img_url" alt="Card image cap" >
 		
 		<div class="card-body">
-			<h5 class="card-title">{{info.project_name}}</h5>
+			<h5 class="card-title">{{info.company}}</h5>
 			<p class="card-text">{{info.project_description}}</p>
 		</div>
 	</router-link>
