@@ -245,7 +245,7 @@ export default {
         // Samo student moze birati projekte, ako korisnik nije student, vraca se na home
         if(!Auth.isStudent()){
             console.log("no access");
-            this.$router.push({ name: 'Home' });
+            //this.$router.push({ name: 'Home' });
         }
         this.set_projects();
     }

@@ -74,7 +74,7 @@
 				<vue-horizontal-list :items="project_list" :options="store.carousel_options">
 					<template v-slot:default="{item}">
 						<router-link v-bind:to="'/ProjectInfo/' + item.id" class="card project">
-							<img class="card-img-top" v-bind:src="item.img" alt="Card image cap" >
+							<img class="card-img-top" v-bind:src="item.img_url" alt="Card image cap" >
 							
 							<div class="card-body">
 								<h5 class="card-title">{{item.project_company}}</h5>
@@ -173,7 +173,7 @@
 			<div class="contacts">
 				<a v-if="partners_info.twitter" v-bind:href="partners_info.twitter" target="_blank" class="button_design contact_buttons"><i class="fab fa-twitter"></i> Twitter</a>
 				<a v-if="partners_info.facebook" v-bind:href="partners_info.facebook" target="_blank" class="button_design contact_buttons"><i class="fab fa-facebook-f"></i> Facebook</a>
-				<a v-if="partners_info.website" v-bind:href="partners_info.website" target="_blank" class="button_design contact_buttons"><i class="fas fa-link"></i> Website</a>
+				<a v-if="partners_info.website" v-bind:href="partners_info.website" target="_blank" class="button_design contact_buttons"><i class="fas fa-link" style="color: white;"></i> Website</a>
 			</div>
 		</div>
 	</div>
@@ -218,6 +218,22 @@ export default {
 		async get_projects(){
 			this.project_list = await Projects.getPartnerProjects(this.id);
 		},
+		async update_partner(){
+			const responce = Partners.UpdatePartner(this.partners_info);
+			if(responce){
+				const partner_index = this.store.partner_list.findIndex(partner => partner._id == this.id);
+				this.store.partner_list[partner_index] = this.partners_info;
+				this.edit_enabled = false;
+			}
+
+		},
+		async delete_partner(){
+			const responce = Partners.UpdatePartner(this.id);
+			if(responce){
+				this.store.partner_list = this.store.partner_list.filter(partner => partner._id != this.id);
+				this.$router.push({ name: 'Partners' })
+			}
+		},
 		switch_edit(){
 			if(this.edit_enabled) this.edit_enabled = false;
 			else this.edit_enabled = true
@@ -238,6 +254,10 @@ export default {
 	width: 100%;
 	margin: 0 auto;
 	display: inline-block;
+}
+.contact_buttons{
+	user-select: none;
+	white-space: nowrap;
 }
 .no_projects_message{
 	text-align: center;

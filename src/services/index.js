@@ -107,12 +107,24 @@ let Partners = {
         const result = await Service.get('/');
         return result.data;
     },
+    async UpdatePartner(updated_partner){
+        const result = await Service.get('/partners', updated_partner);
+        return result.data;
+    },
+    // Brisanje od strane admina iz kolekcije partnera, ne brise se user
+    async DeletePartner(partner_id){
+        const result = await Service.get('/partners', partner_id);
+        return result.data;
+    },
+    async CreatePartner(new_partner){
+        const result = await Service.get('/partners', new_partner);
+        return result.data;
+    },
     async getPartners(search){
         let options = {};
         if (search) {options.params = { _any: search}}
 
         const result = await Service.get('/partners', options);
-
         return result.data;
     },
     async getOnePartner(id){
