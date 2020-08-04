@@ -141,6 +141,16 @@ let Partners = {
     },
 }
 
+let Content = {
+    async get_instructions(){
+        const result = await Service.get('/')
+        return result.data;
+    },
+    async set_instructions(instructions){
+        const result = await Service.put('/', {'instructions': instructions})
+        return result.data;
+    },
+}
 //vezani uz pojedine rute
 //Service zove instancu nad baznim i u nastavku dodaje donju rutu i vraca promise
 // samo za probu
@@ -158,5 +168,5 @@ let Users = {
 
 }
 
-export { Service, Users, Auth, Projects, Partners}
+export { Service, Users, Auth, Projects, Partners, Content}
 

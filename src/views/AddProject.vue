@@ -55,26 +55,30 @@ export default {
 	data(){
 		return{
 			store,
-
+            auth: Auth.state, 
+            
 			project_info: {},
 		}
     },
     methods:{
         async addProject(){
-            let user = JSON.parse(localStorage.user)
-            let result = await Projects.AddProject(this.project_info, user._id);
-            console.log(result)
-        },
-        isAuth(){
+            const user_data = Auth.getUser();
+            const result = await Projects.AddProject(this.project_info, user_data._id);
 
-        }
+            console.log(result);
+
+            if(result){
+                this.store.project_info.push(this.project_info);
+                this.project_info = {}
+                this.$router.push({ name: 'Projects' });
+            }
+        },
     },
     mounted(){
-        if(!(Auth.isAdmin() || Auth.isCompany())){
-            console.log("no access");
-            //this.$router.push({ name: 'Home' });
-        }
-            
+        const user_type = this.auth.account_type;
+        if(!(user_type == "Company" || user_type == "Admin")) console.log("No access")//this.$router.push({ name: 'Home' });
+
+        //this.$router.push({ name: 'Home' }); 
     }
 
 }
