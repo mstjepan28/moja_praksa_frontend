@@ -217,20 +217,21 @@ export default {
 		},
 		async get_projects(){
 			this.project_list = await Projects.getPartnerProjects(this.id);
+			console.log(this.project_list)
 		},
 		async update_partner(){
-			const responce = Partners.UpdatePartner(this.partners_info);
-			if(responce){
-				const partner_index = this.store.partner_list.findIndex(partner => partner._id == this.id);
+			const response = Partners.UpdatePartner(this.partners_info, this.$route.params.id, true);
+			if(response){
+				const partner_index = this.store.partner_list.findIndex(partner => partner.id == this.id);
 				this.store.partner_list[partner_index] = this.partners_info;
 				this.edit_enabled = false;
 			}
 
 		},
 		async delete_partner(){
-			const responce = Partners.UpdatePartner(this.id);
-			if(responce){
-				this.store.partner_list = this.store.partner_list.filter(partner => partner._id != this.id);
+			const response = Partners.deletePartner(this.$route.params.id, false);
+			if(response){
+				this.store.partner_list = this.store.partner_list.filter(partner => partner.id != this.id);
 				this.$router.push({ name: 'Partners' })
 			}
 		},
