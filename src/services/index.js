@@ -94,7 +94,7 @@ let Projects = {
         return [result.data]; 
     },
     async getPartnerProjects(id){
-        const result = await Service.get(`/partnerProjects/${id}`);
+        const result = await Service.get(`/partner_projects/${id}`);
         return result.data;       
     },
     async UpdateProject(project_info,id,updateDoc){
