@@ -125,6 +125,25 @@ h4, h5{
 	background: #A0E0F6;
 }
 
+.confirm_button{
+	padding: 5px 10px;
+    display: inline-block;
+    
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    
+    border-radius: 10px;
+	border: 2px solid #00ff00;
+
+	background: #02bd02
+}
+.confirm_button:hover{
+	color: white;
+    border: 2px solid #02bd02;
+	background: #00ff00;
+}
+
 .alert_button{
 	padding: 5px 10px;
     display: inline-block;

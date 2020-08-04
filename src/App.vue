@@ -50,7 +50,7 @@
               <router-link to="/">Odobreni projekti</router-link>
             </li>
             <li class="nav-item" v-if="auth.account_type == 'Student'">
-              <router-link to="/">Upute</router-link>
+              <router-link to="/Instructions">Upute</router-link>
             </li>
           </ul>
         </div>

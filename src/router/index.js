@@ -50,6 +50,11 @@ Vue.use(VueRouter)
     name: 'SelectedProjects',
     component: () => import('../views/SelectedProjects.vue')
   },
+  {
+    path: '/Instructions',
+    name: 'Instructions',
+    component: () => import('../views/Instructions.vue')
+  },
 ]
 
 const router = new VueRouter({
