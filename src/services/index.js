@@ -20,7 +20,6 @@ let Auth = {
             const user = response.data;
             localStorage.setItem('user', JSON.stringify(user));
             localStorage.setItem('selected_projects', JSON.stringify([]));	
-            
             return true
         }
         console.log("Failed to login!")
@@ -58,6 +57,15 @@ let Auth = {
     },
     getUser() {
         return JSON.parse(localStorage.getItem('user'));
+    },
+    state: {
+        get authenticated() {
+            return Auth.isAuthenticated();
+        },
+        get account_type(){
+            const user_data = Auth.getUser();
+            return user_data.account_type;
+        }
     },
 }
 

@@ -33,10 +33,13 @@
 
 <script>
 import {Auth} from "@/services/index.js";
+import store from '@/store.js';
 
 export default {
 	data(){
 		return{
+			store,
+
 			email: null,
 			password: null,
 
@@ -50,6 +53,10 @@ export default {
 			if(result){
 				this.email = null;
 				this.password = null;
+
+				const user_data = Auth.getUser();
+				this.store.authenticated = true;
+				this.store.account_type = user_data.account_type;
 				
 				this.$router.push({ name: 'Home'});
 			}

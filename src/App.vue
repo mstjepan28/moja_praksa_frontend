@@ -7,7 +7,7 @@
           <router-link to="/"><img src="@/../public/fipu_hr.png" class="responsive_image" style="max-height: 110px;"></router-link>
         </div>
 
-        <div v-if="authenticated" class="col-md-4 col-sm-0 right-col mt-3 my-auto">
+        <div v-if="auth.authenticated" class="col-md-4 col-sm-0 right-col mt-3 my-auto">
           <span class="login_form" v-on:click="logout"> Odjava <i class="fas fa-sign-in-alt" aria-hidden="true"></i> </span>
         </div>        
         <div v-else class="col-md-4 col-sm-0 right-col mt-3 my-auto">
@@ -34,11 +34,23 @@
             <li class="nav-item">
               <router-link to="/Partners">Partneri</router-link>
             </li>
-            <li class="nav-item" v-if="isCompany">
+            <li class="nav-item" v-if="auth.account_type == 'Poslodavac' || auth.account_type == 'Admin'">
               <router-link to="/AddProject">Dodaj projekt</router-link>
             </li>
-            <li class="nav-item" v-if="isStudent">
+            <li class="nav-item" v-if="auth.account_type == 'Admin'">
+              <router-link to="/">Dodaj poslodavca</router-link>
+            </li>
+            <li class="nav-item" v-if="auth.account_type == 'Admin'">
+              <router-link to="/">Studenti</router-link>
+            </li>
+            <li class="nav-item" v-if="auth.account_type == 'Student'">
               <router-link to="/SelectedProjects">Odabrani projekti</router-link>
+            </li>
+            <li class="nav-item" v-if="auth.account_type == 'Student'">
+              <router-link to="/">Odobreni projekti</router-link>
+            </li>
+            <li class="nav-item" v-if="auth.account_type == 'Student'">
+              <router-link to="/">Upute</router-link>
             </li>
           </ul>
         </div>
@@ -64,12 +76,13 @@
 
 <script>
 import {Auth} from "@/services/index.js";
+import store from '@/store.js';
 
 export default {
   data(){
     return{
-      authenticated: false,
-      account_type: false
+      store,
+      auth: Auth.state,
     }
   },
   methods: {
@@ -77,28 +90,13 @@ export default {
       Auth.logout();
       this.$router.push({ name: 'Login'});
     },
-    isAuthenticated(){
-      this.authenticated = Auth.isAuthenticated();
-    },
   },
   computed:{
     check_route(){
       if(this.$route.path == "/Login" || this.$route.path == "/Signup") return false
       else return true
-    },
-    isStudent(){
-      return Auth.isStudent();
-    },
-    isCompany(){
-      return Auth.isCompany();
-    },
-    isAdmin(){
-      return Auth.isAdmin();
     }
   },
-  mounted(){
-    this.isAuthenticated()
-  }
 }
 </script>
 
@@ -131,19 +129,12 @@ footer{
   border-radius: 0;
   border: #6DD0F6 2px solid;
 }
-.fas{
-  color: #6DD0F6;
-}
+.fas{ color: #6DD0F6}
+.navbar{ background: #6DD0F6 }
 
-.navbar{
-  background: #6DD0F6;
-}
-.navbar-nav{
-  text-align: center;
-  margin: 0 auto;
-}
+.navbar-nav{ margin: 0 auto }
 .nav-item{
-  margin: 2%;
+  margin: 0 4% 0 0;
   white-space: nowrap;
 }
 .nav-item > a{
