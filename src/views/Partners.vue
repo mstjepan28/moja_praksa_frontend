@@ -144,7 +144,7 @@ export default {
 	},
 	methods:{
 		async get_total_pages(){
-			const total_items = await Projects.getDocAmmount();
+			const total_items = await Projects.getDocAmount();
 			this.total_pages = Math.ceil(total_items.partnersCounter / this.items_per_page);
 		},
 		async get_partner_list(){
