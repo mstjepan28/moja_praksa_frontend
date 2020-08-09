@@ -78,7 +78,7 @@ let Projects = {
         
         return result.data;
     },
-    async getDocAmmount(){
+    async getDocAmount(){
         const result = await Service.get('/');
         return result.data
     },
@@ -111,10 +111,7 @@ let Projects = {
 }
 
 let Partners = {
-    async getPartnersNumber(){
-        const result = await Service.get('/');
-        return result.data;
-    },
+
     async UpdatePartner(partnerInfo, partner_id, updateDoc){
         const result = await Service.patch(`/partners/${partner_id}/${updateDoc}`, partnerInfo)
         return result.data;
