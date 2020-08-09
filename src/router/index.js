@@ -51,9 +51,24 @@ Vue.use(VueRouter)
     component: () => import('../views/SelectedProjects.vue')
   },
   {
+    path: '/ApprovedProject',
+    name: 'ApprovedProject',
+    component: () => import('../views/ApprovedProject.vue')
+  },
+  {
     path: '/Instructions',
     name: 'Instructions',
     component: () => import('../views/Instructions.vue')
+  },
+  {
+    path: '/ApplicationForm',
+    name: 'ApplicationForm',
+    component: () => import('../views/ApplicationForm.vue')
+  },
+  {
+    path: '/Journal',
+    name: 'Journal',
+    component: () => import('../views/Journal.vue')
   },
 ]
 

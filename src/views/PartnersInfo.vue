@@ -1,41 +1,18 @@
 <template>
 <div v-if="partners_info">
-	<div class="modal" tabindex="-1" role="dialog">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">Modal title</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-
-				<div class="modal-body">
-					<p>Modal body text goes here.</p>
-				</div>
-
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary">Save changes</button>
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="modal" tabindex="-1" role="dialog">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-body">
-					<p>Nastavite s brisanjem?</p>
-				</div>
-
-				<div class="modal-footer">
-					<button type="button" class="alert_button">Izbriši</button>
-					<button type="button" class="button_design" data-dismiss="modal">Odustani</button>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="modal fade" id="deletePartner" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="text-align: center">
+            <div class="modal-content">
+                <h4 class="modal-body">
+                    Jeste li sigurni da želite nastaviti sa brisanjem?
+                </h4>
+                <div class="modal-footer" style="display: inline-block; margin: 0 auto;">
+                    <button type="button" v-on:click="delete_partner" class="alert_button" data-dismiss="modal" data-toggle="modal" data-target="#DeleteConfirmation">Pošalji odabir</button>
+                    <button type="button" class="disabled_button" data-dismiss="modal">Odustani</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 	<vue-flux
 		class="row"
@@ -50,7 +27,7 @@
 		<div class="row option_buttons mt-3">
 			<div class="col-md-8"></div>
 			<div class="col-md-4">
-				<button type="button" class="button_design" v-on:click="switch_edit"> Pohrani promjene </button>
+				<button type="button" class="button_design" v-on:click="update_partner"> Pohrani promjene </button>
 				<button type="button" class="disabled_button" v-on:click="switch_edit"> Odustani </button>
 			</div>
 		</div>
@@ -120,6 +97,7 @@
 			<div class="col-md-8"></div>
 			<div class="col-md-4">
 				<button type="button" class="button_design" v-on:click="switch_edit"> Uredi </button>
+				<button type="button" class="alert_button" data-toggle="modal" data-target="#deletePartner"> Izbriši </button>
 			</div>
 		</div>
 
@@ -232,7 +210,12 @@ export default {
 			const response = Partners.deletePartner(this.$route.params.id, false);
 			if(response){
 				this.store.partner_list = this.store.partner_list.filter(partner => partner.id != this.id);
-				this.$router.push({ name: 'Partners' })
+				
+				if(Auth.state.account_type == "Poslodavac"){
+					Auth.logout();
+					this.$router.push({ name: 'Login' });
+				}
+				else this.$router.push({ name: 'Partners' });
 			}
 		},
 		switch_edit(){
