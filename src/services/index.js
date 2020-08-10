@@ -67,6 +67,13 @@ let Auth = {
             return user_data.account_type;
         }
     },
+
+    async upload_journal(journal){
+        const user_data = Auth.getUser();
+
+        const result = await Service.post(`/`, {'user_id': user_data._id, 'journal': journal});
+        return result.data;
+    }
 }
 
 let Projects = {

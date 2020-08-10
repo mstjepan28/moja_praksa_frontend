@@ -10,8 +10,13 @@
   "dependencies": {
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
+    "filepond": "^4.19.2",
+    "filepond-plugin-file-encode": "^2.1.6",
+    "filepond-plugin-file-validate-type": "^1.2.5",
+    "filepond-plugin-image-preview": "^4.6.4",
     "jquery": "^3.5.1",
     "vue": "^2.6.11",
+    "vue-filepond": "^6.0.2",
     "vue-flux": "^6.2.0",
     "vue-horizontal-list": "^1.0.12",
     "vue-router": "^3.2.0",
