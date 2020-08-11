@@ -48,7 +48,7 @@ const FilePond = vueFilePond(
     FilePondPluginFileEncode
 )
 
-import {Content} from "@/services/index.js";
+import {Auth, Content} from "@/services/index.js";
 
 export default {
     components: { FilePond },

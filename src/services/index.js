@@ -187,6 +187,7 @@ let Content = {
         const user_data = Auth.getUser();
 
         const result = await Service.patch(`/journal`, {'user_id': user_data._id, 'journal': journal});
+        return result.data;
     }
 };
 
