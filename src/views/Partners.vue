@@ -141,12 +141,9 @@ export default {
 	methods:{
 		sort_items(sort_order){
 			if(!this.sort_values) return;
+			this.store.sort_items(this.sort_values, sort_order, "partner_list");
 
-			let sorter = this.store.sorter;
-			sorter.items = this.partner_list;
-			sorter.atr = this.sort_values.atr;
-
-			this.project_list = sorter[sort_order + "_" + this.sort_values.type]
+			this.get_partner_list();
 		},
 
 
