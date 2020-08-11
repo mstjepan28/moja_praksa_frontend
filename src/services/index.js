@@ -88,6 +88,7 @@ let Auth = {
     },
 }
 
+
 let Projects = {
     async submit_projects(projects){
         let user_data = Auth.getUser();
@@ -180,24 +181,14 @@ let Content = {
     async upload_template(template){
         const result = await Service.post(`/`, {'template': template});
         return result.data;
-    }
-}
-//vezani uz pojedine rute
-//Service zove instancu nad baznim i u nastavku dodaje donju rutu i vraca promise
-// samo za probu
-let Users = {
-    async getUsers(){
-        let result = await Service.get('/test')
-        return result.data.map(doc=> {
-            return{
-                id: doc._id,
-                username: doc.username,
-                password: doc.password
-            }   
-        })
-    }
+    },
 
-}
+    async upload_journal(journal){
+        const user_data = Auth.getUser();
 
-export { Service, Users, Auth, Projects, Partners, Content}
+        const result = await Service.patch(`/journal`, {'user_id': user_data._id, 'journal': journal});
+    }
+};
+
+export { Service, Auth, Projects, Partners, Content}
 

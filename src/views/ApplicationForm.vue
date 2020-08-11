@@ -55,7 +55,7 @@
                     <input type="number" min=90 max=150 class="application_input" placeholder="U rasponu od 90 do 150..." v-model="application_form.duration" required> 
                 </div>
                 <div class="application_form_element">
-                    <h6>Datum poćetka: </h6>
+                    <h6>Datum početka: </h6>
                     <input type="date" class="application_input" placeholder="dd/mm/yyyy" v-model="start_date" required> 
                 </div>              
                 <div class="application_form_element">
