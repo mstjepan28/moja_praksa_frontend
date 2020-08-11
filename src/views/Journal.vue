@@ -48,7 +48,7 @@ const FilePond = vueFilePond(
     FilePondPluginFileEncode
 )
 
-import {Content} from "@/services/index.js";
+import {Content, Auth} from "@/services/index.js";
 
 export default {
     components: { FilePond },
@@ -87,7 +87,7 @@ export default {
         },
 
         async upload_journal(){
-            const response = await Auth.upload_journal(this.file_data);
+            const response = await Content.upload_journal(this.file_data);
             console.log(response)
         },
 
