@@ -10,38 +10,50 @@
 	<template v-slot:preloader> <flux-preloader /> </template>
 	</vue-flux>
 
-	<div class="row mt-3 h-100">
-		<div class="col-md-8 col-sm-0"></div>
+	<div class="row option_buttons h-100 mt-3">
+		<div class="col-md-7 col-sm-0"></div>
 
-		<div class="filter_search col-md-4 col-sm-12 my-auto" style="text-align: right">
-			<div class="input_wrapper mr-3">
-				<input v-model="search_phrase" class="custom_input" type="text" placeholder="Pretraživanje..."/>
+		<div class="col-md-4 col-sm-12 my-auto mt-3">
+			<div class="input_wrapper">
+				<input type="text" placeholder="Pretraživanje..." v-model="search_phrase"/>
 				<span><i class="fas fa-search"></i></span>
 			</div>
-
-			<!-- Filter -->
+		</div>
+		<div class="col-md-1 col-sm-12 my-auto mt-3" >
 			<div class="btn-group">
-				<button type="button" class="button_design filter_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<i class="fas fa-filter"></i>
-				</button>
+				<button type="button" class="button_design sort_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" > Sortiraj </button>
 
-				<div class="dropdown-menu dropdown-menu-right">
-					<div class="dropdownHeader"> <h3>Filter</h3> </div>
+				<div class="dropdown-menu dropdown-menu-right" style="font-weight: bold; color: #6DD0F6;">
+					<div class="dropdownHeader" style="text-align: center"> 
+						<h5>Sortiraj po: </h5>
+					</div>
 
 					<div class="dropdownBody">                   
 						<div class="filter_item">
-							<span class="filter_item_tag"><i class="fas fa-filter"></i></span>
-							<input v-model ="filter_params.iznos__lesser" type="text" class="filter_item_input" name="selectedFilter" placeholder="Placeholder...">
+							<input type="radio" v-model="sort_values" name="sort_values" :value="{atr: 'company', type: 'string'}"> Naziv poslodavca
 						</div>
+						<div class="filter_item">
+							<input type="radio" v-model="sort_values" name="sort_values" :value="{atr: 'views', type: 'number'}"> Pregledi
+						</div>
+						<div class="filter_item">
+							<input type="radio" v-model="sort_values" name="sort_values" :value="{atr: 'date_created', type: 'string'}"> Datum dodavanja
+						</div>
+
+						<div class="row mr-2 ml-2">
+							<div class="col-6">
+								<input type="radio" name="sort" v-on:click="sort_items('asc')"> Uzlazno
+							</div>
+							<div class="col-6">
+								<input type="radio" name="sort" v-on:click="sort_items('desc')"> Silazno
+							</div>							
+						</div>						
 					</div>
 
 					<div class="dropdownFooter">
-						<button type="submit" class="button_design mr-2"> Traži </button>
-						<button type="submit" class="disabled_button"> Očisti filter</button>
+						<button type="submit" class="button_design mr-2" v-on:click="get_projects"> Poništi </button>
 					</div>
 				</div>
 			</div>
-			<!-- Filter end -->				
 		</div>
 	</div><hr>
 
@@ -122,10 +134,21 @@ export default {
 			prev: "Prethodna",
 			next: "Sljedeća",
 			page: 1,
-			items_per_page: 9
+			items_per_page: 9,
+
+			sort_values: false,
 		}
 	},
 	methods:{
+		sort_items(sort_order){
+			if(!this.sort_values) return;
+
+			let sorter = this.store.sorter;
+			sorter.items = this.project_list;
+			sorter.atr = this.sort_values.atr;
+
+			this.project_list = sorter[sort_order + "_" + this.sort_values.type]
+		},
 		async get_total_pages(){
 			const total_items = await Projects.getDocAmount();
 			this.total_pages = Math.ceil(total_items.projectsCounter / this.items_per_page);
@@ -138,7 +161,6 @@ export default {
 		async get_projects(){
 			if(!this.store.project_list) this.store.project_list = await Projects.getProjects();
 			this.project_list = this.store.project_list;
-			console.log(this.project_list)
 		},
 
 		async clickCallback(pageNum){
@@ -166,5 +188,4 @@ export default {
 </script>
 
 <style>
-
 </style>

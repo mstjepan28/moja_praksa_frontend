@@ -33,28 +33,10 @@
 							<span class="filter_item_tag"><i class="fas fa-filter"></i></span>
 							<input v-model ="filter_params.iznos__lesser" type="text" class="filter_item_input" name="selectedFilter" placeholder="Placeholder...">
 						</div>
-						<div class="filter_item">
-							<span class="filter_item_tag"><i class="fas fa-filter"></i></span>
-							<input v-model ="filter_params.iznos__lesser" type="text" class="filter_item_input" name="selectedFilter" placeholder="Placeholder...">
-						</div>
-						<div class="filter_item">
-							<span class="filter_item_tag"><i class="fas fa-filter"></i></span>
-							<input v-model ="filter_params.iznos__lesser" type="text" class="filter_item_input" name="selectedFilter" placeholder="Placeholder...">
-						</div>
-						<div class="filter_item">
-							<span class="filter_item_tag"><i class="fas fa-filter"></i></span>
-							<input v-model ="filter_params.iznos__lesser" type="text" class="filter_item_input" name="selectedFilter" placeholder="Placeholder...">
-						</div>
-						<div class="filter_item">
-							<span class="filter_item_tag"><i class="fas fa-filter"></i></span>
-							<input v-model ="filter_params.iznos__lesser" type="text" class="filter_item_input" name="selectedFilter" placeholder="Placeholder...">
-						</div>
-
 					</div>
 
 					<div class="dropdownFooter">
-						<button type="submit" class="button_design mr-2"> Traži </button>
-						<button type="submit" class="disabled_button"> Očisti filter</button>
+						<button type="submit" class="button_design mr-2"> Poništi </button>
 					</div>
 				</div>
 			</div>

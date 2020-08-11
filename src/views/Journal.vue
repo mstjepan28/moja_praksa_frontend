@@ -18,8 +18,11 @@
         <div class="col-md-3 col-sm-0"></div>
         
         <div class="col-md-6 col-sm-12 buttons">
-            <button type="button" class="button_design" v-on:click="download_file">Preuzmi predložak dnevnika prakse</button>
-            <button type="button" class="button_design mt-3" v-on:click="create_file">Predaj dnevnik prakse</button>
+            <button v-if="template" type="button" class="button_design" v-on:click="download_file">Preuzmi predložak dnevnika prakse</button>
+            <button v-else type="button" class="disabled_button" disabled>Preuzmi predložak dnevnika prakse</button>
+
+            <button v-if="auth.account_type == 'Student'" type="button" class="button_design mt-3" v-on:click="create_file">Predaj dnevnik prakse</button>
+            <button v-if="auth.account_type == 'Admin'" type="button" class="button_design mt-3" v-on:click="create_file">Postavi predložak dnevnika prakse</button>
         </div>
         <div class="col-md-3 col-sm-0"></div>
     </div>
@@ -45,7 +48,7 @@ const FilePond = vueFilePond(
     FilePondPluginFileEncode
 )
 
-import {Auth} from "@/services/index.js";
+import {Auth, Content} from "@/services/index.js";
 
 export default {
     components: { FilePond },
@@ -54,6 +57,9 @@ export default {
             myFiles: [],
             file_data: false,
             file_error: false,
+            template: false,
+
+            auth: Auth.state,
         }
     },
     methods: {
@@ -63,7 +69,6 @@ export default {
 
             if(!file) return;
             else if(file.fileSize > 10000000){
-                console.log(file.fileSize)
                 this.$refs.pond.removeFiles();
                 this.file_error = 'size_error'
                 return;
@@ -77,23 +82,37 @@ export default {
                 fileData: file.getFileEncodeDataURL()
             }
 
-            this.upload_file();
+            if(this.auth.account_type == 'Student') this.upload_journal();
+            else if(this.auth.account_type == 'Admin') this.upload_template()
         },
-        async upload_file(){
+
+        async upload_journal(){
             const response = await Auth.upload_journal(this.file_data);
+            console.log(response)
         },
+
+        async upload_template(){
+            const response = await Content.upload_template(this.file_data);
+            console.log(response)
+        },
+
+        async get_template(){
+            this.template = await Content.get_journal_template();
+        },
+
         download_file(){
             // Hanamichi Sakuragi, Morioh.com, 'Download Files with Axios and Vue' https://morioh.com/p/f4d331b62cda
-            if(!this.file_data) return;
-
             const fileLink = document.createElement('a');
 
-            fileLink.href = this.file_data.fileData;
-            fileLink.setAttribute('download', this.file_data.fileName);
+            fileLink.href = this.template.fileData;
+            fileLink.setAttribute('download', this.template.fileName);
             document.body.appendChild(fileLink);
 
             fileLink.click();
         },
+    },
+    mounted(){
+        this.get_template();
     }
 }
 </script>

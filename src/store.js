@@ -50,5 +50,46 @@ export default{
           start: 992,
           color: '#000'
         }
+    },
+    sorter:{
+      items: false,
+      atr: false,
+      get asc_number(){
+        if(!this.items || !this.atr) return false;
+        return this.items.sort(function (a, b){return a[this.atr] - b[this.atr]})
+      },
+      get desc_number(){
+        if(!this.items || !this.atr) return false;
+        return this.items.sort(function (a, b){return a[this.atr] - b[this.atr]}).reverse()
+      },
+      get asc_string(){
+        if(!this.items || !this.atr) return false;
+
+        return this.items.sort((a, b) => {
+          // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
+          const first_item = a[this.atr].toUpperCase(); 
+          const second_item = b[this.atr].toUpperCase(); 
+          
+          if (first_item < second_item) return -1;
+          if (first_item > second_item) return 1;
+
+          return 0;
+        })
+      },
+      get desc_string(){
+        if(!this.items || !this.atr) return false;
+
+        return this.items.sort((a, b) => {
+          // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
+          const first_item = a[this.atr].toUpperCase(); 
+          const second_item = b[this.atr].toUpperCase(); 
+          
+          if (first_item < second_item) return -1;
+          if (first_item > second_item) return 1;
+
+          return 0;
+        }).reverse()
+      },
+      
     }
 }
