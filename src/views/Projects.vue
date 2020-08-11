@@ -33,10 +33,10 @@
 							<input type="radio" v-model="sort_values" name="sort_values" :value="{atr: 'company', type: 'string'}"> Naziv poslodavca
 						</div>
 						<div class="filter_item">
-							<input type="radio" v-model="sort_values" name="sort_values" :value="{atr: 'views', type: 'number'}"> Pregledi
+							<input type="radio" v-model="sort_values" name="sort_values" :value="{atr: false, type: 'number'}"> Pregledi
 						</div>
 						<div class="filter_item">
-							<input type="radio" v-model="sort_values" name="sort_values" :value="{atr: 'date_created', type: 'string'}"> Datum dodavanja
+							<input type="radio" v-model="sort_values" name="sort_values" :value="{atr: 'date_created', type: 'number'}"> Datum dodavanja
 						</div>
 
 						<div class="row mr-2 ml-2">
@@ -49,9 +49,6 @@
 						</div>						
 					</div>
 
-					<div class="dropdownFooter">
-						<button type="submit" class="button_design mr-2" v-on:click="get_projects"> Poništi </button>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -142,12 +139,9 @@ export default {
 	methods:{
 		sort_items(sort_order){
 			if(!this.sort_values) return;
+			this.store.sort_items(this.sort_values, sort_order, "project_list");
 
-			let sorter = this.store.sorter;
-			sorter.items = this.project_list;
-			sorter.atr = this.sort_values.atr;
-
-			this.project_list = sorter[sort_order + "_" + this.sort_values.type]
+			this.get_projects();
 		},
 		async get_total_pages(){
 			const total_items = await Projects.getDocAmount();
@@ -160,7 +154,7 @@ export default {
 
 		async get_projects(){
 			if(!this.store.project_list) this.store.project_list = await Projects.getProjects();
-			this.project_list = this.store.project_list;
+			this.project_list = this.store.project_list.slice(0, this.items_per_page);
 		},
 
 		async clickCallback(pageNum){

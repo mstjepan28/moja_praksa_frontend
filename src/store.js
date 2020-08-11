@@ -51,20 +51,35 @@ export default{
           color: '#000'
         }
     },
-    sorter:{
+
+    // U sorter postavi atribut za sortiranje te listu iz trenutnog objekta za sortiranje
+    //  Iz sortera se poziva getter funkcija koja vrača sortiranu list(poziva se preko imena funkcije)
+    sort_items(sort_values, sort_order, list){
+      this.sorter.atr = sort_values.atr;
+			this.sorter.items = this[list];
+      
+      this[list] = this.sorter[sort_order + "_" + sort_values.type]
+    },
+
+    // Sorter je objekt za sortiranje lista
+    // Liste se sortiraju na temelju predanih parametara
+    sorter: {
       items: false,
       atr: false,
       get asc_number(){
-        if(!this.items || !this.atr) return false;
-        return this.items.sort(function (a, b){return a[this.atr] - b[this.atr]})
+        return this.number_sort()
       },
       get desc_number(){
-        if(!this.items || !this.atr) return false;
-        return this.items.sort(function (a, b){return a[this.atr] - b[this.atr]}).reverse()
+        return this.number_sort().reverse();
       },
       get asc_string(){
-        if(!this.items || !this.atr) return false;
-
+        return this.string_sort()
+      },
+      get desc_string(){
+        return this.string_sort().reverse()
+      },
+      // Funkcije za sortiranje su izdvojene da se ne ponavljaju
+      string_sort(){
         return this.items.sort((a, b) => {
           // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
           const first_item = a[this.atr].toUpperCase(); 
@@ -76,20 +91,8 @@ export default{
           return 0;
         })
       },
-      get desc_string(){
-        if(!this.items || !this.atr) return false;
-
-        return this.items.sort((a, b) => {
-          // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
-          const first_item = a[this.atr].toUpperCase(); 
-          const second_item = b[this.atr].toUpperCase(); 
-          
-          if (first_item < second_item) return -1;
-          if (first_item > second_item) return 1;
-
-          return 0;
-        }).reverse()
-      },
-      
+      number_sort(){
+        return this.items.sort((a, b) => { return a[this.atr] - b[this.atr] })
+      }
     }
 }
