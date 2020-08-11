@@ -57,21 +57,6 @@ let Auth = {
         if(Auth.getToken()) return true;
         else return false;
     },
-    isStudent(){
-        const user_data = this.getUser();
-        if(user_data.account_type == "Student") return true;
-        else return false;
-    },
-    isCompany(){
-        const user_data = this.getUser();
-        if(user_data.account_type == "Poslodavac") return true;
-        else return false;
-    },
-    isAdmin(){
-        const user_data = this.getUser();
-        if(user_data.account_type == "Admin") return true;
-        else return false;
-    },
     getToken() {
         const user = Auth.getUser();
 
@@ -96,7 +81,11 @@ let Auth = {
 
         const result = await Service.post(`/`, {'user_id': user_data._id, 'journal': journal});
         return result.data;
-    }
+    },
+    async upload_application_form(form){
+        const result = await Service.post(`/`, form);
+        return result.data;
+    },
 }
 
 let Projects = {
@@ -137,6 +126,10 @@ let Projects = {
     },
     async DeleteProject(project_id, updateDoc){
         return await Service.delete(`/projects/${project_id}/${updateDoc}`)
+    },
+    async getApprovedProject(){
+        const result = await Service.get(`/`);
+        return result.data;
     }
 }
 

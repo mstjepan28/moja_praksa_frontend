@@ -151,12 +151,12 @@ export default {
     data(){
         return{
             store,
-
+            auth: Auth.state,
             project_list: false,
 
             first_choice: false,
             second_choice: false,
-            third_choice: false
+            third_choice: false,
         }
     },
     methods:{
@@ -242,12 +242,9 @@ export default {
 
     },
     mounted(){
-        // Samo student moze birati projekte, ako korisnik nije student, vraca se na home
-        if(!Auth.isStudent()){
-            console.log("no access");
-            //this.$router.push({ name: 'Home' });
-        }
-        this.set_projects();
+        const user_type = this.auth.account_type;
+        if(!(user_type == "Student" || user_type == "Admin")) console.log("No access")//this.$router.push({ name: 'Home' });
+        else if(user_type == "Student") this.set_projects();
     }
 
 }

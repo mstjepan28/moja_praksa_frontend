@@ -133,7 +133,7 @@ export default {
 			prev: "Prethodna",
 			next: "Sljedeća",
 			page: 1,
-			items_per_page: 1,
+			items_per_page: 3,
 
 			sort_values: false
 		}
