@@ -82,41 +82,57 @@
 </template>
 
 <script>
-import {Auth} from "@/services/index.js";
+import { Auth, Projects } from "@/services/index.js";
+import store from '@/store.js';
 
 export default {
     data(){
         return{
+            store,
+
             start_date: undefined,
             end_date: undefined,
 
-            application_form: {},
+            application_form: {
+                jmbag: null,
+                student_email: null,
+            },
             confirmation_check: false,
 
             auth: Auth.state, 
         }
     },
     methods:{
-        send_application(){
+        async send_application(){
             this.convert_date();
-            console.log(typeof this.application_form.start_date, this.application_form.start_date);
+            const result = await Auth.upload_application_form(this.application_form);
+            console.log(result)
         },
         convert_date(){
             this.application_form.start_date = Date.parse(this.start_date);
             this.application_form.end_date = Date.parse(this.end_date)
         },
-        autocomplete_form(){
+        autocomplete_user_data(){
             const user_data = Auth.getUser();
             this.application_form.jmbag = user_data.JMBAG;
             this.application_form.student_email = user_data.email;
+
+            if(user_data.approved_project) this.autocomplete_project_data();
+        },
+        async autocomplete_project_data(){
+            if(!this.store.approved_project) this.store.approved_project = await Projects.getApprovedProject();
+            const project_info = this.store.approved_project;
+
+            this.application_form.company = project_info.company;
+            this.application_form.description = project_info.project_description;
+            this.application_form.duration = project_info.duration;
         }
 
     },
     mounted(){
         const user_type = this.auth.account_type;
-        
         if(!(user_type == "Student" || user_type == "Admin")) console.log("No access")//this.$router.push({ name: 'Home' });
-        else if(user_type == "Student") this.autocomplete_form();
+        else if(user_type == "Student") this.autocomplete_user_data();
     }
 }
 </script>

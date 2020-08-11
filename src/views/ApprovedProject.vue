@@ -20,20 +20,31 @@
 
 <script>
 import ProjectCard from '@/components/project_card';
+import { Auth, Projects } from "@/services/index.js";
+import store from '@/store.js';
+
 export default {
     components: {ProjectCard},
     data(){
         return{
+            store,
+            auth: Auth.state,
             project_info: false
         }
     },
     methods:{
-        getApprovedProject(){
+        async getApprovedProject(){
+            const user_data = Auth.getUser();
+            if(!user_data.approved_project) return;
 
+            if(!this.store.approved_project) this.store.approved_project = await Projects.getApprovedProject();
+			this.project_info = this.store.project_list[0]//approved_project
         }
     },
     mounted(){
-
+        const user_type = this.auth.account_type;
+        if(!(user_type == "Student" || user_type == "Admin")) console.log("No access")//this.$router.push({ name: 'Home' });
+        else if(user_type == "Student") this.getApprovedProject();
     }
 }
 </script>

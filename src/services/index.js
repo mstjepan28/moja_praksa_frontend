@@ -57,21 +57,6 @@ let Auth = {
         if(Auth.getToken()) return true;
         else return false;
     },
-    isStudent(){
-        const user_data = this.getUser();
-        if(user_data.account_type == "Student") return true;
-        else return false;
-    },
-    isCompany(){
-        const user_data = this.getUser();
-        if(user_data.account_type == "Poslodavac") return true;
-        else return false;
-    },
-    isAdmin(){
-        const user_data = this.getUser();
-        if(user_data.account_type == "Admin") return true;
-        else return false;
-    },
     getToken() {
         const user = Auth.getUser();
 
@@ -91,6 +76,16 @@ let Auth = {
         }
     },
 
+    async upload_journal(journal){
+        const user_data = Auth.getUser();
+
+        const result = await Service.post(`/`, {'user_id': user_data._id, 'journal': journal});
+        return result.data;
+    },
+    async upload_application_form(form){
+        const result = await Service.post(`/`, form);
+        return result.data;
+    },
 }
 
 
@@ -132,6 +127,10 @@ let Projects = {
     },
     async DeleteProject(project_id, updateDoc){
         return await Service.delete(`/projects/${project_id}/${updateDoc}`)
+    },
+    async getApprovedProject(){
+        const result = await Service.get(`/`);
+        return result.data;
     }
 }
 
@@ -188,25 +187,9 @@ let Content = {
         const user_data = Auth.getUser();
 
         const result = await Service.patch(`/journal`, {'user_id': user_data._id, 'journal': journal});
-
-        return result
+        return result.data;
     }
-}
-//vezani uz pojedine rute
-//Service zove instancu nad baznim i u nastavku dodaje donju rutu i vraca promise
-// samo za probu
-let Users = {
-    async getUsers(){
-        let result = await Service.get('/test')
-        return result.data.map(doc=> {
-            return{
-                id: doc._id,
-                username: doc.username,
-                password: doc.password
-            }   
-        })
-    }
+};
 
-}
+export { Service, Auth, Projects, Partners, Content}
 
-export { Service, Users, Auth, Projects, Partners, Content}
