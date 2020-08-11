@@ -172,13 +172,22 @@ let Content = {
         const result = await Service.put('/', {'instructions': instructions})
         return result.data;
     },
+    async get_journal_template(){
+        return false
+        /*
+        const result = await Service.get('/')
+        return result.data;
+        */
+    },
+    async upload_template(template){
+        const result = await Service.post(`/`, {'template': template});
+        return result.data;
+    },
 
     async upload_journal(journal){
         const user_data = Auth.getUser();
 
         const result = await Service.patch(`/journal`, {'user_id': user_data._id, 'journal': journal});
-        return result.data;
-    }
 }
 //vezani uz pojedine rute
 //Service zove instancu nad baznim i u nastavku dodaje donju rutu i vraca promise

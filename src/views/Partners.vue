@@ -10,58 +10,52 @@
 		<template v-slot:preloader> <flux-preloader /> </template>
 	</vue-flux>
 
-	<div class="row mt-3 h-100">
-		<div class="col-md-8 col-sm-0"></div>
+	<div class="row option_buttons h-100 mt-3">
+		<div class="col-md-7 col-sm-0"></div>
 
-		<div class="filter_search col-md-4 col-sm-12 my-auto">
-			<div class="input_wrapper mr-3">
-				<input v-model="search_phrase" class="custom_input" type="text" placeholder="Pretraživanje..."/>
+		<div class="col-md-4 col-sm-12 my-auto mt-3">
+			<div class="input_wrapper">
+				<input type="text" placeholder="Pretraživanje..." v-model="search_phrase"/>
 				<span><i class="fas fa-search"></i></span>
 			</div>
+		</div>
 
-			<!-- Filter -->
-			<div class="btn-group" style="display: inline-block">
-				<button type="button" class="button_design filter_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<i class="fas fa-filter"></i>
-				</button>
+		<div class="col-md-1 col-sm-12 my-auto mt-3" >
+			<div class="btn-group">
+				<button type="button" class="button_design sort_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" > Sortiraj </button>
 
-				<div class="dropdown-menu dropdown-menu-right">
-					<div class="dropdownHeader"> <h3>Filter</h3> </div>
+				<div class="dropdown-menu dropdown-menu-right" style="font-weight: bold; color: #6DD0F6;">
+					<div class="dropdownHeader" style="text-align: center"> 
+						<h5>Sortiraj po: </h5>
+					</div>
 
 					<div class="dropdownBody">                   
 						<div class="filter_item">
-							<span class="filter_item_tag"><i class="fas fa-filter"></i></span>
-							<input v-model ="filter_params.iznos__lesser" type="text" class="filter_item_input" name="selectedFilter" placeholder="Placeholder...">
+							<input type="radio" v-model="sort_values" name="sort_values" :value="{atr: 'company', type: 'string'}"> Naziv poslodavca
 						</div>
 						<div class="filter_item">
-							<span class="filter_item_tag"><i class="fas fa-filter"></i></span>
-							<input v-model ="filter_params.iznos__lesser" type="text" class="filter_item_input" name="selectedFilter" placeholder="Placeholder...">
+							<input type="radio" v-model="sort_values" name="sort_values" :value="{atr: false, type: 'number'}"> Pregledi
 						</div>
 						<div class="filter_item">
-							<span class="filter_item_tag"><i class="fas fa-filter"></i></span>
-							<input v-model ="filter_params.iznos__lesser" type="text" class="filter_item_input" name="selectedFilter" placeholder="Placeholder...">
-						</div>
-						<div class="filter_item">
-							<span class="filter_item_tag"><i class="fas fa-filter"></i></span>
-							<input v-model ="filter_params.iznos__lesser" type="text" class="filter_item_input" name="selectedFilter" placeholder="Placeholder...">
-						</div>
-						<div class="filter_item">
-							<span class="filter_item_tag"><i class="fas fa-filter"></i></span>
-							<input v-model ="filter_params.iznos__lesser" type="text" class="filter_item_input" name="selectedFilter" placeholder="Placeholder...">
+							<input type="radio" v-model="sort_values" name="sort_values" :value="{atr: 'date_created', type: 'string'}"> Datum dodavanja
 						</div>
 
+						<div class="row mr-2 ml-2">
+							<div class="col-6">
+								<input type="radio" name="sort" v-on:click="sort_items('asc')"> Uzlazno
+							</div>
+							<div class="col-6">
+								<input type="radio" name="sort" v-on:click="sort_items('desc')"> Silazno
+							</div>							
+						</div>						
 					</div>
 
 					<div class="dropdownFooter">
-						<button type="submit" class="button_design mr-2"> Traži </button>
-						<button type="submit" class="disabled_button"> Očisti filter</button>
+						<button type="submit" class="button_design mr-2" v-on:click="get_partner_list"> Poništi </button>
 					</div>
 				</div>
 			</div>
-			<!-- Filter end -->					
 		</div>
-
-
 	</div><hr>
 
 	<div class="row" style="text-align: center">
@@ -139,22 +133,32 @@ export default {
 			prev: "Prethodna",
 			next: "Sljedeća",
 			page: 1,
-			items_per_page: 3
+			items_per_page: 1,
+
+			sort_values: false
 		}
 	},
 	methods:{
-		async get_total_pages(){
-			const total_items = await Projects.getDocAmount();
-			this.total_pages = Math.ceil(total_items.partnersCounter / this.items_per_page);
+		sort_items(sort_order){
+			if(!this.sort_values) return;
+			this.store.sort_items(this.sort_values, sort_order, "partner_list");
+
+			this.get_partner_list();
 		},
+
+
 		async get_partner_list(){
 			if(!this.store.partner_list) this.store.partner_list = await Partners.getPartners();
 			this.partner_list = this.store.partner_list.slice(0, this.items_per_page)
-			console.log(this.partner_list)
 		},
 		async search_partners(search){
 			this.partner_list = await Partners.getPartners(search);
 		},
+
+		async get_total_pages(){
+			const total_items = await Projects.getDocAmount();
+			this.total_pages = Math.ceil(total_items.partnersCounter / this.items_per_page);
+		},		
 		async clickCallback(pageNum){
 			const first_item = pageNum * this.items_per_page - this.items_per_page + 1 
 			const last_item = pageNum * this.items_per_page
