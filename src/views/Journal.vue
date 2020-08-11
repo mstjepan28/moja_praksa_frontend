@@ -45,7 +45,7 @@ const FilePond = vueFilePond(
     FilePondPluginFileEncode
 )
 
-import {Auth} from "@/services/index.js";
+import {Content} from "@/services/index.js";
 
 export default {
     components: { FilePond },
@@ -80,7 +80,8 @@ export default {
             this.upload_file();
         },
         async upload_file(){
-            const response = await Auth.upload_journal(this.file_data);
+            const response = await Content.upload_journal(this.file_data);
+            console.log(response)
         },
         download_file(){
             // Hanamichi Sakuragi, Morioh.com, 'Download Files with Axios and Vue' https://morioh.com/p/f4d331b62cda

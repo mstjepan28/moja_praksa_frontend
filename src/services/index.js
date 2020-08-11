@@ -91,13 +91,8 @@ let Auth = {
         }
     },
 
-    async upload_journal(journal){
-        const user_data = Auth.getUser();
-
-        const result = await Service.post(`/`, {'user_id': user_data._id, 'journal': journal});
-        return result.data;
-    }
 }
+
 
 let Projects = {
     async submit_projects(projects){
@@ -177,6 +172,13 @@ let Content = {
         const result = await Service.put('/', {'instructions': instructions})
         return result.data;
     },
+
+    async upload_journal(journal){
+        const user_data = Auth.getUser();
+
+        const result = await Service.patch(`/journal`, {'user_id': user_data._id, 'journal': journal});
+        return result.data;
+    }
 }
 //vezani uz pojedine rute
 //Service zove instancu nad baznim i u nastavku dodaje donju rutu i vraca promise
