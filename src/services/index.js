@@ -1,5 +1,6 @@
 // servis za komunikaciju s backendom
 import axios from 'axios'
+import $router from '@/router'
 
 //instanciranje varijable za kom. s backendom
 //vezan uz konkretni backend
@@ -7,6 +8,28 @@ let Service = axios.create({
     baseURL: 'http://localhost:3000',
     timeout: 5000 
 })
+
+
+Service.interceptors.request.use((request) => {
+    try {
+        request.headers['Authorization'] = 'Bearer ' + Auth.getToken();
+    } catch (e) {
+        console.error(e);
+    }
+    return request;
+});
+
+Service.interceptors.response.use( 
+    (response) => {return response},
+    (error) => {
+        if (error.response.status == 401) {
+            Auth.logout();
+            $router.go();
+        }
+    }
+);
+
+
 
 let Auth = {
     async register(new_user){
