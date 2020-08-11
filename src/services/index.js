@@ -188,6 +188,7 @@ let Content = {
         const user_data = Auth.getUser();
 
         const result = await Service.patch(`/journal`, {'user_id': user_data._id, 'journal': journal});
+    }
 }
 //vezani uz pojedine rute
 //Service zove instancu nad baznim i u nastavku dodaje donju rutu i vraca promise
@@ -207,4 +208,3 @@ let Users = {
 }
 
 export { Service, Users, Auth, Projects, Partners, Content}
-
