@@ -95,8 +95,8 @@
 	<div v-else>
 		<div class="row option_buttons mt-3">
 			<div class="col-md-8"></div>
-			<div class="col-md-4">
-				<button type="button" class="button_design" v-on:click="switch_edit"> Uredi </button>
+			<div class="col-md-4 text-right">
+				<button type="button" class="button_design mr-3" v-on:click="switch_edit"> Uredi </button>
 				<button type="button" class="alert_button" data-toggle="modal" data-target="#deletePartner"> Izbriši </button>
 			</div>
 		</div>
@@ -104,6 +104,10 @@
 		<div class="row description">
 			<h1 class="title">{{partners_info.company}}</h1><br>
 			<p class="description_text">{{partners_info.about_us}}</p>
+		</div>
+
+		<div class="row">
+			<small class="views"><i class="fas fa-eye"></i> Posječenost: {{partners_info.views}}</small> 
 		</div><hr>
 
 		<div class="row">
@@ -113,6 +117,7 @@
 		<div class="row">
 			<h4 class="subtitles">Projekti:</h4>
 		</div>
+
 		<div v-if="project_list">
 			<section style="text-align: center;">
 				<vue-horizontal-list :items="project_list" :options="store.carousel_options">
@@ -185,17 +190,36 @@ export default {
 	},
 	methods:{
 		async get_partner_info(){
-			if(this.store.partner_list)
-				this.partners_info = this.store.partner_list.filter(partner => partner.id == this.id)[0];
+			if(this.store.partner_list){
+				const partner_index = this.store.partner_list.findIndex(partner => partner.id == this.id);
+				this.store.partner_list[partner_index].views = this.add_view_local(this.store.partner_list[partner_index].views) 
+				//this.store.partner_list[partner_index].views++;
+
+				this.partners_info = this.store.partner_list[partner_index];
+			}
 			else{
 				const result = await Partners.getOnePartner(this.id);
-				this.partners_info = result[0]		
-				console.log(this.partners_info)		
+				this.partners_info = result[0]
+
+				// TEMP 
+				this.partners_info.views = this.add_view_local(this.partners_info.views);
+				//this.partners_info.views++;	
 			}
+			//this.add_view();
+		},
+		// TEMP
+		add_view_local(views){
+			if(views == undefined) return 1;
+			return views + 1;
+		},
+		async add_view(){
+			await Projects.addPartnerView({
+				'_id': this._id,
+				'views': this.project_info.views
+			});
 		},
 		async get_projects(){
 			this.project_list = await Projects.getPartnerProjects(this.id);
-			console.log(this.project_list)
 		},
 		async update_partner(){
 			const response = Partners.UpdatePartner(this.partners_info, this.$route.params.id, true);
@@ -221,7 +245,7 @@ export default {
 		switch_edit(){
 			if(this.edit_enabled) this.edit_enabled = false;
 			else this.edit_enabled = true
-		}
+		},
 	},
 	mounted(){
 		if(Auth.isAuthenticated()){
