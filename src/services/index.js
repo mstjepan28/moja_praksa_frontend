@@ -30,7 +30,6 @@ Service.interceptors.response.use(
 );
 
 
-
 let Auth = {
     async register(new_user){
         //pass ide preko SSL-a pa ga nije nužno heshirati
@@ -79,8 +78,9 @@ let Auth = {
     async upload_journal(journal){
         const user_data = Auth.getUser();
 
-        const result = await Service.post(`/`, {'user_id': user_data._id, 'journal': journal});
-        return result.data;
+        const result = await Service.patch(`/journal`, {'user_id': user_data._id, 'journal': journal});
+        console.log(result)
+        //return result.data;
     },
     async upload_application_form(form){
         const result = await Service.post(`/`, form);
