@@ -30,7 +30,6 @@ let Service = axios.create({
 // );
 
 
-
 let Auth = {
     async register(new_user){
         //pass ide preko SSL-a pa ga nije nužno heshirati
