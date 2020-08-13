@@ -92,7 +92,7 @@ export default {
         if(!(user_type == "Student" || user_type == "Admin")) this.$router.push({ name: 'Home' });
 
         let result = await Content.get_instructions();
-        console.log(result.instruction1)
+        console.log(result)
     }
 }
 </script>

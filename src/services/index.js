@@ -182,7 +182,7 @@ let Content = {
         return result.data;
     },
     async set_instructions(instructions){
-        const result = await Service.put('/', {'instructions': instructions})
+        const result = await Service.patch('/instructions', {'instructions': instructions})
         return result.data;
     },
     async get_journal_template(){
