@@ -1,13 +1,13 @@
 <template>
 <div>
 	<vue-flux
-	class="row"
-	:options="store.vfOptions"
-	:images="store.vfImages_projects"
-	:transitions="store.vfTransitions"
-	ref="slider"
+		class="row"
+		:options="store.vfOptions"
+		:images="store.vfImages_projects"
+		:transitions="store.vfTransitions"
+		ref="slider"
 	>
-	<template v-slot:preloader> <flux-preloader /> </template>
+		<template v-slot:preloader> <flux-preloader /> </template>
 	</vue-flux>
 
 	<div class="row option_buttons h-100 mt-3">
@@ -19,6 +19,7 @@
 				<span><i class="fas fa-search"></i></span>
 			</div>
 		</div>
+		
 		<div class="col-md-1 col-sm-12 my-auto mt-3" >
 			<div class="btn-group">
 				<button type="button" class="button_design sort_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" > Sortiraj </button>

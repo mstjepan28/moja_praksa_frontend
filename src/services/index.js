@@ -131,7 +131,10 @@ let Projects = {
     async getApprovedProject(){
         const result = await Service.get(`/`);
         return result.data;
-    }
+    },
+    async addProjectView(info){
+        await Service.patch('/', info);
+    },
 }
 
 let Partners = {
@@ -159,6 +162,9 @@ let Partners = {
     async getOnePartner(id){
         const result = await Service.get(`/partners/${id}`);
         return [result.data];     
+    },
+    async addPartnerView(info){
+        await Service.patch('/', info);
     },
 }
 

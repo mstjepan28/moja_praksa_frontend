@@ -73,17 +73,20 @@
 	</div>
 
 	<div v-else>
-		<div class="row option_buttons mt-3">
-			<div class="col-md-8"></div>
-			<div class="col-md-4">
-				<button type="button" class="button_design" v-on:click="switch_edit"> Uredi </button>
+		<div class="row option_buttons mt-2 h-100">
+			<div class="col-12 text-right my-auto">
+				<button type="button" class="button_design mr-3" v-on:click="switch_edit"> Uredi </button>
 				<button type="button" class="alert_button" v-on:click="delete_project" data-toggle="modal" data-target="#deleteProject"> Izbriši </button>
 			</div>
 		</div>
 			
 		<div class="row description">
 			<h1 class="title">{{project_info.company}}</h1><br>
-			<p class="description_text">{{project_info.project_description}}</p>
+			<p class="description_text">{{project_info.project_description}}</p><br>
+		</div>
+		
+		<div class="row">
+			<small class="views"><i class="fas fa-eye"></i> Posječenost: {{project_info.views}}</small> 
 		</div><hr>
 
 		<div class="row">
@@ -141,13 +144,38 @@ export default {
 			else this.edit_enabled = true
 		},
 		
+		async add_view(){
+			await Projects.addProjectView({
+				'_id': this._id,
+				'views': this.project_info.views
+			});
+		},
+
+		// TEMP
+		add_view_local(views){
+			if(views == undefined) return 1;
+			return views + 1;
+		},
+
 		async get_project_info(){
-			if(this.store.project_list)
-				this.project_info = this.store.project_list.filter(project => project.id == this.id)[0];
+			if(this.store.project_list){
+				const project_index = this.store.project_list.findIndex(project => project.id == this.id);
+
+				// TEMP 
+				this.store.project_list[project_index].views = this.add_view_local(this.store.project_list[project_index].views) 
+				//this.store.project_list[project_index].views++;
+
+				this.project_info = this.store.project_list[project_index];
+			}
 			else{
 				const result = await Projects.getOneProject(this.$route.params.id);
-				this.project_info = result[0];				
+				this.project_info = result[0];			
+				
+				// TEMP 
+				this.project_info.views = this.add_view_local(this.project_info.views);
+				//this.project_info.views++;
 			}
+			//this.add_view();
 		},
 
 		async update_project(){
@@ -200,7 +228,7 @@ export default {
 	mounted(){
 		if(Auth.isAuthenticated()){
 			this.is_selected();
-			this.get_project_info();			
+			this.get_project_info();		
 		}
 		else this.$router.push({ name: 'Login' });
 
