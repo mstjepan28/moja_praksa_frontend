@@ -35,10 +35,11 @@ export default {
     methods:{
         async getApprovedProject(){
             const user_data = Auth.getUser();
-            if(!user_data.approved_project) return;
+            if(user_data.approved_project) return;
 
             if(!this.store.approved_project) this.store.approved_project = await Projects.getApprovedProject();
-			this.project_info = this.store.project_list[0]//approved_project
+            this.project_info = this.store.project_list[0]//approved_project
+            
         }
     },
     mounted(){

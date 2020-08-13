@@ -1,6 +1,6 @@
 // servis za komunikaciju s backendom
 import axios from 'axios'
-import $router from '@/router'
+//import $router from '@/router'
 
 //instanciranje varijable za kom. s backendom
 //vezan uz konkretni backend
@@ -10,24 +10,24 @@ let Service = axios.create({
 })
 
 
-Service.interceptors.request.use((request) => {
-    try {
-        request.headers['Authorization'] = 'Bearer ' + Auth.getToken();
-    } catch (e) {
-        console.error(e);
-    }
-    return request;
-});
+// Service.interceptors.request.use((request) => {
+//     try {
+//         request.headers['Authorization'] = 'Bearer ' + Auth.getToken();
+//     } catch (e) {
+//         console.error(e);
+//     }
+//     return request;
+// });
 
-Service.interceptors.response.use( 
-    (response) => {return response},
-    (error) => {
-        if (error.response.status == 401) {
-            Auth.logout();
-            $router.go();
-        }
-    }
-);
+// Service.interceptors.response.use( 
+//     (response) => {return response},
+//     (error) => {
+//         if (error.response.status == 401) {
+//             Auth.logout();
+//             $router.go();
+//         }
+//     }
+// );
 
 
 
@@ -76,16 +76,7 @@ let Auth = {
         }
     },
 
-    async upload_journal(journal){
-        const user_data = Auth.getUser();
-
-        const result = await Service.post(`/`, {'user_id': user_data._id, 'journal': journal});
-        return result.data;
-    },
-    async upload_application_form(form){
-        const result = await Service.post(`/`, form);
-        return result.data;
-    },
+  
 }
 
 
@@ -128,8 +119,9 @@ let Projects = {
     async DeleteProject(project_id, updateDoc){
         return await Service.delete(`/projects/${project_id}/${updateDoc}`)
     },
-    async getApprovedProject(){
-        const result = await Service.get(`/`);
+    async getApprovedProject(){    
+        const result = await Service.get(`/approved_project`);
+        
         return result.data;
     }
 }
@@ -162,9 +154,32 @@ let Partners = {
     },
 }
 
+
+let App = {
+
+    async upload_application_form(form, userID){
+        const result = await Service.post(`/application_form`, {'form': form, 'userID': userID});
+        return result.data;
+    },
+
+    async upload_template(template){
+        const result = await Service.post(`/`, {'template': template});
+        return result.data;
+    },
+
+    async upload_journal(journal){
+        const user_data = Auth.getUser();
+
+        const result = await Service.patch(`/journal`, {'user_id': user_data._id, 'journal': journal});
+        return result.data;
+    }
+}
+
+
+
 let Content = {
     async get_instructions(){
-        const result = await Service.get('/')
+        const result = await Service.get('/instructions')
         return result.data;
     },
     async set_instructions(instructions){
@@ -178,18 +193,7 @@ let Content = {
         return result.data;
         */
     },
-    async upload_template(template){
-        const result = await Service.post(`/`, {'template': template});
-        return result.data;
-    },
-
-    async upload_journal(journal){
-        const user_data = Auth.getUser();
-
-        const result = await Service.patch(`/journal`, {'user_id': user_data._id, 'journal': journal});
-        return result.data;
-    }
+   
 };
 
-export { Service, Auth, Projects, Partners, Content}
-
+export { Service, Auth, Projects, Partners, Content, App}

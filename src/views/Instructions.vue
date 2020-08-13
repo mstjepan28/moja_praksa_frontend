@@ -87,11 +87,12 @@ export default {
             this.instructions = updated_list.map((instruction, index) => {instruction.order = index; return instruction});
         }
     },
-    mounted(){
+    async mounted(){
         const user_type = this.auth.account_type;
         if(!(user_type == "Student" || user_type == "Admin")) this.$router.push({ name: 'Home' });
 
-        //this.get_instruction();
+        let result = await Content.get_instructions();
+        console.log(result.instruction1)
     }
 }
 </script>

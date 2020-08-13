@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import { Auth, Projects } from "@/services/index.js";
+import { Auth, Projects, App } from "@/services/index.js";
 import store from '@/store.js';
 
 export default {
@@ -105,8 +105,10 @@ export default {
     methods:{
         async send_application(){
             this.convert_date();
-            const result = await Auth.upload_application_form(this.application_form);
+            const user_data = Auth.getUser();
+            const result = await App.upload_application_form(this.application_form, user_data._id);
             console.log(result)
+            
         },
         convert_date(){
             this.application_form.start_date = Date.parse(this.start_date);
