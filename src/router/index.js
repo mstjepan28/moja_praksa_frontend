@@ -70,6 +70,11 @@ Vue.use(VueRouter)
     name: 'Journal',
     component: () => import('../views/Journal.vue')
   },
+  {
+    path: '/UserInfo',
+    name: 'UserInfo',
+    component: () => import('../views/UserInfo.vue')
+  },
 ]
 
 const router = new VueRouter({

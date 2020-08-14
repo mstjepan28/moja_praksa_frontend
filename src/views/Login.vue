@@ -49,14 +49,9 @@ export default {
 	methods:{
 		async login(){
 			const result = await Auth.login({'email': this.email, 'password': this.password});
-			console.log(result)
 			if(result){
 				this.email = null;
 				this.password = null;
-
-				const user_data = Auth.getUser();
-				this.store.authenticated = true;
-				this.store.account_type = user_data.account_type;
 				
 				this.$router.push({ name: 'Home'});
 			}

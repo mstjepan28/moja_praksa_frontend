@@ -74,6 +74,7 @@ h4, h5{
 	color: #6DD0F6;
 	text-decoration: underline;
 }
+.login_form > a{color: #6DD0F6}
 .no_info_message{
 	margin: 0 auto;	
 
