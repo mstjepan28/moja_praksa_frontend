@@ -50,11 +50,17 @@ let Auth = {
         return false
               
     },
+
+    async changePassword(userData){
+        
+        return await Service.patch('/register', userData)
+    },
+
     async isPartner(user){
-        console.log(user)
+
         if(!user.account_type == "Poslodavac") return user
         
-        const data = await Partners.getOnePartner(user._id);
+        const data = await  Service.get('/check_if_partner', user._id)
         return {...user, ...data};
     },
 
