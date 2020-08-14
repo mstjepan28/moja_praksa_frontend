@@ -48,7 +48,7 @@ const FilePond = vueFilePond(
     FilePondPluginFileEncode
 )
 
-import {Auth, App, Content} from "@/services/index.js";
+import {Auth, App} from "@/services/index.js";
 
 export default {
     components: { FilePond },
@@ -97,7 +97,7 @@ export default {
         },
 
         async get_template(){
-            const result = await Content.get_journal_template();
+            const result = await App.get_journal_template();
             if(result) this.template = 0//result
         },
 

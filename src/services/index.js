@@ -168,7 +168,12 @@ let App = {
     },
 
     async upload_template(template){
-        const result = await Service.post(`/`, {'template': template});
+        const result = await Service.patch(`/template`, template);
+        return result.data;
+    },
+
+    async get_journal_template(){
+        const result = await Service.get('/template')
         return result.data;
     },
 
@@ -178,6 +183,8 @@ let App = {
         const result = await Service.patch(`/journal`, {'user_id': user_data._id, 'journal': journal});
         return result.data;
     }
+
+    
 }
 
 
@@ -191,10 +198,7 @@ let Content = {
         const result = await Service.patch('/instructions', {'instructions': instructions})
         return result.data;
     },
-    async get_journal_template(){
-        const result = await Service.get('/')
-        return result.data;
-    },
+
    
 };
 
