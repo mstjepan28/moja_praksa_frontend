@@ -124,7 +124,7 @@ export default {
         async autocomplete_project_data(){
             if(!this.store.approved_project) this.store.approved_project = await Projects.getApprovedProject();
             const project_info = this.store.approved_project;
-
+            
             this.application_form.company = project_info.company;
             this.application_form.description = project_info.project_description;
             this.application_form.duration = project_info.duration;

@@ -1,9 +1,9 @@
 <template>
 <div style="text-align: center">
-    <div v-if="project_info" class="selection_place">
+    <div v-if="project_info">
         <ProjectCard v-bind:info="project_info"/>
     </div>   
-    <div v-else class="">
+    <div v-else>
         <router-link to="/Projects" class="card project" style="background: #636466">
             <img class="card-img-top" src="@/assets/no_alocated_project.png" alt="Card image cap" >
             
@@ -38,8 +38,8 @@ export default {
             if(user_data.approved_project) return;
 
             if(!this.store.approved_project) this.store.approved_project = await Projects.getApprovedProject();
-            this.project_info = this.store.project_list[0]//approved_project
-            
+            this.project_info = this.store.project_list[0]
+            //this.project_info = this.store.approved_project
         }
     },
     mounted(){

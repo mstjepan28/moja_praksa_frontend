@@ -97,7 +97,8 @@ export default {
         },
 
         async get_template(){
-            this.template = await Content.get_journal_template();
+            const result = await Content.get_journal_template();
+            if(result) this.template = 0//result
         },
 
         download_file(){

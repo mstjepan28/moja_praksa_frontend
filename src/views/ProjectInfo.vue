@@ -86,7 +86,7 @@
 		</div>
 		
 		<div class="row">
-			<small class="views"><i class="fas fa-eye"></i> Posječenost: {{project_info.views}}</small> 
+			<small class="views"><i class="fas fa-eye"></i> Posjećenost: {{project_info.views}}</small> 
 		</div><hr>
 
 		<div class="row">

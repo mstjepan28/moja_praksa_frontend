@@ -192,11 +192,8 @@ let Content = {
         return result.data;
     },
     async get_journal_template(){
-        return false
-        /*
         const result = await Service.get('/')
         return result.data;
-        */
     },
    
 };
