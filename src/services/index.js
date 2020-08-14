@@ -9,26 +9,26 @@ let Service = axios.create({
     timeout: 5000 
 })
 
+/*
+Service.interceptors.request.use((request) => {
+    try {
+    request.headers['Authorization'] = 'Bearer ' + Auth.getToken();
+    } catch (e) {
+        console.error(e);
+    }
+    return request;
+});
 
-// Service.interceptors.request.use((request) => {
-//     try {
-//         request.headers['Authorization'] = 'Bearer ' + Auth.getToken();
-//     } catch (e) {
-//         console.error(e);
-//     }
-//     return request;
-// });
-
-// Service.interceptors.response.use( 
-//     (response) => {return response},
-//     (error) => {
-//         if (error.response.status == 401) {
-//             Auth.logout();
-//             $router.go();
-//         }
-//     }
-// );
-
+Service.interceptors.response.use( 
+    (response) => {return response},
+    (error) => {
+        if (error.response.status == 401) {
+            Auth.logout();
+            $router.go();
+        }
+    }
+);
+*/
 
 let Auth = {
     async register(new_user){
@@ -37,17 +37,27 @@ let Auth = {
     },
     async login(login_info){
         const response = await Service.post('/login', login_info)
-        
+
         if(response.data){
-            const user = response.data;
+            const user = response.data//await this.isPartner(response.data);
+            
             localStorage.setItem('user', JSON.stringify(user));
             localStorage.setItem('selected_projects', JSON.stringify([]));	
+
             return true
         }
         console.log("Failed to login!")
         return false
               
     },
+    async isPartner(user){
+        console.log(user)
+        if(!user.account_type == "Poslodavac") return user
+        
+        const data = await Partners.getOnePartner(user._id);
+        return {...user, ...data};
+    },
+
     logout() {
         localStorage.removeItem('user');
         localStorage.removeItem('selected_projects');
@@ -71,7 +81,13 @@ let Auth = {
         },
         get account_type(){
             const user_data = Auth.getUser();
-            return user_data.account_type;
+            if(user_data) return user_data.account_type;
+            return false;
+        },
+        get user_data(){
+            const user_data = Auth.getUser();
+            if(user_data) return user_data;
+            return false;
         }
     },
 
