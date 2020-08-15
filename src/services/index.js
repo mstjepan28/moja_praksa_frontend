@@ -1,6 +1,6 @@
 // servis za komunikaciju s backendom
 import axios from 'axios'
-//import $router from '@/router'
+import $router from '@/router'
 
 //instanciranje varijable za kom. s backendom
 //vezan uz konkretni backend
@@ -9,7 +9,7 @@ let Service = axios.create({
     timeout: 5000 
 })
 
-/*
+
 Service.interceptors.request.use((request) => {
     try {
     request.headers['Authorization'] = 'Bearer ' + Auth.getToken();
@@ -28,7 +28,7 @@ Service.interceptors.response.use(
         }
     }
 );
-*/
+
 
 let Auth = {
     async register(new_user){
@@ -208,7 +208,7 @@ let App = {
 let Content = {
     async get_instructions(){
         const result = await Service.get('/instructions')
-        return result.data;
+        return result.data.instructions;
     },
     async set_instructions(instructions){
         const result = await Service.patch('/instructions', {'instructions': instructions})
