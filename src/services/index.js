@@ -52,8 +52,9 @@ let Auth = {
     },
 
     async changePassword(userData){
-        
-        return await Service.patch('/register', userData)
+        const result = await Service.patch('/register', userData);
+        console.log(result)
+        return result
     },
 
     async isPartner(user){
@@ -99,7 +100,6 @@ let Auth = {
 
   
 }
-
 
 let Projects = {
     async submit_projects(projects){

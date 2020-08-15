@@ -140,18 +140,5 @@ export default {
 </script>
 
 <style>
-.application_form_element{margin: 5% 0;}
-.application_input{
-    width: 100%;
-    padding-left: 2%;
 
-    border: 2px solid #6DD0F6;
-    border-radius: 10px;
-    background: rgb(245, 245, 245);
-}   
-.application_input:focus{
-    border: 2px solid #6DD0F6;
-    border-radius: 10px;
-    background: rgb(245, 245, 245);
-}
 </style>

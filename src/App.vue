@@ -118,7 +118,7 @@ button:focus{
   color: white;
   text-align: center;
 
-  background: #636466
+  background: #767778
 }
 footer{
   padding: 1%;
