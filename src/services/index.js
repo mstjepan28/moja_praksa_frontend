@@ -33,16 +33,19 @@ Service.interceptors.response.use(
 let Auth = {
     async register(new_user){
         //pass ide preko SSL-a pa ga nije nužno heshirati
-        return await Service.post('/register', new_user)
+        const response = await Service.post('/register', new_user);
+        
+        if(response.data) return this.login({'email': new_user.email, 'password': new_user.password});
+        return false
     },
     async login(login_info){
         const response = await Service.post('/login', login_info)
 
         if(response.data){
-            const user = response.data//await this.isPartner(response.data);
+            const user = response.data
             
             localStorage.setItem('user', JSON.stringify(user));
-            localStorage.setItem('selected_projects', JSON.stringify([]));	
+            localStorage.setItem('selected_projects', JSON.stringify([]));
 
             return true
         }
@@ -56,15 +59,6 @@ let Auth = {
         console.log(result)
         return result
     },
-
-    async isPartner(user){
-
-        if(!user.account_type == "Poslodavac") return user
-        
-        const data = await  Service.get('/check_if_partner', user._id)
-        return {...user, ...data};
-    },
-
     logout() {
         localStorage.removeItem('user');
         localStorage.removeItem('selected_projects');

@@ -19,7 +19,10 @@
 				<div class="col-md-4 col-sm-0"></div>
 			</div><hr>
 
-			<div class="row" style="text-align: center"> 
+			<div class="row d-flex justify-content-center" v-if="error_message">
+				<small style="color: red">{{error_message}}</small><br>
+			</div>
+			<div class="row" style="text-align: center">
 				<span style="margin: 0 auto">Nemate korisnički račun? <router-link to="/Signup" class="login_form">Registrirajte se</router-link></span>	
 			</div>
 			
@@ -32,6 +35,7 @@
 </template>
 
 <script>
+import _ from 'lodash';
 import {Auth} from "@/services/index.js";
 import store from '@/store.js';
 
@@ -43,7 +47,7 @@ export default {
 			email: null,
 			password: null,
 
-			login_fail: false
+			error_message: false
 		}
 	},
 	methods:{
@@ -55,7 +59,11 @@ export default {
 				
 				this.$router.push({ name: 'Home'});
 			}
+			else this.error_message = "Neuspjeli pokušaj prijave u sustav, molimo provjerite unesene podatke!";
 		}
+	},
+	watch:{
+		"error_message": _.debounce(function(){this.error_message = false}, 10000)
 	},
 	name:"Login"
 }
