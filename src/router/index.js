@@ -75,6 +75,14 @@ Vue.use(VueRouter)
     name: 'UserInfo',
     component: () => import('../views/UserInfo.vue')
   },
+
+
+
+  {
+    path: '/test',
+    name: 'test',
+    component: () => import('../views/test.vue')
+  },
 ]
 
 const router = new VueRouter({

@@ -213,29 +213,5 @@ export default {
 </script>
 
 <style>
-.profile_img{
-    border-radius: 100%;
-    border: 3px solid #6DD0F6
-}
 
-.student_info{ padding: 0 0 0 5% }
-.user_info_label{font-weight: bold}
-
-.user_info_input_wrapper{
-    margin: 3% 0;
-    white-space: nowrap;
-}
-.user_info_input{
-    width: 80%;
-    float: right;
-    padding-left: 2%;
-}
-
-@media only screen and (max-width: 767px) {
-	.student_info{ padding: 10% 2% 0 2% }
-}
-@media only screen and (max-width: 1200px) {
-    .user_info_input_wrapper{white-space: initial}
-    .user_info_input{width: 100%; padding: 0;}
-}
 </style>
