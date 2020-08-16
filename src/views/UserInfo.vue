@@ -192,11 +192,11 @@ export default {
 
             this.edit_enabled = false;
         },
-        change_password(){
+        async change_password(){
             if(!this.passwordCheck()) return;
             $('#change_password_modal').modal('hide')
 
-            const result = Auth.changePassword({'oldPassword': this.current_password, 'newPassword': this.new_password});
+            const result = await Auth.changePassword({'oldPassword': this.current_password, 'newPassword': this.new_password});
             if(!result){
                 this.modal_error = "Prilikom pokušaja promjene lozinke došlo je do greške";
                 $('#error_modal').modal('show')

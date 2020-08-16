@@ -1,6 +1,6 @@
 <template>
 <div>
-    <StudentCard :info="student_info"/>
+    <StudentCard :key="i" :info="student_info" v-for="i in [1,2,3,4,5]"/>
 </div>
 </template>
 

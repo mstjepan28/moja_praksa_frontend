@@ -14,7 +14,7 @@
     </div>
     <div class="col-md-1 col-sm-0"></div>
 
-    <div class="w-100"></div>
+    <div class="w-100 mt-3"></div>
 
     <div class="col-md-4 col-sm-12 mb-3 d-flex justify-content-center">
         <button v-if="info.selected_projects" class="button_design"> Odabrani projekti </button>
@@ -26,7 +26,7 @@
     </div>
     <div class="col-md-4 col-sm-12 mb-3 d-flex justify-content-center">
         <button v-if="info.journal" class="button_design"> Dnevnik prakse </button>
-        <button v-else class="disabled_button" disabled> Dnevnik prakse </button>
+        <button v-else class="disabled_button"> Dnevnik prakse </button>
     </div>
 </div>
 </template>
@@ -47,7 +47,7 @@ export default {
 
 <style>
 .card_body{
-    padding-top: 5%;
+    padding-top: 1%;
     border: 2px solid #6DD0F6;
 }
 </style>
