@@ -1,5 +1,5 @@
 <template>
-<div class="row h-100 mt-5 mr-5 ml-5 card_body">
+<div class="row h-100 mt-5 mr-md-5 ml-md-5 card_body">
     <div class="col-md-1 col-sm-0"></div>
     <div class="col-md-3 col-sm-12 my-atuo">
         <img v-if="info.avatar" class="profile_img" :src="info.avatar"/>

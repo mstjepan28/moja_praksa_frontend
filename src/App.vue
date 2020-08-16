@@ -33,7 +33,7 @@
         </button>
         
         <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
+          <ul class="navbar-nav d-flex justify-content-center">
             <li class="nav-item">
               <router-link to="/">Naslovnica</router-link>
             </li>
@@ -52,15 +52,18 @@
             <li class="nav-item" v-if="auth.account_type == 'Admin'">
               <router-link to="/">Studenti</router-link>
             </li>
-            <li class="nav-item" v-if="auth.account_type == 'Student'">
-              <router-link to="/SelectedProjects">Odabrani projekti</router-link>
+
+            <li class="nav-item dropdown" v-if="auth.account_type == 'Student'">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 0; color: white">
+                Izvršavanje prakse
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <router-link class="dropdown-item" to="/SelectedProjects">Odabrani projekti</router-link>
+                <router-link class="dropdown-item" to="/ApprovedProject">Odobreni projekti</router-link>
+                <router-link class="dropdown-item" to="/Instructions">Upute</router-link>
+              </div>
             </li>
-            <li class="nav-item" v-if="auth.account_type == 'Student'">
-              <router-link to="/ApprovedProject">Odobreni projekti</router-link>
-            </li>
-            <li class="nav-item" v-if="auth.account_type == 'Student'">
-              <router-link to="/Instructions">Upute</router-link>
-            </li>
+
           </ul>
         </div>
 
@@ -110,9 +113,7 @@ export default {
 </script>
 
 <style lang="scss">
-button:focus{
-  outline: none
-}
+button:focus{ outline: none }
 .footer{
   margin-top: 3%;
   color: white;
@@ -130,15 +131,28 @@ footer{
 .navbar{ background: #6DD0F6 }
 
 .navbar-nav{ margin: 0 auto }
+
 .nav-item{
   margin: 0 4% 0 0;
   white-space: nowrap;
 }
+
 .nav-item > a{
   font-size: 16px;
   color: white;
 }
-.nav-item > a:hover{
-  text-decoration: underline;
+.nav-item > a:hover{ text-decoration: underline }
+
+.dropdown-menu{
+  border: 1px solid white;
+
+	background: #6DD0F6
+}
+.dropdown-item{
+  color: white;
+}
+.dropdown-item:hover{
+  color: white;
+  background: #A0E0F6;
 }
 </style>
