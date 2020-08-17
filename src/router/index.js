@@ -75,13 +75,10 @@ Vue.use(VueRouter)
     name: 'UserInfo',
     component: () => import('../views/UserInfo.vue')
   },
-
-
-
   {
-    path: '/test',
-    name: 'test',
-    component: () => import('../views/test.vue')
+    path: '/Students',
+    name: 'Students',
+    component: () => import('../views/Students.vue')
   },
 ]
 

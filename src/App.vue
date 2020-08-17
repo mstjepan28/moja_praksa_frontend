@@ -49,15 +49,15 @@
             <li class="nav-item" v-if="auth.account_type == 'Admin'">
               <router-link to="/">Dodaj poslodavca</router-link>
             </li>
-            <li class="nav-item" v-if="auth.account_type == 'Admin'">
-              <router-link to="/">Studenti</router-link>
+            <li class="nav-item" v-if="auth.account_type == 'Admin' || true">
+              <router-link to="/Students">Studenti</router-link>
             </li>
 
             <li class="nav-item dropdown" v-if="auth.account_type == 'Student'">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 0; color: white">
                 Izvršavanje prakse
               </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="border: 1px solid white; background: #6DD0F6">
                 <router-link class="dropdown-item" to="/SelectedProjects">Odabrani projekti</router-link>
                 <router-link class="dropdown-item" to="/ApprovedProject">Odobreni projekti</router-link>
                 <router-link class="dropdown-item" to="/Instructions">Upute</router-link>
@@ -143,11 +143,6 @@ footer{
 }
 .nav-item > a:hover{ text-decoration: underline }
 
-.dropdown-menu{
-  border: 1px solid white;
-
-	background: #6DD0F6
-}
 .dropdown-item{
   color: white;
 }

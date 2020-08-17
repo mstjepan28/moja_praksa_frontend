@@ -95,6 +95,24 @@ let Auth = {
   
 }
 
+let Students = {
+    async getStudents(search){
+        let options = {};
+        if(search){options.params = {_any: search,};}
+
+        const result = await Service.get('/', options)
+        return result.data;
+    },
+    async getApplicationForm(id){
+        const result = await Service.get('/', id)
+        return result.data;
+    },
+    async getJournal(id){
+        const result = await Service.get('/', id)
+        return result.data;        
+    }
+}
+
 let Projects = {
     async submit_projects(projects){
         let user_data = Auth.getUser();
@@ -104,10 +122,7 @@ let Projects = {
         
         return result.data;
     },
-    async getDocAmount(){
-        const result = await Service.get('/');
-        return result.data
-    },
+
     async getProjects(search){
         let options = {};
         if(search){options.params = {_any: search,};}
@@ -198,8 +213,12 @@ let App = {
 
         const result = await Service.patch(`/journal`, {'user_id': user_data._id, 'journal': journal});
         return result.data;
-    }
+    },
 
+    async getDocAmount(){
+        const result = await Service.get('/');
+        return result.data
+    },
     
 }
 
@@ -218,4 +237,4 @@ let Content = {
    
 };
 
-export { Service, Auth, Projects, Partners, Content, App}
+export { Service, Auth, Students, Projects, Partners, Content, App}
