@@ -132,7 +132,7 @@
 <script>
 import _ from 'lodash';
 
-import {Auth} from "@/services/index.js";
+import {Auth, App} from "@/services/index.js";
 import store from '@/store.js';
 
 export default {
@@ -166,10 +166,10 @@ export default {
             }
             return true;
         },
-        delete_user(){
+        async delete_user(){
             $('#delete_user_modal').modal('hide')
 
-            const result = false//Auth.deleteUser({'_id': this.user_data._id; 'password': this.current_password});
+            const result = await App.deleteUser(this.user_data, 'false');
             this.current_password =  undefined;
 
             if(!result){
@@ -181,10 +181,10 @@ export default {
                 this.$router.push({ name: 'Login'});
             }
         },
-        update_user(){
+        async update_user(){
             delete this.user_data.token;
 
-            const result = Auth.updateUser({'oldPassword': this.current_password, 'newPassword': this.new_password});
+            const result = await App.updateUser(this.user_data, 'true');
             if(!result){
                 this.modal_error = "Prilikom pokušaja izmjene korisničkih podataka došlo je do greške";
                 $('#error_modal').modal('show')
@@ -195,7 +195,7 @@ export default {
         async change_password(){
             if(!this.passwordCheck()) return;
             $('#change_password_modal').modal('hide')
-
+            
             const result = await Auth.changePassword({'oldPassword': this.current_password, 'newPassword': this.new_password});
             if(!result){
                 this.modal_error = "Prilikom pokušaja promjene lozinke došlo je do greške";
