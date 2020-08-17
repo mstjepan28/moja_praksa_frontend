@@ -220,6 +220,23 @@ let App = {
         return result.data
     },
     
+    async updateUser(user_data, update){
+        user_data.updateDoc = update
+        const result = await Service.patch('/user', user_data)
+        return result.data;
+    },
+
+    async deleteUser(user_data, update){
+        user_data.updateDoc = update
+        const result = await Service.patch('/user', user_data)
+        return result.data;
+    },
+
+    async isPartner(user_data, update){
+        user_data.updateDoc = update
+        const result = await Service.get('/user', user_data.id)
+        return result.data;
+    },
 }
 
 
