@@ -99,4 +99,15 @@ export default{
       
       this[list] = sorter[sort_order + "_" + sort_values.type]
     },
+
+    getSelectedProjects(project_ids){
+      const projects = this.project_list
+      let result = [];
+
+      project_ids.forEach(id => {
+        const match = projects.filter(project => project.id == id)[0];
+        result.push(match);
+      })
+      return result;
+    }
 }

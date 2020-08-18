@@ -34,13 +34,14 @@
                     <img class="card-img-top" v-bind:src="first_choice.img_url" alt="Card image cap" >
                     
                     <div class="card-body">
+                        <h5 class="card-title">{{first_choice.company}}</h5>
                         <p class="card-text">{{first_choice.project_description}}</p>
                     </div>
                 </router-link>
 
                 <br><span class="active_subtitle">Prvi odabir</span>
 
-                <div class="selected_project_options">
+                <div v-if="!selectionConfirmed" class="selected_project_options">
                     <button type="button" v-on:click="shift_priority_negative(first_choice.id)"><i class="fas fa-chevron-left"></i></button>
                     <button type="button" class="button_design" v-on:click="unselect_project('first_choice', first_choice.id)">Ukloni odabir</button>
                     <button type="button" v-on:click="shift_priority_positive(first_choice.id)"><i class="fas fa-chevron-right"></i></button>                    
@@ -69,13 +70,14 @@
                     <img class="card-img-top" v-bind:src="second_choice.img_url" alt="Card image cap" >
                     
                     <div class="card-body">
+                        <h5 class="card-title">{{second_choice.company}}</h5>
                         <p class="card-text">{{second_choice.project_description}}</p>
                     </div>
                 </router-link>
 
                 <br><span class="active_subtitle">Drugi odabir</span>
 
-                <div class="selected_project_options">
+                <div v-if="!selectionConfirmed" class="selected_project_options">
                     <button type="button" v-on:click="shift_priority_negative(second_choice.id)"><i class="fas fa-chevron-left"></i></button>
                     <button type="button" class="button_design" v-on:click="unselect_project('second_choice', second_choice.id)">Ukloni odabir</button>
                     <button type="button" v-on:click="shift_priority_positive(second_choice.id)"><i class="fas fa-chevron-right"></i></button>                    
@@ -104,13 +106,14 @@
                     <img class="card-img-top" v-bind:src="third_choice.img_url" alt="Card image cap" >
                     
                     <div class="card-body">
+                        <h5 class="card-title">{{third_choice.company}}</h5>
                         <p class="card-text">{{third_choice.project_description}}</p>
                     </div>
                 </router-link>
 
                 <br><span class="active_subtitle">Treći odabir</span>
 
-                <div class="selected_project_options">
+                <div v-if="!selectionConfirmed" class="selected_project_options">
                     <button type="button" v-on:click="shift_priority_negative(third_choice.id)"><i class="fas fa-chevron-left"></i></button>
                     <button type="button" class="button_design" v-on:click="unselect_project('third_choice', third_choice.id)">Ukloni odabir</button>
                     <button type="button" v-on:click="shift_priority_positive(third_choice.id)"><i class="fas fa-chevron-right"></i></button>                    
@@ -136,7 +139,7 @@
         </div>
     </div>
 
-    <div class="row mt-5" style="text-align: center">
+    <div v-if="!selectionConfirmed" class="row mt-5" style="text-align: center">
         <button class="alert_button" data-toggle="modal" data-target="#send_selection" style="display: inline-block; margin: 0 auto;">Pošalji svoj odabir</button>
     </div>
 </div>
@@ -157,13 +160,21 @@ export default {
             first_choice: false,
             second_choice: false,
             third_choice: false,
+            selectionConfirmed: false,
         }
     },
     methods:{
         async send_project_selection(){
-            const selection = {firstPriority: this.first_choice.id, secondPriority: this.second_choice.id, thirdPrioirity: this.third_choice.id};
-            const result = await Projects.submit_projects(selection);
-            console.log("Project selection result: ", result)
+            await Projects.submit_projects([this.first_choice.id, this.second_choice.id, this.third_choice.id]);
+            this.updateCurUser();
+        },
+        updateCurUser(){
+            let user_data = this.auth.user_data;
+            user_data.chosenProjects = [this.first_choice.id, this.second_choice.id, this.third_choice.id];
+
+            localStorage.setItem('user', JSON.stringify(user_data));
+            console.log(localStorage.getItem('user'))
+            this.selectionConfirmed = true;
         },
 
         // Mijenja prioritet svakog projekta za +1
@@ -207,9 +218,15 @@ export default {
         },
 
         // Cita projekte iz localstorage i sortira ih po prioritetu
-        get_projects(){
-            this.project_list = JSON.parse(localStorage.getItem('selected_projects'));
-            this.project_list.sort(function (a, b){return a.priority - b.priority})
+        async get_projects(){
+            if(this.selectionConfirmed){
+                if(!this.store.project_list) this.store.project_list = await Projects.getProjects();
+                this.project_list = this.store.getSelectedProjects(this.auth.user_data.chosenProjects);
+            }
+            else{
+                this.project_list = JSON.parse(localStorage.getItem('selected_projects'));
+                this.project_list.sort(function (a, b){return a.priority - b.priority})                
+            }
         },
         // Update projekata u localstorage
         update_projects(selected_projects){
@@ -218,8 +235,8 @@ export default {
         },
 
         // Dohvati i postavi projekte u varijable
-        set_projects(){
-            this.get_projects();
+        async set_projects(){
+            await this.get_projects();
             if(!this.project_list) return;
 
             this.first_choice = this.project_list[0];
@@ -238,13 +255,15 @@ export default {
             else if(choice == 'second_choice') this.second_choice = false;
             else if(choice == 'third_choice') this.third_choice = false;
         },
-        
-
     },
     mounted(){
         const user_type = this.auth.account_type;
+        
         if(!(user_type == "Student" || user_type == "Admin")) console.log("No access")//this.$router.push({ name: 'Home' });
-        else if(user_type == "Student") this.set_projects();
+        else if(user_type == "Student"){
+            if(this.auth.user_data.chosenProjects) this.selectionConfirmed = true;
+            this.set_projects();
+        }
     }
 
 }

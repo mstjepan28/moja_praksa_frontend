@@ -106,7 +106,7 @@
 			
 		</div>
 
-		<div class="row mt-3" style="text-align: center">
+		<div v-if="canSelectProject" class="row mt-3" style="text-align: center">
 			<button type="button" class="alert_button" style="display:inline-block; margin: 0 auto;" v-if="project_selected" v-on:click="unselect_project">Ukloni odabir</button>
 			<button type="button" class="button_design" style="display:inline-block; margin: 0 auto;" v-else  v-on:click="select_project">Odaberi projekt</button>
 		</div>
@@ -176,7 +176,7 @@ export default {
 				this.project_info.views = this.add_view_local(this.project_info.views);
 				//this.project_info.views++;
 			}
-			//this.add_view();
+			this.add_view();
 		},
 
 		async update_project(){
@@ -224,6 +224,13 @@ export default {
 				if(result.length == 1) this.project_selected = true;
 				else this.project_selected = false;
 			}
+		}
+	},
+	computed:{
+		canSelectProject(){
+			const user = Auth.state.user_data;
+			if(user.account_type == "Student" && !user.chosenProjects) return true;
+			else return false;
 		}
 	},
 	mounted(){

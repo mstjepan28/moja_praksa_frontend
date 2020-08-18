@@ -118,7 +118,7 @@ let Projects = {
         const user_data = Auth.getUser();
         const result = await Service.post(`/chosen_projects`, {'user': user_data._id, 'selection': projects});
         
-        return result.data;
+        return result.data.result;
     },
 
     async getProjects(search){
@@ -192,11 +192,9 @@ let Partners = {
         return [result.data];     
     },
     async addPartnerView(info){
-
         await Service.patch('/', info);
     },
 }
-
 
 let App = {
 
@@ -245,8 +243,6 @@ let App = {
         return result.data;
     },
 }
-
-
 
 let Content = {
     async get_instructions(){

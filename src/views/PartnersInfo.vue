@@ -192,8 +192,9 @@ export default {
 		async get_partner_info(){
 			if(this.store.partner_list){
 				const partner_index = this.store.partner_list.findIndex(partner => partner.id == this.id);
+
 				this.store.partner_list[partner_index].views = this.add_view_local(this.store.partner_list[partner_index].views) 
-				//this.store.partner_list[partner_index].views++;
+				this.store.partner_list[partner_index].views++;
 
 				this.partners_info = this.store.partner_list[partner_index];
 			}
@@ -201,27 +202,29 @@ export default {
 				const result = await Partners.getOnePartner(this.id);
 				this.partners_info = result[0]
 
-				// TEMP 
 				this.partners_info.views = this.add_view_local(this.partners_info.views);
-				//this.partners_info.views++;	
+				this.partners_info.views++;	
 			}
-			//this.add_view();
+
+			this.add_view();
 		},
 		// TEMP
 		add_view_local(views){
-			if(views == undefined) return 1;
-			return views + 1;
+			if(views == undefined) return 0;
+			return views;
 		},
 		async add_view(){
 			await Partners.addPartnerView({
 				'id': this._id,
-				'views': this.project_info.views,
+				'views': this.partners_info.views,
 				'collectionName' : 'partners'
 			});
 		},
+
 		async get_projects(){
 			this.project_list = await Projects.getPartnerProjects(this.id);
 		},
+		
 		async update_partner(){
 			const response = Partners.UpdatePartner(this.partners_info, this.$route.params.id, 'true');
 			if(response){
@@ -231,6 +234,7 @@ export default {
 			}
 
 		},
+
 		async delete_partner(){
 			const response = Partners.DeletePartner(this.$route.params.id, 'false');
 			if(response){
@@ -243,6 +247,7 @@ export default {
 				else this.$router.push({ name: 'Partners' });
 			}
 		},
+
 		switch_edit(){
 			if(this.edit_enabled) this.edit_enabled = false;
 			else this.edit_enabled = true
