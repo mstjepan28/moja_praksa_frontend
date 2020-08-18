@@ -146,8 +146,9 @@ export default {
 		
 		async add_view(){
 			await Projects.addProjectView({
-				'_id': this._id,
-				'views': this.project_info.views
+				'id': this._id,
+				'views': this.project_info.views,
+				'collectionName' : 'projects'
 			});
 		},
 
@@ -179,14 +180,14 @@ export default {
 		},
 
 		async update_project(){
-			const result = await Projects.UpdateProject(this.project_info, this.id, true);
+			const result = await Projects.UpdateProject(this.project_info, this.id, 'true');
 			console.log(result);
 
 			this.edit_enabled = false;
 		},
 
 		async delete_project(){
-			const result = await Projects.DeleteProject(this.$route.params.id, false);
+			const result = await Projects.DeleteProject(this.$route.params.id, 'false');
 			console.log(result);
 		},
 

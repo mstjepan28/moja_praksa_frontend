@@ -213,16 +213,17 @@ export default {
 			return views + 1;
 		},
 		async add_view(){
-			await Projects.addPartnerView({
-				'_id': this._id,
-				'views': this.project_info.views
+			await Partners.addPartnerView({
+				'id': this._id,
+				'views': this.project_info.views,
+				'collectionName' : 'partners'
 			});
 		},
 		async get_projects(){
 			this.project_list = await Projects.getPartnerProjects(this.id);
 		},
 		async update_partner(){
-			const response = Partners.UpdatePartner(this.partners_info, this.$route.params.id, true);
+			const response = Partners.UpdatePartner(this.partners_info, this.$route.params.id, 'true');
 			if(response){
 				const partner_index = this.store.partner_list.findIndex(partner => partner.id == this.id);
 				this.store.partner_list[partner_index] = this.partners_info;
@@ -231,7 +232,7 @@ export default {
 
 		},
 		async delete_partner(){
-			const response = Partners.deletePartner(this.$route.params.id, false);
+			const response = Partners.DeletePartner(this.$route.params.id, 'false');
 			if(response){
 				this.store.partner_list = this.store.partner_list.filter(partner => partner.id != this.id);
 				
