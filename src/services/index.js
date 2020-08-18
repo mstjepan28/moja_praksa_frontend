@@ -136,16 +136,20 @@ let Projects = {
         const result = await Service.get(`/partner_projects/${id}`);
         return result.data;       
     },
-    async UpdateProject(project_info, id, updateDoc){
-        return await Service.patch(`/projects/${id}/${updateDoc}`, project_info)
+    async UpdateProject(project_info, id, update){
+        project_info.updateDoc = update
+        return await Service.patch(`/projects/${id}`, project_info)
     },
     async AddProject(project_info, userID){
         project_info.userID = userID
         
         return await Service.post('/projects', project_info)
     },
-    async DeleteProject(project_id, updateDoc){
-        return await Service.delete(`/projects/${project_id}/${updateDoc}`)
+    async DeleteProject(project_id, update){
+        let partnerInfo = {
+            updateDoc : update
+        }
+        return await Service.delete(`/projects/${project_id}`, partnerInfo)
     },
     async getApprovedProject(){    
         const result = await Service.get(`/approved_project`);
@@ -159,13 +163,17 @@ let Projects = {
 
 let Partners = {
 
-    async UpdatePartner(partnerInfo, partner_id, updateDoc){
-        const result = await Service.patch(`/partners/${partner_id}/${updateDoc}`, partnerInfo)
+    async UpdatePartner(partnerInfo, partner_id, update){
+        partnerInfo.updateDoc = update
+        const result = await Service.patch(`/partners/${partner_id}`, partnerInfo)
         return result.data;
     },
     // Brisanje od strane admina iz kolekcije partnera, ne brise se user
-    async DeletePartner(partner_id, updateDoc){
-        const result = await Service.get(`/projects/${partner_id}/${updateDoc}`);
+    async DeletePartner(partner_id, update){
+        let partnerInfo = {
+            updateDoc : update
+        }
+        const result = await Service.delete(`/partners/${partner_id}/`, partnerInfo);
         return result.data;
     },
     async CreatePartner(new_partner){
@@ -184,6 +192,7 @@ let Partners = {
         return [result.data];     
     },
     async addPartnerView(info){
+
         await Service.patch('/', info);
     },
 }
