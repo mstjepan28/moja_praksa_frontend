@@ -13,7 +13,7 @@
         </router-link>
     </div>
     <small>Nakon što vam je dodijeljen projekt, kontaktirajte poslodavca koristeći jedan od navedenih kontakata te popunite prijavnicu</small><br>
-    <router-link to="/ApplicationForm" class="button_design mt-3 mr-1 ml-1"> Popuni prijavnicu </router-link>
+    <router-link to="/FillApplicationForm" class="button_design mt-3 mr-1 ml-1"> Popuni prijavnicu </router-link>
     <router-link to="/Journal" type="button" class="button_design mt-3 mr-1 ml-1"> Dnevnik Prakse </router-link>
 </div>
 </template>

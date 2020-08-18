@@ -58,7 +58,7 @@
 		</div>
 	</div><hr>
 
-    <StudentCard :key="i" :info="student_info" v-for="i in [1,2,3,4,5]"/>
+    <StudentCard :key="i" :info="student_info" v-for="i in [1]"/>
 
 	<div class="row d-flex justify-content-center">
 		<paginate
@@ -119,7 +119,7 @@ export default {
             search_phrase: null,
             filter_params:{},
 
-			total_pages: 12,
+			total_pages: null,
 			prev: "Prethodna",
 			next: "Sljedeća",
 			page: 1,

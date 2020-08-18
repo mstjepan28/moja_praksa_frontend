@@ -2,6 +2,7 @@ export default{
     project_list: null,
     partner_list: null,
     student_list: null,
+    
     approved_project: null,
     
     vfOptions: {autoplay: true, aspectRatio: '16:6'},

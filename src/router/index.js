@@ -61,7 +61,12 @@ Vue.use(VueRouter)
     component: () => import('../views/Instructions.vue')
   },
   {
-    path: '/ApplicationForm',
+    path: '/FillApplicationForm',
+    name: 'FillApplicationForm',
+    component: () => import('../views/FillApplicationForm.vue')
+  },
+  {
+    path: '/ApplicationForm/:id',
     name: 'ApplicationForm',
     component: () => import('../views/ApplicationForm.vue')
   },
@@ -79,6 +84,11 @@ Vue.use(VueRouter)
     path: '/Students',
     name: 'Students',
     component: () => import('../views/Students.vue')
+  },
+  {
+    path: '/AllocateStudent/:id',
+    name: 'AllocateStudent',
+    component: () => import('../views/AllocateStudent.vue')
   },
 ]
 

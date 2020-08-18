@@ -16,17 +16,17 @@
 
     <div class="w-100 mt-3"></div>
 
-    <div class="col-md-4 col-sm-12 mb-3 button_width d-flex justify-content-center">
-        <button v-if="info.selected_projects" class="button_design"> Odabrani projekti </button>
-        <button v-else class="disabled_button" disabled> Odabrani projekti </button>
+    <div class="col-md-4 col-sm-12 mb-3 button_width text-center">
+        <div v-if="info.chosenProjects"> <router-link :to="'/AllocateStudent/' + info._id" class="button_design"> Odabrani projekti </router-link> </div>
+        <div v-else class="disabled_button" disabled> Odabrani projekti </div>
     </div>
-    <div class="col-md-4 col-sm-12 mb-3 button_width d-flex justify-content-center">
-        <button v-if="info.application" class="button_design"> Prijavnica </button>
-        <button v-else class="disabled_button" disabled> Prijavnica </button>
+    <div class="col-md-4 col-sm-12 mb-3 button_width text-center">
+        <div v-if="info.application"> <router-link :to="'/ApplicationForm/' + info._id" class="button_design">Prijavnica</router-link> </div>
+        <div v-else class="disabled_button"> Prijavnica </div>
     </div>
-    <div class="col-md-4 col-sm-12 mb-3 button_width d-flex justify-content-center">
-        <button v-if="info.journal" class="button_design"> Dnevnik prakse </button>
-        <button v-else class="disabled_button"> Dnevnik prakse </button>
+    <div class="col-md-4 col-sm-12 mb-3 button_width text-center">
+        <div v-if="info.journal" class="button_design"> Dnevnik prakse </div>
+        <div v-else class="disabled_button"> Dnevnik prakse </div>
     </div>
 </div>
 </template>
@@ -50,7 +50,7 @@ export default {
     padding-top: 1%;
     border: 4px solid #6DD0F6;
 }
-.button_width > button{
+.button_width > div{
     width: 100%;
 }
 </style>

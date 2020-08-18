@@ -103,7 +103,7 @@ let Students = {
         const result = await Service.get('/', options)
         return result.data;
     },
-    async getApplicationForm(id){
+    async getOneStudent(id){
         const result = await Service.get('/', id)
         return result.data;
     },
@@ -115,9 +115,7 @@ let Students = {
 
 let Projects = {
     async submit_projects(projects){
-        let user_data = Auth.getUser();
-        delete user_data.token;
-
+        const user_data = Auth.getUser();
         const result = await Service.post(`/chosen_projects`, {'user': user_data._id, 'selection': projects});
         
         return result.data;

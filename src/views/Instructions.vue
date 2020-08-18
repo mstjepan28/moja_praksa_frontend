@@ -35,9 +35,8 @@
                 </div>
 
                 <div class="row mt-1">
-                    <div class="col text-right" style="padding: 0">
-                        <button class="alert_button" v-on:click="remove_instruction(instruction.order)"> Ukloni <i class="fas fa-times"></i> </button>
-                    </div>
+                    <div class="col-md-10 col-sm-0"></div>
+                    <div class="col-md-2 col-sm-12 text-center alert_button" v-on:click="remove_instruction(instruction.order)">Ukloni <i class="fas fa-times" style="color: white"></i></div>
                 </div>
 
             </div>
