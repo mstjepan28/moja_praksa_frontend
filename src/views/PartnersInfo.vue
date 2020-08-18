@@ -215,7 +215,7 @@ export default {
 		},
 		async add_view(){
 			await Partners.addPartnerView({
-				'id': this._id,
+				'_id': this.id,
 				'views': this.partners_info.views,
 				'collectionName' : 'partners'
 			});

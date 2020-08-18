@@ -157,6 +157,7 @@ let Projects = {
         return result.data;
     },
     async addProjectView(info){
+        console.log(info)
         await Service.patch('/', info);
     },
 }

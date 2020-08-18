@@ -146,7 +146,7 @@ export default {
 		
 		async add_view(){
 			await Projects.addProjectView({
-				'id': this._id,
+				'_id': this.id,
 				'views': this.project_info.views,
 				'collectionName' : 'projects'
 			});
@@ -154,8 +154,8 @@ export default {
 
 		// TEMP
 		add_view_local(views){
-			if(views == undefined) return 1;
-			return views + 1;
+			if(views == undefined) return 0;
+			return views;
 		},
 
 		async get_project_info(){
@@ -164,7 +164,7 @@ export default {
 
 				// TEMP 
 				this.store.project_list[project_index].views = this.add_view_local(this.store.project_list[project_index].views) 
-				//this.store.project_list[project_index].views++;
+				this.store.project_list[project_index].views++;
 
 				this.project_info = this.store.project_list[project_index];
 			}
@@ -174,7 +174,7 @@ export default {
 				
 				// TEMP 
 				this.project_info.views = this.add_view_local(this.project_info.views);
-				//this.project_info.views++;
+				this.project_info.views++;
 			}
 			this.add_view();
 		},
