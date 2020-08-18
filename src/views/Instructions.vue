@@ -1,12 +1,12 @@
 <template>
 <div class="container mt-3">
-    <div class="row option_buttons mt-4">
+    <div class="row option_buttons">
         <div v-if="!edit_enabled" class="col text-right">
-            <button type="button" class="button_design" v-on:click="switch_edit"> Uredi </button>
+            <button type="button" class="button_design mt-3" v-on:click="switch_edit"> Uredi </button>
         </div>
         <div v-else class="col text-right">
-            <button type="button" class="button_design mr-3" v-on:click="set_instructions"> Pohrani promjene </button>
-            <button type="button" class="disabled_button" v-on:click="switch_edit"> Odustani </button>
+            <button type="button" class="button_design" v-on:click="set_instructions"> Pohrani promjene </button>
+            <button type="button" class="disabled_button mt-3" v-on:click="switch_edit"> Odustani </button>
         </div>
     </div>
 
@@ -28,21 +28,18 @@
         </div>
 
         <div v-else-if="edit_enabled" class="col">
-            <div class="mt-2" v-bind:key="instruction.order" v-for="instruction in instructions">
-                <div class="button_design mr-2" style="text-align: center; width: 5%;">{{instruction.order + 1}}</div>
-                <button class="alert_button" style="text-align: center" v-on:click="remove_instruction(instruction.order)">
-                    Ukloni <i class="fas fa-times"></i>
-                </button>
+            <div class="mt-3" v-bind:key="instruction.order" v-for="instruction in instructions">
 
-                <textarea class="instructions_input" v-model="instruction.text"></textarea>
-            </div>
+                <div class="row">
+                    <textarea class="instructions_input" v-model="instruction.text"></textarea>
+                </div>
 
-            <div class="mt-2">
-                <div class="button_design" style="text-align: center; width: 5%;">{{instructions.length + 1}}</div>
-                <button class="confirm_button" style="text-align: center" v-on:click="add_instruction">
-                    Dodaj <i class="fas fa-check"></i>
-                </button>
-                <textarea class="instructions_input" v-model="new_instruction" placeholder="Upišite novu uputu!"></textarea>
+                <div class="row mt-1">
+                    <div class="col text-right" style="padding: 0">
+                        <button class="alert_button" v-on:click="remove_instruction(instruction.order)"> Ukloni <i class="fas fa-times"></i> </button>
+                    </div>
+                </div>
+
             </div>
         </div>        
     </div>
@@ -101,7 +98,6 @@ export default {
 
 <style>
 .instructions_input{
-    max-height: 90px;
     margin: 0;
     padding: 1%;
 }

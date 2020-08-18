@@ -51,26 +51,16 @@
 					</div>
 
 					<div class="dropdownFooter">
-						<button type="submit" class="button_design mr-2" v-on:click="get_partner_list"> Poništi </button>
+						<button type="submit" class="button_design mr-2" v-on:click="getStudents"> Poništi </button>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div><hr>
 
-	<div class="row" style="text-align: center">
-		<h1 class="title" style="margin-top: 0">Partneri</h1><br>
-		<p class="description_text">
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce auctor elit nisl, eget venenatis arcu gravida pretium. 
-			Praesent vel odio mauris. Etiam porta sapien odio, eu fermentum lectus ultricies convallis. 
-			Nam at dolor eu massa facilisis vehicula. Proin consequat eros ligula, ac congue neque rutrum at. 
-			Nulla lacinia porta gravida. Curabitur tincidunt aliquet auctor. Aliquam erat volutpat. Mauris et tempor dolor.
-		</p>
-	</div><hr>
+    <StudentCard :key="i" :info="student_info" v-for="i in [1,2,3,4,5]"/>
 
-	<div v-if="partner_list"><PartnerCard v-bind:key="partner.id" v-bind:info="partner" v-for="partner in partner_list"/></div>
-
-	<div class="row" style="text-align: center">
+	<div class="row d-flex justify-content-center">
 		<paginate
 			v-if="total_pages"
 			v-model="page"
@@ -108,10 +98,10 @@ import _ from 'lodash';
 import { VueFlux, FluxPreloader } from 'vue-flux';
 import Paginate from 'vuejs-paginate';
 
-import PartnerCard from '@/components/partner_card';
+import StudentCard from '@/components/student_card';
 
 import store from '@/store.js';
-import { Partners, App } from '@/services'
+import { Auth, Students, App } from '@/services';
 
 export default {
 	components: {
@@ -119,66 +109,73 @@ export default {
 		FluxPreloader,
 		Paginate,
 
-		PartnerCard,
+		StudentCard,
 	},
-	data(){
-		return{
-			store,
-			partner_list: false,
+    data(){
+        return {
+            store,
+            student_list: false,
 
-			search_phrase: null,
-			filter_params:{},
+            search_phrase: null,
+            filter_params:{},
 
-			total_pages: null,
+			total_pages: 12,
 			prev: "Prethodna",
 			next: "Sljedeća",
 			page: 1,
 			items_per_page: 3,
 
-			sort_values: false
-		}
-	},
+            sort_values: false,
+            
+
+            student_info: Auth.state.user_data, // TEST
+        }
+    },
 	methods:{
 		sort_items(sort_order){
 			if(!this.sort_values) return;
-			this.store.sort_items(this.sort_values, sort_order, "partner_list");
+			this.store.sort_items(this.sort_values, sort_order, "student_list");
 
-			this.get_partner_list();
+			this.get_student_list();
 		},
 
-
-		async get_partner_list(){
-			if(!this.store.partner_list) this.store.partner_list = await Partners.getPartners();
-			this.partner_list = this.store.partner_list.slice(0, this.items_per_page)
-		},
-		async search_partners(search){
-			this.partner_list = await Partners.getPartners(search);
+		async getStudents(){
+			if(!this.store.student_list) this.store.student_list = await Students.getStudents();
+			this.student_list = this.store.student_list.slice(0, this.items_per_page)
+        },
+        
+		async search_students(search){
+			this.student_list = await Students.getStudents(search);
 		},
 
 		async get_total_pages(){
 			const total_items = await App.getDocAmount();
-			this.total_pages = Math.ceil(total_items.partnersCounter / this.items_per_page);
-		},		
+			this.total_pages = Math.ceil(total_items.studentCounter / this.items_per_page);
+        },
+
 		async clickCallback(pageNum){
 			const first_item = pageNum * this.items_per_page - this.items_per_page + 1 
 			const last_item = pageNum * this.items_per_page
 
-			const saved_partners = this.store.partner_list
+			const saved_partners = this.store.student_list
 			if(saved_partners.length < last_item && saved_partners.length >= first_item){
-				this.partner_list = this.store.partner_list.slice(first_item-1, saved_partners.length+1)
+				this.student_list = this.store.student_list.slice(first_item-1, saved_partners.length+1)
 			}
 			else{
-				this.partner_list = this.store.partner_list.slice(first_item-1, last_item)
+				this.student_list = this.store.student_list.slice(first_item-1, last_item)
 			}
 		}
 	},
+    mounted(){
+        if(Auth.state.account_type != "Admin") console.log("No access")//this.$router.push({ name: 'Home' });
+        else{
+            this.get_total_pages();
+            this.getStudents();
+        }
+    },
 	watch: {
-		"search_phrase": _.debounce(function(search){this.search_partners(search)}, 500)
+		"search_phrase": _.debounce(function(search){this.search_students(search)}, 500)
 	},
-	mounted(){
-		this.get_total_pages();
-		this.get_partner_list();
-	}
 }
 </script>
 

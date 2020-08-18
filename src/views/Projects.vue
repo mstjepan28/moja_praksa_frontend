@@ -110,7 +110,7 @@ import ProjectCard from '@/components/project_card';
 import Paginate from 'vuejs-paginate';
 
 import store from '@/store.js';
-import { Projects } from '@/services'
+import { Projects, App } from '@/services'
 
 export default {
 	components: {
@@ -145,7 +145,7 @@ export default {
 			this.get_projects();
 		},
 		async get_total_pages(){
-			const total_items = await Projects.getDocAmount();
+			const total_items = await App.getDocAmount();
 			this.total_pages = Math.ceil(total_items.projectsCounter / this.items_per_page);
 		},
 		
