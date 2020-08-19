@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-		<h1 class="title">Moja Praksa</h1>
+		<h1 class="mt-5"><router-link to="/" class="title" style="color: black; text-decoration: none">Moja Praksa</router-link></h1>
 		<h2>Prijava</h2><hr>
 
 		<form v-on:submit.prevent="login">

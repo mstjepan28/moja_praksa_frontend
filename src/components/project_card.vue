@@ -28,6 +28,7 @@ export default {
 	
     margin: 3% auto;
 	display: inline-block;
+	text-align: center;
 
 	color: black;
 	text-decoration: none; 

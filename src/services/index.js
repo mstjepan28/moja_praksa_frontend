@@ -163,7 +163,6 @@ let Projects = {
 }
 
 let Partners = {
-
     async UpdatePartner(partnerInfo, partner_id, update){
         partnerInfo.updateDoc = update
         const result = await Service.patch(`/partners/${partner_id}`, partnerInfo)

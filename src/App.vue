@@ -1,29 +1,28 @@
 <template>
   <div class="container">
     <div v-if="check_route">
-      
-      <div class="row mt-1 h-100">
-        <div class="col-md-8 col-sm-12 my-auto" >
-          <router-link to="/"><img src="@/../public/fipu_hr.png" class="responsive_image" style="max-height: 110px;"></router-link>
-        </div>
+      <div class="row mt-3" style="position: relative; top: 10px">
+        <div v-if="auth.authenticated" class="col-12 text-right">
 
-        <div v-if="auth.authenticated" class="col-md-4 col-sm-0 text-right mt-3 my-auto">
-          <div class="login_form" v-on:click="logout"> Odjava <i class="fas fa-sign-in-alt" aria-hidden="true"></i> </div>
-
-          <div class="login_form" v-if="auth.account_type == 'Student'">
+          <span class="login_form" v-if="auth.account_type == 'Student'">
             <router-link to="UserInfo"> {{auth.user_data.name + " " + auth.user_data.surname}} <i class="fas fa-user"></i> </router-link>
-          </div>
-
-          <div class="login_form" v-else>
+          </span>
+          <span class="login_form" v-else>
             <router-link v-bind:to="'/PartnersInfo/' + auth.user_data._id"> {{auth.user_data.company}} <i class="fas fa-user"></i> </router-link>
-          </div>
+          </span>
+
+          <span class="login_form ml-3" v-on:click="logout"> Odjava <i class="fas fa-sign-in-alt" aria-hidden="true"></i> </span>
         </div>        
 
-        <div v-else class="col-md-4 col-sm-0 text-right mt-3 my-auto">
-          <router-link to="/Signup" class="login_form"> Registracija <i class="fas fa-user-plus"  aria-hidden="true"></i> </router-link><br>
+        <div v-else class="col-12 text-right">
           <router-link to="/Login"  class="login_form"> Prijava <i class="fas fa-sign-in-alt" aria-hidden="true"></i> </router-link>
+          <router-link to="/Signup" class="login_form"> Registracija <i class="fas fa-user-plus"  aria-hidden="true"></i> </router-link>
         </div>
 
+      </div>
+      
+      <div class="row mb-3">
+        <router-link to="/"><img src="@/../public/fipu_hr.png" class="responsive_image" style="max-height: 110px;"></router-link>
       </div>
 
       <nav class="row navbar navbar-expand-lg navbar-light">
@@ -59,7 +58,7 @@
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="border: 1px solid white; background: #6DD0F6">
                 <router-link class="dropdown-item" to="/SelectedProjects">Odabrani projekti</router-link>
-                <router-link class="dropdown-item" to="/ApprovedProject">Odobreni projekti</router-link>
+                <router-link class="dropdown-item" to="/ApprovedProject">Dodijeljeni projekt</router-link>
                 <router-link class="dropdown-item" to="/Instructions">Upute</router-link>
               </div>
             </li>

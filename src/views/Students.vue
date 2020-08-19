@@ -51,14 +51,14 @@
 					</div>
 
 					<div class="dropdownFooter">
-						<button type="submit" class="button_design mr-2" v-on:click="getStudents"> Poništi </button>
+						<button type="submit" class="button_design mr-2" v-on:click="getStudents"> Poništi </button>-->
 					</div>
 				</div>
 			</div>
 		</div>
 	</div><hr>
 
-    <StudentCard :key="i" :info="student_info" v-for="i in [1]"/>
+    <StudentCard v-bind:key="student.id" v-bind:info="student" v-for="student in student_list"/>
 
 	<div class="row d-flex justify-content-center">
 		<paginate
@@ -126,9 +126,6 @@ export default {
 			items_per_page: 3,
 
             sort_values: false,
-            
-
-            student_info: Auth.state.user_data, // TEST
         }
     },
 	methods:{

@@ -38,8 +38,7 @@ export default {
             if(user_data.approved_project) return;
 
             if(!this.store.approved_project) this.store.approved_project = await Projects.getApprovedProject();
-            this.project_info = this.store.project_list[0]
-            //this.project_info = this.store.approved_project
+            this.project_info = undefined//this.store.approved_project
         }
     },
     mounted(){

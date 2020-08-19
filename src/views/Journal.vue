@@ -1,5 +1,23 @@
 <template>
 <div class="journal mt-4">
+    <div class="modal fade" id="response_message" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Predaja dnevnika prakse</h5>
+                </div>
+
+                <div class="modal-body">
+                    <h4>{{response_message}}</h4>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="button_design" v-on:click="$router.push({ name: 'ApprovedProject' })" data-dismiss="modal">Uredu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row"> <h2>Predajte popunjeni dnevnik prakse</h2> </div>
     
     <div class="mt-4">
@@ -59,6 +77,8 @@ export default {
             file_error: false,
             template: false,
 
+            response_message: null,
+
             auth: Auth.state,
         }
     },
@@ -88,12 +108,15 @@ export default {
 
         async upload_journal(){
             const response = await App.upload_journal(this.file_data);
-            console.log(response)
+            this.response_message = response.message || response.error;
+            $('#response_message').modal('show')
         },
 
         async upload_template(){
             const response = await App.upload_template(this.file_data);
             console.log(response)
+            this.response_message = response.message || response.error;
+            $('#response_message').modal('show')
         },
 
         async get_template(){
