@@ -19,7 +19,7 @@
 <script>
 import ProjectCard from '@/components/project_card';
 
-import { Auth, Projects } from '@/services';
+import { Students, Projects } from '@/services';
 import store from '@/store.js';
 
 export default {
@@ -27,13 +27,14 @@ export default {
     data(){
         return{
             store,
+            id: this.$route.params.id,
             selected_projects: false,
         }
     },
     methods:{
 		async getStudents(){
-			//if(!this.store.student_list) this.store.student_list = await Students.getStudents();
-            const student_info = Auth.state.user_data//this.store.student_list.filter(student => student._id == this.id)[0]
+			if(!this.store.student_list) this.store.student_list = await Students.getStudents();
+            const student_info = this.store.student_list.filter(student => student.id == this.id)[0]
             
             if(!this.store.project_list) this.store.project_list = await Projects.getProjects();
             this.selected_projects = this.store.getSelectedProjects(student_info.chosenProjects);
@@ -41,6 +42,7 @@ export default {
     },
     mounted(){
         this.getStudents();
+        //"5f37da990841e12e3c5ebe4c"
     }
 }
 </script>

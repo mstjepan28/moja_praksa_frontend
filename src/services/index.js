@@ -108,9 +108,8 @@ let Students = {
         return result.data;
     },
     async getJournal(id){
-
-        const result = await Service.get('/journal', id)
-        return result.data;        
+        const result = await Service.get(`/journal/${id}`)
+        return result.data.journal;
     }
 }
 
