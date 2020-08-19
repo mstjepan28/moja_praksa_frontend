@@ -42,7 +42,9 @@ export default {
     },
     methods:{
         async getJournal(){
-            const journal = await Students.getJournal(this.info.journalID);
+            
+            const journal = await Students.getJournal(this.info.id);
+            console.log(journal)
             this.downloadJournal(journal);
         },
         downloadJournal(journal){
@@ -57,7 +59,6 @@ export default {
         }
     },
     mounted(){
-
     }
 }
 </script>
