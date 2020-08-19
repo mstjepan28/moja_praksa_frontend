@@ -100,15 +100,15 @@ let Students = {
         let options = {};
         if(search){options.params = {_any: search,};}
 
-        const result = await Service.get('/', options)
+        const result = await Service.get('/students', options)
         return result.data;
     },
     async getOneStudent(id){
-        const result = await Service.get('/', id)
+        const result = await Service.get('/students/:id', id)
         return result.data;
     },
     async getJournal(id){
-        const result = await Service.get('/', id)
+        const result = await Service.get('/journal', id)
         return result.data;        
     }
 }
