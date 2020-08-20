@@ -51,7 +51,9 @@
             <li class="nav-item" v-if="auth.account_type == 'Admin' || true">
               <router-link to="/Students">Studenti</router-link>
             </li>
-
+            <li class="nav-item" v-if="auth.account_type == 'Admin' || true">
+              <router-link to="/AllocateStudent">Alokacija studenata</router-link>
+            </li>
             <li class="nav-item dropdown" v-if="auth.account_type == 'Student'">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 0; color: white">
                 Izvršavanje prakse

@@ -86,7 +86,7 @@ Vue.use(VueRouter)
     component: () => import('../views/Students.vue')
   },
   {
-    path: '/AllocateStudent/:id',
+    path: '/AllocateStudent',
     name: 'AllocateStudent',
     component: () => import('../views/AllocateStudent.vue')
   },

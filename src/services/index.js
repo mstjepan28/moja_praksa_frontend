@@ -114,6 +114,12 @@ let Students = {
 }
 
 let Projects = {
+    async getProjectStudents(id){
+        console.log(id)
+        const result = await Service.get();
+        return result.data;
+    },
+
     async submit_projects(projects){
         const user_data = Auth.getUser();
         const result = await Service.post(`/chosen_projects`, {'user': user_data._id, 'selection': projects});

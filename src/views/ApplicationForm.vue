@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { Auth } from '@/services';
+import { Students } from '@/services';
 import store from '@/store.js';
 
 export default {
@@ -74,8 +74,8 @@ export default {
     },
     methods:{
 		async getStudents(){
-			//if(!this.store.student_list) this.store.student_list = await Students.getStudents();
-            const student_info = Auth.state.user_data//this.store.student_list.filter(student => student._id == this.id)[0]
+			if(!this.store.student_list) this.store.student_list = await Students.getStudents();
+            const student_info = this.store.student_list.filter(student => student.id == this.id)[0]
             this.getApplication(student_info);
         },
         getApplication(student){
