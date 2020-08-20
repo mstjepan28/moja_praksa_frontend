@@ -35,16 +35,9 @@
 import { Students } from "@/services/index.js";
 export default {
     props: ['info'],
-    data(){
-        return{
-
-        }
-    },
     methods:{
         async getJournal(){
-            
-            const journal = await Students.getJournal(this.info.id);
-            console.log(journal)
+            const journal = await Students.getJournal(this.info.journalID);
             this.downloadJournal(journal);
         },
         downloadJournal(journal){
@@ -57,8 +50,6 @@ export default {
 
             fileLink.click();            
         }
-    },
-    mounted(){
     }
 }
 </script>
