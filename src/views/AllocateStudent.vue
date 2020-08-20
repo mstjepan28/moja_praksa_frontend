@@ -17,10 +17,14 @@
 
     <div v-if="isSelected">
         <div class="row text-center h-100">
-            <div class="col my-auto">
-                <span class="priority_selector" :class="{ active: isActive == 1 }" v-on:click="showSelection(1)"> Prvi izbor </span>
-                <span class="priority_selector" :class="{ active: isActive == 2 }" v-on:click="showSelection(2)"> Drugi izbor </span>
-                <span class="priority_selector" :class="{ active: isActive == 3 }" v-on:click="showSelection(3)"> Treči izbor </span>
+            <div class="col-md-4 col-sm-12 my-auto">
+                <div class="priority_selector" :class="{ active: isActive == 1 }" v-on:click="showSelection(1)"> Prvi izbor </div>
+            </div>
+            <div class="col-md-4 col-sm-12 my-auto">
+                <div class="priority_selector" :class="{ active: isActive == 2 }" v-on:click="showSelection(2)"> Drugi izbor </div>
+            </div>
+            <div class="col-md-4 col-sm-12 my-auto">
+                <div class="priority_selector" :class="{ active: isActive == 3 }" v-on:click="showSelection(3)"> Treči izbor </div>
             </div>
         </div><hr>
 
@@ -110,10 +114,10 @@ export default {
 .priority_selector{
     color: #6DD0F6;
     margin: 0 5px;
-    text-decoration: underline;
 }
 .active{
     font-size: 20px;
     font-weight: bold;
+    text-decoration: underline;
 }
 </style>

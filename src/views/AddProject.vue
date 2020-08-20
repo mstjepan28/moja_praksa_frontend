@@ -10,12 +10,14 @@
         <template v-slot:preloader> <flux-preloader /> </template>
     </vue-flux>
     <form v-on:submit.prevent="addProject">
-        <div class="row description mt-3">
+        <div class="row d-flex justify-content-center mt-3">
             <h1 class="title">
                 <input type="text" class="input_wrapper" placeholder="Naziv poduzeća..." v-model="project_info.company" style="text-align: center; width: 100%;" required>
             </h1><br>
             
             <textarea placeholder="Kratak opis projekta..." v-model="project_info.description" style="text-align: center" required></textarea>
+
+            <div class="mt-3" style="text-align: center;">Broj studenata potrebnih za projekt: <input type="number" class="input_wrapper" placeholder="Broj studenata..." v-model="list_size" required></div>
         </div>
 
         <div class="row">
@@ -57,14 +59,18 @@ export default {
 			store,
             auth: Auth.state, 
             
-			project_info: {},
+            project_info: {},
+            list_size:  null,
 		}
     },
     methods:{
+        createList(){
+            this.project_info.allocatedTo = new Array(parseInt(this.list_size)).fill(false);
+        },
         async addProject(){
+            this.createList();
             const user_data = Auth.getUser();
             const result = await Projects.AddProject(this.project_info, user_data._id);
-
             console.log(result);
 
             if(result){
