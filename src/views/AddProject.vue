@@ -67,6 +67,10 @@ export default {
         createList(){
             this.project_info.allocatedTo = new Array(parseInt(this.list_size)).fill(false);
         },
+		async updateLocal(){
+            if(!this.store.project_list) this.store.project_list = await Projects.getProjects();
+            this.store.project_info.push(this.project_info);
+		},
         async addProject(){
             this.createList();
             const user_data = Auth.getUser();
@@ -74,7 +78,7 @@ export default {
             console.log(result);
 
             if(result){
-                this.store.project_info.push(this.project_info);
+                this.updateLocal();
                 this.project_info = {}
                 this.$router.push({ name: 'Projects' });
             }
