@@ -122,7 +122,7 @@ let Projects = {
 
     async submit_projects(projects){
         const user_data = Auth.getUser();
-        const result = await Service.post(`/chosen_projects`, {'user': user_data._id, 'selection': projects});
+        const result = await Service.patch(`/chosen_projects`, {'user': user_data._id, 'selection': projects});
         
         return result.data.result;
     },
@@ -144,7 +144,7 @@ let Projects = {
     },
     async UpdateProject(project_info, id, update){
         project_info.updateDoc = update
-        return await Service.patch(`/projects/${id}`, project_info)
+        return await Service.put(`/projects/${id}`, project_info)
     },
     async AddProject(project_info, userID){
         project_info.userID = userID
@@ -171,7 +171,7 @@ let Projects = {
 let Partners = {
     async UpdatePartner(partnerInfo, partner_id, update){
         partnerInfo.updateDoc = update
-        const result = await Service.patch(`/partners/${partner_id}`, partnerInfo)
+        const result = await Service.put(`/partners/${partner_id}`, partnerInfo)
         return result.data;
     },
     // Brisanje od strane admina iz kolekcije partnera, ne brise se user
@@ -246,6 +246,12 @@ let App = {
     async isPartner(user_data, update){
         user_data.updateDoc = update
         const result = await Service.get('/user', user_data.id)
+        return result.data;
+    },
+
+    async getChosenProjects(id){
+
+        const result = await Service.get(`/chosen_projects`, id);
         return result.data;
     },
 }

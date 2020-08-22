@@ -36,7 +36,7 @@
 			<h1 class="title">
 				<input type="text" class="input_wrapper" placeholder="Naziv poduzeća..." v-model="partners_info.name" style="text-align: center; width: 100%;">
 			</h1><br>
-			<textarea placeholder="Kratak opis projekta..." v-model="partners_info.description" style="text-align: center"></textarea>
+			<textarea placeholder="Kratak opis poduzeća..." v-model="partners_info.description" style="text-align: center"></textarea>
 		</div>
 
 		<div class="row">

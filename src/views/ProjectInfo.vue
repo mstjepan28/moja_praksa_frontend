@@ -52,7 +52,7 @@
 				<input type="text" class="input_wrapper" placeholder="Naziv poduzeća..." v-model="project_info.company" style="text-align: center; width: 100%;">
 			</h1><br>
 			
-			<textarea placeholder="Kratak opis projekta..." v-model="project_info.description" style="text-align: center"></textarea>
+			<textarea placeholder="Kratak opis projekta..." v-model="project_info.project_description" style="text-align: center"></textarea>
 		</div>
 
 		<div class="row">
