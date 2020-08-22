@@ -322,3 +322,8 @@ button > .fas{
     .user_info_input_wrapper{white-space: initial}
     .user_info_input{width: 100%; padding: 0;}
 }
+
+.div_button{
+	user-select: none;
+	cursor: pointer;
+}

@@ -110,16 +110,10 @@ let Students = {
     async getJournal(id){
         const result = await Service.get(`/journal/${id}`)
         return result.data.journal;
-    }
+    },
 }
 
 let Projects = {
-    async getProjectStudents(id){
-        console.log(id)
-        const result = await Service.get();
-        return result.data;
-    },
-
     async submit_projects(projects){
         const user_data = Auth.getUser();
         const result = await Service.patch(`/chosen_projects`, {'user': user_data._id, 'selection': projects});
@@ -166,6 +160,21 @@ let Projects = {
         console.log(info)
         await Service.patch('/', info);
     },
+
+    async getProjectStudents(project_id){
+        console.log(project_id)
+        /*
+        const result = await Service.get()
+        return result.data
+        */  
+    },
+    async asignProject(project_id, student_id){
+        console.log(project_id, student_id)
+        /*
+        const result = await Service.get()
+        return result.data
+        */
+    }
 }
 
 let Partners = {
