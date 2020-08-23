@@ -31,13 +31,19 @@
 
 					<div class="dropdownBody">                   
 						<div class="filter_item">
-							<input type="radio" v-model="sort_values" name="sort_values" :value="{atr: 'company', type: 'string'}"> Naziv poslodavca
+							<input type="radio" v-model="sort_values" name="sort_values" :value="{atr: 'name', type: 'string'}"> Ime studenta
 						</div>
 						<div class="filter_item">
-							<input type="radio" v-model="sort_values" name="sort_values" :value="{atr: false, type: 'number'}"> Pregledi
+							<input type="radio" v-model="sort_values" name="sort_values" :value="{atr: 'surname', type: 'string'}"> Prezime studenta
 						</div>
 						<div class="filter_item">
-							<input type="radio" v-model="sort_values" name="sort_values" :value="{atr: 'date_created', type: 'string'}"> Datum dodavanja
+							<input type="radio" v-model="sort_values" name="sort_values" :value="{atr: 'year', type: 'number'}"> Godine studija
+						</div>
+						<div class="filter_item">
+							<input type="radio" v-model="sort_values" name="sort_values" :value="{atr: 'application', type: 'bool'}"> Prijavnica
+						</div>
+						<div class="filter_item">
+							<input type="radio" v-model="sort_values" name="sort_values" :value="{atr: 'journalId', type: 'bool'}"> Dnevnik prakse
 						</div>
 
 						<div class="row mr-2 ml-2">
@@ -51,7 +57,7 @@
 					</div>
 
 					<div class="dropdownFooter">
-						<button type="submit" class="button_design mr-2" v-on:click="getStudents"> Poništi </button>-->
+						<button type="submit" class="button_design mr-2" v-on:click="getStudents"> Poništi </button>
 					</div>
 				</div>
 			</div>
@@ -133,7 +139,7 @@ export default {
 			if(!this.sort_values) return;
 			this.store.sort_items(this.sort_values, sort_order, "student_list");
 
-			this.get_student_list();
+			this.getStudents();
 		},
 
 		async getStudents(){

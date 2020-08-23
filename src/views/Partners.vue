@@ -34,7 +34,7 @@
 							<input type="radio" v-model="sort_values" name="sort_values" :value="{atr: 'company', type: 'string'}"> Naziv poslodavca
 						</div>
 						<div class="filter_item">
-							<input type="radio" v-model="sort_values" name="sort_values" :value="{atr: false, type: 'number'}"> Pregledi
+							<input type="radio" v-model="sort_values" name="sort_values" :value="{atr: 'views', type: 'number'}"> Pregledi
 						</div>
 						<div class="filter_item">
 							<input type="radio" v-model="sort_values" name="sort_values" :value="{atr: 'date_created', type: 'string'}"> Datum dodavanja

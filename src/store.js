@@ -62,8 +62,9 @@ export default{
     //  Iz sortera se poziva getter funkcija koja vrača sortiranu list(poziva se preko imena funkcije)
     sort_items(sort_values, sort_order, list){
       let sorter = {
-        items: false,
-        atr: false,
+        items: false, // Polje elemenata koje sortiramo
+        atr: false, // Atribut po kojem sortiramo polje
+
         get asc_number(){
           return this.number_sort()
         },
@@ -75,6 +76,12 @@ export default{
         },
         get desc_string(){
           return this.string_sort().reverse()
+        },
+        get asc_bool(){
+          return this.bool_sort()
+        },
+        get desc_bool(){
+          return this.bool_sort().reverse()
         },
         // Funkcije za sortiranje su izdvojene da se ne ponavljaju
         string_sort(){
@@ -91,6 +98,9 @@ export default{
         },
         number_sort(){
           return this.items.sort((a, b) => { return a[this.atr] - b[this.atr] })
+        },
+        bool_sort(){
+          return this.items.sort((a, b) => { return (a[this.atr] ===  b[this.atr])? 0 : a[this.atr]? -1 : 1 })
         }
       }
 

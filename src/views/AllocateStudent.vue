@@ -136,9 +136,11 @@ export default {
             this.selectedStudent = id;
             $('#asignProject').modal('show')
         },
-        asignProject(){
-            this.updateLocalProjects();
-            Projects.asignProject(this.selectedProject, this.selectedStudent);
+        async asignProject(){
+            const project = this.updateLocalProjects();
+
+            const result = await Projects.UpdateProject(project, project.id, 'true');
+			console.log(result);
 
             this.selectedProject = this.selectedStudent = false;
         },
@@ -149,8 +151,9 @@ export default {
             project.allocated_to[project.allocated_to.indexOf(false)] = this.selectedStudent;
 
             this.store.project_list[project_index] = project;
-
             this.getProject();
+
+            return project
         },
         getEmptyPlaces(){
             const project = this.project_list.filter(project => project.id == this.selectedProject)[0];
