@@ -160,21 +160,6 @@ let Projects = {
         console.log(info)
         await Service.patch('/', info);
     },
-
-    async getProjectStudents(project_id){
-        console.log(project_id)
-        /*
-        const result = await Service.get()
-        return result.data
-        */  
-    },
-    async asignProject(project_id, student_id){
-        console.log(project_id, student_id)
-        /*
-        const result = await Service.get()
-        return result.data
-        */
-    }
 }
 
 let Partners = {

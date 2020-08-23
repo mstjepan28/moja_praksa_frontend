@@ -173,7 +173,6 @@ export default {
             user_data.chosenProjects = [this.first_choice.id, this.second_choice.id, this.third_choice.id];
 
             localStorage.setItem('user', JSON.stringify(user_data));
-            console.log(localStorage.getItem('user'))
             this.selectionConfirmed = true;
         },
 

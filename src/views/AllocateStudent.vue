@@ -17,7 +17,7 @@
     <section v-if="project_list" style="text-align: center;">
         <vue-horizontal-list :items="project_list" :options="store.carousel_options" >
             <template v-slot:default="{item}">
-                <div class="card project div_button" v-on:click="showStudents(item.id)">
+                <div class="card project div_button" :class="{ activeProject: selectedProject == item.id }" v-on:click="showStudents(item.id)" >
                     <img class="card-img-top" :src="item.img_url" alt="Card image cap" >
                     
                     <div class="card-body">
@@ -32,13 +32,13 @@
     <div v-if="selectedProject && student_list">
         <div class="row text-center h-100">
             <div class="col-md-4 col-sm-12 my-auto">
-                <div class="priority_selector div_button" :class="{ active: isActive == 1 }" v-on:click="showSelection(1)"> Prvi izbor </div>
+                <div class="priority_selector div_button" :class="{ active: isActive == 1 }" v-on:click="isActive = 1"> Prvi izbor </div>
             </div>
             <div class="col-md-4 col-sm-12 my-auto">
-                <div class="priority_selector div_button" :class="{ active: isActive == 2 }" v-on:click="showSelection(2)"> Drugi izbor </div>
+                <div class="priority_selector div_button" :class="{ active: isActive == 2 }" v-on:click="isActive = 2"> Drugi izbor </div>
             </div>
             <div class="col-md-4 col-sm-12 my-auto">
-                <div class="priority_selector div_button" :class="{ active: isActive == 3 }" v-on:click="showSelection(3)"> Treči izbor </div>
+                <div class="priority_selector div_button" :class="{ active: isActive == 3 }" v-on:click="isActive = 3"> Treći izbor </div>
             </div>
         </div><hr>
 
@@ -51,8 +51,8 @@
         <div v-if="isActive == 1">
             <h4 class="subtitle  mt-3">Prvi izbor:</h4>
             <div class="row" style="border: 2px solid #6DD0F6">
-                <div v-if="student_list.first_choice || true" class="col">
-                    <StudentCardSmall v-on:select_student="confrimAssignment" v-bind:key="student.id" v-bind:info="student" v-for="student in student_list"/>
+                <div v-if="student_list.first_choice" class="col">
+                    <StudentCardSmall v-on:select_student="confrimAssignment" v-bind:key="student.id" v-bind:info="student" v-for="student in student_list.first_choice"/>
                 </div>
                 <div v-else class="no_info_message" style="padding: 40px">
                     Niti jedan student nije ovaj projekt stavio kao prvi izbor
@@ -71,13 +71,13 @@
             </div>
         </div>
         <div v-if="isActive == 3">
-            <h4 class="subtitle mt-3">Treči izbor:</h4>
+            <h4 class="subtitle mt-3">Treći izbor:</h4>
             <div class="row" style="border: 2px solid #6DD0F6">
                 <div v-if="student_list.third_choice" class="col">
                     <StudentCardSmall v-on:select_student="confrimAssignment" v-bind:key="student.id" v-bind:info="student" v-for="student in student_list.third_choice"/>
                 </div>
                 <div v-else class="no_info_message" style="padding: 40px">
-                    Niti jedan student nije ovaj projekt stavio kao treči izbor
+                    Niti jedan student nije ovaj projekt stavio kao treći izbor
                 </div>
             </div>
         </div>    
@@ -113,22 +113,36 @@ export default {
         }
     },
     methods:{
-		async getProject(){
-            if(!this.store.project_list) this.store.project_list = await Projects.getProjects();
-            this.project_list = this.store.project_list.filter(project => project.allocated_to.includes(false))
+        // Dohvati sve projekte
+		async getProjects(){
+            this.store.project_list = await Projects.getProjects();
+            this.project_list = this.store.project_list.filter(project => project.allocated_to.includes(false) && project.selected_by)
         },
+        // Nakon odabira projekta, prikaži studente koji su ga odabrali
         async showStudents(id){
             this.selectedProject = id;
-            this.getStudents();
-            //TEST//this.student_list = await Projects.getProjectStudents(id);
+            const project = this.project_list.filter(project => project.id == id)[0];
+
+            this.student_list = {
+                first_choice: await this.getStudents(project.selected_by.first_priority),
+                second_choice: await this.getStudents(project.selected_by.second_priority),
+                third_choice: await this.getStudents(project.selected_by.third_priority)
+            }
         },
-        //TEST
-		async getStudents(){
+        // Pretvara listu id studenata u objekte 
+        async getStudents(student_ids){
+            if(student_ids == undefined) return false;
+
             if(!this.store.student_list) this.store.student_list = await Students.getStudents();
-			this.student_list = this.store.student_list
-        },
-        showSelection(selection){
-            this.isActive = selection;
+            const students = this.store.student_list
+
+            let result = [];
+            student_ids.forEach(id => {
+                const match = students.filter(student => student.id == id)[0];
+                result.push(match);
+            })
+
+            return result;
         },
 
         // --- Odobravanje projekta --- //
@@ -136,13 +150,11 @@ export default {
             this.selectedStudent = id;
             $('#asignProject').modal('show')
         },
-        async asignProject(){
+        asignProject(){
             const project = this.updateLocalProjects();
+            Projects.UpdateProject(project, project.id, 'true');
 
-            const result = await Projects.UpdateProject(project, project.id, 'true');
-			console.log(result);
-
-            this.selectedProject = this.selectedStudent = false;
+            //this.selectedProject = this.selectedStudent = false;
         },
         updateLocalProjects(){
             const project_index = this.store.project_list.findIndex(project => project.id == this.selectedProject);
@@ -151,10 +163,11 @@ export default {
             project.allocated_to[project.allocated_to.indexOf(false)] = this.selectedStudent;
 
             this.store.project_list[project_index] = project;
-            this.getProject();
+            this.getProjects();
 
             return project
         },
+
         getEmptyPlaces(){
             const project = this.project_list.filter(project => project.id == this.selectedProject)[0];
             return project.allocated_to.filter(element => element == false).length;
@@ -163,12 +176,12 @@ export default {
     async mounted(){
 		/*
         if(Auth.state.account_type != "Admin") this.$router.push({ name: 'Home' });
-        else this.getProject();
+        else this.getProjects();
 		
 		*/
         //TEST
         console.log(Auth.a)
-        this.getProject();
+        this.getProjects();
     }
 }
 </script>
@@ -182,5 +195,10 @@ export default {
     font-size: 20px;
     font-weight: bold;
     text-decoration: underline;
+}
+.activeProject{
+    font-size: 20px;
+    width: 19rem;
+    border: 4px solid #6DD0F6
 }
 </style>
