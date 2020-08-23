@@ -83,10 +83,16 @@
 		<div class="row description">
 			<h1 class="title">{{project_info.company}}</h1><br>
 			<p class="description_text">{{project_info.project_description}}</p><br>
-		</div>
+		</div><hr>
 		
-		<div class="row">
-			<small class="views"><i class="fas fa-eye"></i> Posjećenost: {{project_info.views}}</small> 
+		<div class="row text-center">
+			<div class="col-md-4 col-sm-12">
+				<small class="views"><i class="fas fa-eye"></i> Posjećenost: {{project_info.views}}</small> 	
+			</div>
+			<div class="col-md-4 col-sm-12">
+				<small>Broj studenata potrebnih za ovaj projekt: {{getEmptyPlaces()}}</small>
+			</div>
+			<div class="col-md-4 col-sm-0"></div>
 		</div><hr>
 
 		<div class="row">
@@ -224,7 +230,11 @@ export default {
 				if(result.length == 1) this.project_selected = true;
 				else this.project_selected = false;
 			}
-		}
+		},
+
+        getEmptyPlaces(){
+            return this.project_info.allocated_to.filter(element => element == false).length;
+        }
 	},
 	computed:{
 		canSelectProject(){

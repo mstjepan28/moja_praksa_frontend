@@ -109,5 +109,9 @@ export default{
         result.push(match);
       })
       return result;
+    },
+
+    getEmptyPlaces(allocated_to){
+      return allocated_to.filter(element => element == false).length;
     }
 }

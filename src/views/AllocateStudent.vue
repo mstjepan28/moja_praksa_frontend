@@ -42,6 +42,12 @@
             </div>
         </div><hr>
 
+        <div class="row text-center">
+            <div class="col">
+                <small>Broj studenata potrebnih za ovaj projekt: {{getEmptyPlaces()}}</small>
+            </div>
+        </div><hr>
+
         <div v-if="isActive == 1">
             <h4 class="subtitle  mt-3">Prvi izbor:</h4>
             <div class="row" style="border: 2px solid #6DD0F6">
@@ -124,14 +130,32 @@ export default {
         showSelection(selection){
             this.isActive = selection;
         },
+
+        // --- Odobravanje projekta --- //
         confrimAssignment(id){
             this.selectedStudent = id;
             $('#asignProject').modal('show')
         },
         asignProject(){
-            Projects.asignProject(this.selectedProject, this.selectedStudent)
-        },
+            this.updateLocalProjects();
+            Projects.asignProject(this.selectedProject, this.selectedStudent);
 
+            this.selectedProject = this.selectedStudent = false;
+        },
+        updateLocalProjects(){
+            const project_index = this.store.project_list.findIndex(project => project.id == this.selectedProject);
+            const project = this.store.project_list[project_index]
+
+            project.allocated_to[project.allocated_to.indexOf(false)] = this.selectedStudent;
+
+            this.store.project_list[project_index] = project;
+
+            this.getProject();
+        },
+        getEmptyPlaces(){
+            const project = this.project_list.filter(project => project.id == this.selectedProject)[0];
+            return project.allocated_to.filter(element => element == false).length;
+        }
     },
     async mounted(){
 		/*
