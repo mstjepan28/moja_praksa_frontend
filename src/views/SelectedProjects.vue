@@ -147,7 +147,7 @@
 
 <script>
 import store from '@/store.js';
-import { Projects, Auth } from '@/services'
+import { Projects, Auth, App } from '@/services'
 
 export default {
     name: 'SelectedProjects',
@@ -216,11 +216,13 @@ export default {
             this.set_projects();
         },
 
-        // Cita projekte iz localstorage i sortira ih po prioritetu
+        // Ako su projekti odabrani i potrveni dohvati ih iz baze, ako su projekti odabrani ali nisu potvrdeni dohvati ih iz localstorage
         async get_projects(){
-            if(this.selectionConfirmed){
+            const project_ids = await App.getChosenProjects(this.auth.user_data._id);
+
+            if(project_ids.length){
                 if(!this.store.project_list) this.store.project_list = await Projects.getProjects();
-                this.project_list = this.store.getSelectedProjects(this.auth.user_data.chosenProjects);
+                this.project_list = this.store.getSelectedProjects(project_ids);
             }
             else{
                 this.project_list = JSON.parse(localStorage.getItem('selected_projects'));

@@ -244,8 +244,8 @@ let App = {
     },
 
     async getChosenProjects(id){
-
-        const result = await Service.get(`/chosen_projects`, id);
+        const result = await Service.get(`/chosen_projects/${id}`);
+        //const result = await Service.get(`/chosen_projects`, id);
         return result.data;
     },
 }
