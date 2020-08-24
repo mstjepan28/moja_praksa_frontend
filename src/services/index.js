@@ -156,7 +156,6 @@ let Projects = {
         return result.data;
     },
     async addProjectView(info){
-        console.log(info)
         await Service.patch('/', info);
     },
 }
@@ -236,16 +235,13 @@ let App = {
         return result.data;
     },
 
-    async isPartner(user_data, update){
-        user_data.updateDoc = update
-        const result = await Service.get('/user', user_data.id)
-        console.log(result.data)
-        return result.data;
+    async isPartner(user_data){
+        const result = await Service.get(`/check_partner/${user_data._id}`)
+        return {...user_data, ...result.data};
     },
 
     async getChosenProjects(id){
         const result = await Service.get(`/chosen_projects/${id}`);
-        //const result = await Service.get(`/chosen_projects`, id);
         return result.data;
     },
 }

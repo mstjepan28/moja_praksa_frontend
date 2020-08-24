@@ -15,7 +15,7 @@
                 <input type="text" class="input_wrapper" placeholder="Naziv poduzeća..." v-model="project_info.company" style="text-align: center; width: 100%;" required>
             </h1><br>
             
-            <textarea placeholder="Kratak opis projekta..." v-model="project_info.description" style="text-align: center" required></textarea>
+            <textarea placeholder="Kratak opis projekta..." v-model="project_info.project_description" style="text-align: center" required></textarea>
 
             <div class="mt-3" style="text-align: center;">Broj studenata potrebnih za projekt: <input type="number" class="input_wrapper" placeholder="Broj studenata..." v-model="list_size" required></div>
         </div>
@@ -69,7 +69,7 @@ export default {
         },
 		async updateLocal(){
             if(!this.store.project_list) this.store.project_list = await Projects.getProjects();
-            this.store.project_info.push(this.project_info);
+            this.store.project_list.push(this.project_info);
 		},
         async addProject(){
             this.createList();

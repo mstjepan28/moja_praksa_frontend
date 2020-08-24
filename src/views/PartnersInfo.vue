@@ -1,14 +1,73 @@
 <template>
 <div v-if="partners_info">
     <div class="modal fade" id="deletePartner" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document" style="text-align: center">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <h4 class="modal-body">
-                    Jeste li sigurni da želite nastaviti sa brisanjem?
-                </h4>
-                <div class="modal-footer" style="display: inline-block; margin: 0 auto;">
-                    <button type="button" v-on:click="delete_partner" class="alert_button" data-dismiss="modal" data-toggle="modal" data-target="#DeleteConfirmation">Pošalji odabir</button>
-                    <button type="button" class="disabled_button" data-dismiss="modal">Odustani</button>
+            
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Upišite vašu lozinku za potvrdu brisanja</h5>
+                </div>
+
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group application_form_element">
+                            <input v-model="current_password" type="password" placeholder="Upišite lozinku..." class="application_input" required>
+                        </div>
+                    </form>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="disabled_button" data-dismiss="modal">Zatvori</button>
+                    <button v-on:click="delete_partner" type="button" class="alert_button" data-dismiss="modal"> Izbriši moj račun </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="change_password_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Promjena lozinke</h5>
+                </div>
+                <form v-on:submit.prevent="change_password">
+                    <div class="modal-body">
+                        <input v-model="current_password"  type="password" placeholder="Dosadašnja lozinka..." class="application_input" required><hr>
+
+                        <input v-model="new_password" type="password" placeholder="Nova lozinka..." class="application_input" required>
+                        <input v-model="confirm_password" type="password" placeholder="Potvrite novu lozinku..." class="application_input mt-2" required>
+                    </div>
+
+                    <div class="d-flex justify-content-center" style="widht: 100%">
+                        <small v-if="error_message" style="color: red">{{error_message}}</small>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="disabled_button" data-dismiss="modal">Zatvori</button>
+                        <button type="submit" class="button_design" > Promjeni lozinku </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="error_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Došlo je do greške!</h5>
+                </div>
+
+                <div class="modal-body">
+                    <h4>{{modal_error}}</h4>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="button_design" data-dismiss="modal">Uredu</button>
                 </div>
             </div>
         </div>
@@ -25,18 +84,17 @@
 
 	<div v-if="edit_enabled">
 		<div class="row option_buttons mt-3">
-			<div class="col-md-8"></div>
-			<div class="col-md-4">
-				<button type="button" class="button_design" v-on:click="update_partner"> Pohrani promjene </button>
-				<button type="button" class="disabled_button" v-on:click="switch_edit"> Odustani </button>
+			<div class="col text-right">
+				<button type="button" class="disabled_button mr-3" v-on:click="edit_enabled = !edit_enabled"> Odustani </button>
+				<button type="button" class="alert_button" v-on:click="update_partner"> Pohrani promjene </button>
 			</div>
 		</div>
 
-		<div class="row description">
+		<div class="row text-center">
 			<h1 class="title">
-				<input type="text" class="input_wrapper" placeholder="Naziv poduzeća..." v-model="partners_info.name" style="text-align: center; width: 100%;">
+				<input type="text" class="input_wrapper" placeholder="Naziv poduzeća..." v-model="partners_info.company" style="text-align: center; width: 100%;">
 			</h1><br>
-			<textarea placeholder="Kratak opis poduzeća..." v-model="partners_info.description" style="text-align: center"></textarea>
+			<textarea placeholder="Kratak opis poduzeća..." v-model="partners_info.about_us" style="text-align: center"></textarea>
 		</div>
 
 		<div class="row">
@@ -47,7 +105,7 @@
 			<h4 class="subtitles">Projekti:</h4>
 		</div>
 		<div v-if="project_list">
-			<section style="text-align: center;">
+			<section class="text-center">
 				<vue-horizontal-list :items="project_list" :options="store.carousel_options">
 					<template v-slot:default="{item}">
 						<router-link v-bind:to="'/ProjectInfo/' + item.id" class="card project">
@@ -89,25 +147,28 @@
 				<span class="col-6"><i class="fas fa-link" style="color: white;"></i> Website: </span>
 				<input type="text" class="col-6" placeholder="http://mojastranica.com/..." v-model="partners_info.website">
 			</div>
-		</div>
+		</div><hr>
+
+        <div class="mt-3 d-flex justify-content-center">
+            <button style="color: #6DD0F6; font-weight: bold" data-toggle="modal" data-target="#change_password_modal"> Promjeni lozniku </button>
+            <button style="color: red; font-weight: bold" data-toggle="modal" data-target="#deletePartner"> Izbriši moj račun </button>
+        </div>
 	</div>
 
 	<div v-else>
-		<div class="row option_buttons mt-3">
-			<div class="col-md-8"></div>
-			<div class="col-md-4 text-right">
-				<button type="button" class="button_design mr-3" v-on:click="switch_edit"> Uredi </button>
-				<button type="button" class="alert_button" data-toggle="modal" data-target="#deletePartner"> Izbriši </button>
+		<div v-if="canEdit" class="row option_buttons mt-3">
+			<div class="col text-right">
+				<button type="button" class="button_design mr-3" v-on:click="edit_enabled = !edit_enabled"> Uredi </button>
 			</div>
 		</div>
 
-		<div class="row description">
-			<h1 class="title">{{partners_info.company}}</h1><br>
+		<div class="row text-center">
+			<h1 class="title" style="margin-top: 0">{{partners_info.company}}</h1><br>
 			<p class="description_text">{{partners_info.about_us}}</p>
-		</div>
+		</div><hr>
 
 		<div class="row">
-			<small class="views"><i class="fas fa-eye"></i> Posjećenost: {{partners_info.views}}</small> 
+			<small class="col text-center views"><i class="fas fa-eye"></i> Posjećenost: {{partners_info.views}}</small> 
 		</div><hr>
 
 		<div class="row">
@@ -119,10 +180,10 @@
 		</div>
 
 		<div v-if="project_list">
-			<section style="text-align: center;">
+			<section class="text-center">
 				<vue-horizontal-list :items="project_list" :options="store.carousel_options">
 					<template v-slot:default="{item}">
-						<router-link v-bind:to="'/ProjectInfo/' + item.id" class="card project">
+						<router-link v-bind:to="'/ProjectInfo/' + item._id" class="card project">
 							<img class="card-img-top" v-bind:src="item.img_url" alt="Card image cap" >
 							
 							<div class="card-body">
@@ -147,9 +208,9 @@
 			<h4 class="subtitles">Kontakti:</h4>
 		</div>
 		
-		<div class="row" style="text-align: center">
-			<div class="col"><h5>Broj telefona: {{partners_info.telephone_number}}</h5></div>
-			<div class="col"><h5>Email adresa: {{partners_info.contact_email}}</h5></div>
+		<div class="row">
+			<div class="col-md-6 col-sm-12 text-center"><h5>Broj telefona: {{partners_info.telephone_number}}</h5></div>
+			<div class="col-md-6 col-sm-12 text-center"><h5>Email adresa: {{partners_info.contact_email}}</h5></div>
 		</div><hr>
 
 		<div class="row" style="text-align: center">
@@ -185,7 +246,14 @@ export default {
 			id: this.$route.params.id,
 			partners_info: false,
 			project_list: false,
-			edit_enabled: false
+
+			modal_error: false,
+			error_message: false,
+			edit_enabled: false,
+
+            current_password: undefined,
+            new_password: undefined,
+            confirm_password: undefined,
 		}
 	},
 	methods:{
@@ -236,7 +304,8 @@ export default {
 		},
 
 		async delete_partner(){
-			const response = Partners.DeletePartner(this.$route.params.id, 'false');
+			/*
+			const response = Partners.DeletePartner(this.id, 'false');
 			if(response){
 				this.store.partner_list = this.store.partner_list.filter(partner => partner.id != this.id);
 				
@@ -246,12 +315,42 @@ export default {
 				}
 				else this.$router.push({ name: 'Partners' });
 			}
+			*/
 		},
 
-		switch_edit(){
-			if(this.edit_enabled) this.edit_enabled = false;
-			else this.edit_enabled = true
+        passwordCheck(){
+            if(this.current_password == this.new_password){
+                this.error_message = "Nova lozinka mora biti različita od dosadašnje";
+                return false;
+            }
+            if(this.new_password != this.confirm_password){
+                this.error_message = "Ponovno upisana lozinka se ne podudara";
+                return false; 
+            }
+            return true;
 		},
+		
+        async change_password(){
+            if(!this.passwordCheck()) return;
+            $('#change_password_modal').modal('hide')
+            
+            const result = await Auth.changePassword({'oldPassword': this.current_password, 'newPassword': this.new_password});
+            if(!result){
+                this.modal_error = "Prilikom pokušaja promjene lozinke došlo je do greške";
+                $('#error_modal').modal('show')
+            }
+
+            this.current_password = this.new_password = this.confirm_password = undefined;
+            this.edit_enabled = false;
+        },
+	},
+	computed:{
+		canEdit(){
+			const user_data = Auth.state.user_data;
+			if(user_data._id == this.id) return true;
+			
+			return false;
+		}
 	},
 	mounted(){
 		if(Auth.isAuthenticated()){

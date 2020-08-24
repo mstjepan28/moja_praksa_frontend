@@ -32,7 +32,7 @@
         </button>
         
         <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav d-flex justify-content-center">
+          <ul class="navbar-nav d-flex justify-content-center text-center">
             <li class="nav-item">
               <router-link to="/">Naslovnica</router-link>
             </li>
