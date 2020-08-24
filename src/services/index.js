@@ -41,9 +41,10 @@ let Auth = {
         const response = await Service.post('/login', login_info)
 
         if(response.data){
-            const user = response.data
+            let user = response.data
 
             if(user.account_type == 'Student') user.chosenProjects = await App.getChosenProjects(user._id);
+            if(user.account_type == 'Poslodavac') user = await App.isPartner(user);
             
             localStorage.setItem('user', JSON.stringify(user));
             localStorage.setItem('selected_projects', JSON.stringify([]));
@@ -238,6 +239,7 @@ let App = {
     async isPartner(user_data, update){
         user_data.updateDoc = update
         const result = await Service.get('/user', user_data.id)
+        console.log(result.data)
         return result.data;
     },
 
