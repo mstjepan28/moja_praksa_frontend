@@ -304,18 +304,18 @@ export default {
 		},
 
 		async delete_partner(){
-			/*
-			const response = Partners.DeletePartner(this.id, 'false');
-			if(response){
-				this.store.partner_list = this.store.partner_list.filter(partner => partner.id != this.id);
-				
-				if(Auth.state.account_type == "Poslodavac"){
-					Auth.logout();
-					this.$router.push({ name: 'Login' });
-				}
-				else this.$router.push({ name: 'Partners' });
+			if(Auth.state.account_type == 'Admin') this.current_password = true;
+
+			const response = Partners.DeletePartner({'_id': this.id, 'password': this.current_password}, 'false');
+			if(!response) return;
+
+			this.store.partner_list = this.store.partner_list.filter(partner => partner.id != this.id);
+			
+			if(Auth.state.account_type == "Poslodavac"){
+				Auth.logout();
+				this.$router.push({ name: 'Login' });
 			}
-			*/
+			else this.$router.push({ name: 'Partners' });
 		},
 
         passwordCheck(){
