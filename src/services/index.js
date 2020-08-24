@@ -143,11 +143,9 @@ let Projects = {
         
         return await Service.post('/projects', project_info)
     },
-    async DeleteProject(project_id, update){
-        let partnerInfo = {
-            updateDoc : update
-        }
-        return await Service.delete(`/projects/${project_id}`, partnerInfo)
+    async DeleteProject(project_id){
+
+        return await Service.delete(`/projects/${project_id}`)
     },
     async getApprovedProject(){    
         const result = await Service.get(`/approved_project`);
@@ -167,11 +165,9 @@ let Partners = {
         return result.data;
     },
     // Brisanje od strane admina iz kolekcije partnera, ne brise se user
-    async DeletePartner(partner_id, update){
-        let partnerInfo = {
-            updateDoc : update
-        }
-        const result = await Service.delete(`/partners/${partner_id}/`, partnerInfo);
+    async DeletePartner(partner_id){
+    
+        const result = await Service.delete(`/partners/${partner_id}/`);
         return result.data;
     },
     async CreatePartner(new_partner){

@@ -110,7 +110,7 @@
 
 				<div class="input_wrapper input_form_margin">
 					<span><i class="fas fa-map-marker-alt"></i></span>
-					<input v-model="new_user.adress" type="text" placeholder="Adreasa..." />
+					<input v-model="new_user.adress" type="text" placeholder="Adresa..." />
 				</div>
 			</div>
 			<div class="col-md-2 col-sm-0"></div><div class="w-100"></div>

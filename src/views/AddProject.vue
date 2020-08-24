@@ -86,7 +86,7 @@ export default {
     },
     mounted(){
         const user_type = this.auth.account_type;
-        if(!(user_type == "Company" || user_type == "Admin")) console.log("No access")//this.$router.push({ name: 'Home' });
+        if(!(user_type == "Poslodavac" || user_type == "Admin")) console.log("No access")//this.$router.push({ name: 'Home' });
     }
 
 }
