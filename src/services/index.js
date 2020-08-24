@@ -239,7 +239,7 @@ let App = {
 
     async isPartner(user_data, update){
         user_data.updateDoc = update
-        const result = await Service.get('/user', user_data.id)
+        const result = await Service.get(`/check_partner/${user_data.id}`)
         return result.data;
     },
 
