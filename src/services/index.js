@@ -29,7 +29,6 @@ Service.interceptors.response.use(
     }
 );
 
-
 let Auth = {
     async register(new_user){
         //pass ide preko SSL-a pa ga nije nužno heshirati
@@ -43,6 +42,8 @@ let Auth = {
 
         if(response.data){
             const user = response.data
+
+            if(user.account_type == 'Student') user.chosenProjects = await App.getChosenProjects(user._id);
             
             localStorage.setItem('user', JSON.stringify(user));
             localStorage.setItem('selected_projects', JSON.stringify([]));
@@ -50,8 +51,7 @@ let Auth = {
             return true
         }
         console.log("Failed to login!")
-        return false
-              
+        return false    
     },
 
     async changePassword(userData){
@@ -91,8 +91,6 @@ let Auth = {
             return false;
         }
     },
-
-  
 }
 
 let Students = {

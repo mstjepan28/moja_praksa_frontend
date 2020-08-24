@@ -65,7 +65,7 @@ export default {
     },
     methods:{
         createList(){
-            this.project_info.allocatedTo = new Array(parseInt(this.list_size)).fill(false);
+            this.project_info.allocated_to = new Array(parseInt(this.list_size)).fill(false);
         },
 		async updateLocal(){
             if(!this.store.project_list) this.store.project_list = await Projects.getProjects();

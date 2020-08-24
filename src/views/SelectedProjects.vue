@@ -147,7 +147,7 @@
 
 <script>
 import store from '@/store.js';
-import { Projects, Auth, App } from '@/services'
+import { Projects, Auth } from '@/services'
 
 export default {
     name: 'SelectedProjects',
@@ -195,7 +195,6 @@ export default {
             this.update_projects(selected_projects)
             this.set_projects();
         },
-
         // Mijenja prioritet svakog projekta za -1
         shift_priority_negative(projectid){
             let selected_projects = this.project_list;
@@ -216,25 +215,34 @@ export default {
             this.set_projects();
         },
 
+        // Update projekata u localstorage
+        update_projects(selected_projects){
+            selected_projects.sort(function (a, b){return a.priority - b.priority})
+            localStorage.setItem('selected_projects', JSON.stringify(selected_projects));
+        },
+        // Ukloni projekt iz liste odabranih
+		unselect_project(choice, projectid){
+            this.project_list = this.project_list.filter(project => project.id != projectid);
+            this.project_list.map((project, index) => project.priority = index + 1);
+
+            this.update_projects(this.project_list);
+            
+            if(choice == 'first_choice') this.first_choice = false;
+            else if(choice == 'second_choice') this.second_choice = false;
+            else if(choice == 'third_choice') this.third_choice = false;
+        },
+
         // Ako su projekti odabrani i potrveni dohvati ih iz baze, ako su projekti odabrani ali nisu potvrdeni dohvati ih iz localstorage
         async get_projects(){
-            const project_ids = await App.getChosenProjects(this.auth.user_data._id);
-
-            if(project_ids.length){
+            if(this.selectionConfirmed){
                 if(!this.store.project_list) this.store.project_list = await Projects.getProjects();
-                this.project_list = this.store.getSelectedProjects(project_ids);
+                this.project_list = this.store.getSelectedProjects(this.auth.user_data.chosenProjects);
             }
             else{
                 this.project_list = JSON.parse(localStorage.getItem('selected_projects'));
                 this.project_list.sort(function (a, b){return a.priority - b.priority})                
             }
         },
-        // Update projekata u localstorage
-        update_projects(selected_projects){
-            selected_projects.sort(function (a, b){return a.priority - b.priority})
-            localStorage.setItem('selected_projects', JSON.stringify(selected_projects));
-        },
-
         // Dohvati i postavi projekte u varijable
         async set_projects(){
             await this.get_projects();
@@ -243,19 +251,7 @@ export default {
             this.first_choice = this.project_list[0];
             this.second_choice = this.project_list[1];
             this.third_choice = this.project_list[2];
-        },
-
-        // Ukloni projekt iz liste odabranih
-		unselect_project(choice, projectid){
-            this.project_list = this.project_list.filter(project => project.id != projectid);
-            this.project_list.map((project, index) => project.priority = index+1);
-
-            this.update_projects(this.project_list);
-            
-            if(choice == 'first_choice') this.first_choice = false;
-            else if(choice == 'second_choice') this.second_choice = false;
-            else if(choice == 'third_choice') this.third_choice = false;
-        },
+        },          
     },
     mounted(){
         const user_type = this.auth.account_type;
