@@ -69,7 +69,7 @@ export default {
         },
 		async updateLocal(){
             if(!this.store.project_list) this.store.project_list = await Projects.getProjects();
-            this.store.project_info.push(this.project_info);
+            this.store.project_list.push(this.project_info);
 		},
         async addProject(){
             this.createList();

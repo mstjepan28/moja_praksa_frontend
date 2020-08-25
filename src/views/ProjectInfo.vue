@@ -40,10 +40,9 @@
 
 	<div v-if="edit_enabled">
 		<div class="row option_buttons mt-3">
-			<div class="col-md-8"></div>
-			<div class="col-md-4">
+			<div class="col text-right">
+				<button type="button" class="disabled_button mr-3" v-on:click="edit_enabled = !edit_enabled"> Odustani </button>
 				<button type="button" class="button_design" v-on:click="update_project"> Pohrani promjene </button>
-				<button type="button" class="disabled_button" v-on:click="switch_edit"> Odustani </button>
 			</div>
 		</div>
 
@@ -73,9 +72,9 @@
 	</div>
 
 	<div v-else>
-		<div class="row option_buttons mt-2 h-100">
-			<div class="col-12 text-right my-auto">
-				<button type="button" class="button_design mr-3" v-on:click="switch_edit"> Uredi </button>
+		<div v-if="canEdit" class="row option_buttons mt-3">
+			<div class="col text-right">
+				<button type="button" class="button_design mr-3" v-on:click="edit_enabled = !edit_enabled"> Uredi </button>
 				<button type="button" class="alert_button" v-on:click="delete_project" data-toggle="modal" data-target="#deleteProject"> Izbriši </button>
 			</div>
 		</div>
@@ -238,9 +237,14 @@ export default {
 	},
 	computed:{
 		canSelectProject(){
-			const user = Auth.state.user_data;
-			if(user.account_type == "Student" && !user.chosenProjects) return true;
+			const user_data = Auth.state.user_data;
+			if(user_data.account_type == "Student" && !user_data.chosenProjects) return true;
 			else return false;
+		},
+		canEdit(){
+			const user_data = Auth.state.user_data;
+			if(user_data._id == this.id) return true;
+			return false;
 		}
 	},
 	mounted(){

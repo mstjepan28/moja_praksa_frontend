@@ -41,9 +41,10 @@ let Auth = {
         const response = await Service.post('/login', login_info)
 
         if(response.data){
-            const user = response.data
+            let user = response.data
 
             if(user.account_type == 'Student') user.chosenProjects = await App.getChosenProjects(user._id);
+            if(user.account_type == 'Poslodavac') user = await App.isPartner(user);
             
             localStorage.setItem('user', JSON.stringify(user));
             localStorage.setItem('selected_projects', JSON.stringify([]));
@@ -153,7 +154,6 @@ let Projects = {
         return result.data;
     },
     async addProjectView(info){
-        console.log(info)
         await Service.patch('/', info);
     },
 }
@@ -231,15 +231,13 @@ let App = {
         return result.data;
     },
 
-    async isPartner(user_data, update){
-        user_data.updateDoc = update
-        const result = await Service.get(`/check_partner/${user_data.id}`)
-        return result.data;
+    async isPartner(user_data){
+        const result = await Service.get(`/check_partner/${user_data._id}`)
+        return {...user_data, ...result.data};
     },
 
     async getChosenProjects(id){
         const result = await Service.get(`/chosen_projects/${id}`);
-        //const result = await Service.get(`/chosen_projects`, id);
         return result.data;
     },
 }
