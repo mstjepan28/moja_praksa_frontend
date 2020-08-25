@@ -64,6 +64,9 @@
                 <router-link class="dropdown-item" to="/Instructions">Upute</router-link>
               </div>
             </li>
+            <li class="nav-item" v-if="!auth.account_type">
+              <router-link to="/AllocateStudent">Alokacija studenata</router-link>
+            </li>
 
           </ul>
         </div>
