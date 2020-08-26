@@ -3,8 +3,8 @@
     <div class="row h-100">
         <div class="col-md-1 col-sm-0"></div>
         <div class="col-md-3 col-sm-12 my-auto">
-            <img v-if="info.avatar" class="profile_img" :src="info.avatar"/>
-            <img v-else class="profile_img img-fluid" src="@/assets/Default.png" alt="Your profile picture"/>
+            <img v-if="info.avatar" class="card-img-top profile_img" :src="info.avatar"/>
+            <img v-else class="card-img-top profile_img img-fluid" src="@/assets/Default.png" alt="Your profile picture"/>
         </div>
         <div class="col-md-7 col-sm-12 my-auto student_info">
             <div class="user_info_input_wrapper"><span class="user_info_label">Ime i prezime:</span> {{info.name + " " + info.surname}}</div>
