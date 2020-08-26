@@ -140,7 +140,6 @@ footer{
   margin: 0 4% 0 0;
   white-space: nowrap;
 }
-
 .nav-item > a{
   font-size: 16px;
   color: white;
@@ -153,5 +152,12 @@ footer{
 .dropdown-item:hover{
   color: white;
   background: #A0E0F6;
+}
+
+@media only screen and (max-width: 991px) {
+  .nav-item{
+    margin: 0.5rem 0;
+    text-decoration: underline;
+  }
 }
 </style>

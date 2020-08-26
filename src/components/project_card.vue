@@ -39,4 +39,11 @@ export default {
 	color: black;
 	text-decoration: none; 
 }
+@media only screen and (max-width: 767px) {
+	.project{width: 11rem}
+	.card-text{
+		min-height: 100px;
+		max-height: 100px;
+	}
+}
 </style>

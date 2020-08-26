@@ -243,7 +243,7 @@ export default {
 		},
 		canEdit(){
 			const user_data = Auth.state.user_data;
-			if(user_data._id == this.id) return true;
+			if(user_data._id == this.project_info.partnerID) return true;
 			return false;
 		}
 	},

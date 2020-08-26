@@ -14,7 +14,7 @@
 		<div class="col-md-7 col-sm-0"></div>
 
 		<div class="col-md-4 col-sm-12 my-auto mt-3">
-			<div class="input_wrapper">
+			<div class="input_wrapper d-flex justify-content-center">
 				<input type="text" placeholder="Pretraživanje..." v-model="search_phrase"/>
 				<span><i class="fas fa-search"></i></span>
 			</div>
@@ -132,7 +132,7 @@ export default {
 			prev: "Prethodna",
 			next: "Sljedeća",
 			page: 1,
-			items_per_page: 9,
+			items_per_page: 6,
 
 			sort_values: false,
 		}
