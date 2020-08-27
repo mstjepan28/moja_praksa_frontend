@@ -161,8 +161,7 @@ let Projects = {
 let Partners = {
     async UpdatePartner(partnerInfo, partner_id, update){
         partnerInfo.updateDoc = update
-        
-        console.log(partner_id)
+ 
         const result = await Service.put(`/partners/${partner_id}`, partnerInfo)
         return result.data;
     },
