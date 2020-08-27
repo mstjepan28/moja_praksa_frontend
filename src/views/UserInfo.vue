@@ -78,7 +78,7 @@
             <div class="modal-content">
 
                 <div class="modal-body">
-					<GalleyEditor/>
+					<GalleyEditor v-on:close_gallery="close_gallery"/>
                 </div>
 
             </div>
@@ -89,7 +89,7 @@
         <div class="row mt-3">
             <div class="col text-right"> 
                 <button class="button_design mr-3" v-on:click="update_user"> Pohrani promjene </button>
-                <button class="disabled_button" v-on:click="switch_edit"> Odustani </button>
+                <button class="disabled_button" v-on:click="edit_enabled = !edit_enabled"> Odustani </button>
             </div>
         </div>
         <div class="row h-100 mt-2">
@@ -126,7 +126,7 @@
     <div v-else>
         <div class="row mt-3">
             <div class="col text-right"> 
-                <button class="button_design" v-on:click="switch_edit"> Uredi </button>
+                <button class="button_design" v-on:click="edit_enabled = !edit_enabled"> Uredi </button>
             </div>
         </div>
         <div class="row h-100">
@@ -228,6 +228,10 @@ export default {
             this.current_password = this.new_password = this.confirm_password = undefined;
             this.edit_enabled = false;
         },
+		close_gallery(){
+            this.user_data = Auth.getUser();
+			$('#galleryEditorModal').modal('hide')
+		}
     },
 	watch:{
 		"error_message": _.debounce(function(){this.error_message = false}, 5000)

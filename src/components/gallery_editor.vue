@@ -1,8 +1,9 @@
 <template>
 <div>
-    <div v-if="finished">
-        <h2>Dodana nova slika!</h2>
-        <div class="row"><div class="col button_design div_button" v-on:click="$emit('close_galley')"> Uredu </div></div>
+    <div v-if="finished" class="text-center finished" :style="{'background-image': 'url(' + imgUrl + ')'}">
+        <h2 style="background-color: rgba(0, 0, 0, 0.7)">Dodana nova slika!</h2>
+
+        <button class="row col button_design mt-5" v-on:click="closeGallery"> Uredu </button>
     </div>
 
     <div v-if="user_data.account_type == 'Poslodavac' && !finished" class="journal">
@@ -143,6 +144,7 @@ export default {
 
             finished: false,
             isActive: 'logo',
+            imgUrl: null
         }
     },
     methods: {
@@ -158,7 +160,6 @@ export default {
             this.updateUser({ name: fileName, imgUrl: imgUrl});
         },
         updateUser(newImage){
-
             let update_user = {
                 user: false,
 
@@ -192,7 +193,12 @@ export default {
             const updated_user = update_user[this.user_data.account_type + "_" + this.isActive];
             localStorage.setItem('user', JSON.stringify(updated_user));
 
+            this.imgUrl = newImage.imgUrl;
             this.finished = true;
+        },
+        closeGallery(){
+            this.finished = false;
+            this.$emit('close_gallery');
         }
     }
 }
@@ -216,5 +222,16 @@ export default {
 }
 .border-bottom{
     border-radius: 0 0 10px 10px;
+}
+
+.finished{
+    padding: 1.5rem 1rem;
+
+    color: white;
+
+    border-radius: 10px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 </style>

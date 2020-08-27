@@ -31,7 +31,7 @@
             <div class="modal-content">
 
                 <div class="modal-body">
-					<GalleyEditor/>
+					<GalleyEditor v-on:close_gallery="close_gallery"/>
                 </div>
 
             </div>
@@ -313,7 +313,7 @@ export default {
 		async update_partner(){
 			console.log('pozivam se')
 			const response = Partners.UpdatePartner(this.partners_info, this.$route.params.id, 'true');
-			
+
 			if(response){
 				const partner_index = this.store.partner_list.findIndex(partner => partner.id == this.id);
 				this.store.partner_list[partner_index] = this.partners_info;
@@ -360,7 +360,10 @@ export default {
 
             this.current_password = this.new_password = this.confirm_password = undefined;
             this.edit_enabled = false;
-        },
+		},
+		close_gallery(){
+			$('#asignProject').modal('hide')
+		}
 	},
 	computed:{
 		canEdit(){
