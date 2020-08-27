@@ -161,13 +161,13 @@ let Projects = {
 let Partners = {
     async UpdatePartner(partnerInfo, partner_id, update){
         partnerInfo.updateDoc = update
+ 
         const result = await Service.put(`/partners/${partner_id}`, partnerInfo)
         return result.data;
     },
     // Brisanje od strane admina iz kolekcije partnera, ne brise se user
-    async DeletePartner(partner_id){
-    
-        const result = await Service.delete(`/partners/${partner_id}/`);
+    async DeletePartner(partnerData){
+        const result = await Service.delete(`/partners/${partnerData._id}/`);
         return result.data;
     },
     async CreatePartner(new_partner){

@@ -140,9 +140,9 @@
 
 
 		<div class="row">
-			<h4 class="subtitles">Adresa:</h4> <input type="text" class="input_wrapper" placeholder="Tehnologije koje se koriste u projektu..." v-model="partners_info.adress">
-			<h4 class="subtitles">Broj telefona:</h4> <input type="text" class="input_wrapper" placeholder="Tehnologije koje se koriste u projektu..." v-model="partners_info.telephone_number">
-			<h4 class="subtitles">Email adresa:</h4> <input type="text" class="input_wrapper" placeholder="Tehnologije koje se koriste u projektu..." v-model="partners_info.contact_email">
+			<h4 class="subtitles">Adresa:</h4> <input type="text" class="input_wrapper" placeholder="Mjesto gdje će student obavljati praksu..." v-model="partners_info.adress">
+			<h4 class="subtitles">Broj telefona:</h4> <input type="text" class="input_wrapper" placeholder="Na koji vas student može kontaktirati..." v-model="partners_info.telephone_number">
+			<h4 class="subtitles">Email adresa:</h4> <input type="text" class="input_wrapper" placeholder="Na koju će vas student kontaktirati..." v-model="partners_info.contact_email">
 		</div>
 
 		<div class="row contact_buttons">
@@ -311,8 +311,9 @@ export default {
 		},
 		
 		async update_partner(){
+			console.log('pozivam se')
 			const response = Partners.UpdatePartner(this.partners_info, this.$route.params.id, 'true');
-
+			
 			if(response){
 				const partner_index = this.store.partner_list.findIndex(partner => partner.id == this.id);
 				this.store.partner_list[partner_index] = this.partners_info;
