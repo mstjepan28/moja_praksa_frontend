@@ -111,7 +111,7 @@ h4, h5{
 	padding: 5px 10px;
     display: inline-block;
     
-    font-size: 16px;
+    font-size: 15px;
     font-weight: bold;
     color: white;
     
@@ -130,7 +130,7 @@ h4, h5{
 	padding: 5px 10px;
     display: inline-block;
     
-    font-size: 16px;
+    font-size: 15px;
     font-weight: bold;
     color: white;
     
@@ -149,7 +149,7 @@ h4, h5{
 	padding: 5px 10px;
     display: inline-block;
     
-    font-size: 16px;
+    font-size: 15px;
     font-weight: bold;
     color: white;
     
@@ -168,7 +168,7 @@ h4, h5{
 	padding: 5px 10px;
     display: inline-block;
 
-    font-size: 16px;
+    font-size: 15px;
     font-weight: bold;
     color: white;
 
@@ -317,6 +317,7 @@ button > .fas{
 
 @media only screen and (max-width: 767px) {
 	.student_info{ padding: 10% 2% 0 2% }
+	.description_text{font-size: 14px}
 }
 @media only screen and (max-width: 1200px) {
     .user_info_input_wrapper{white-space: initial}
@@ -326,4 +327,10 @@ button > .fas{
 .div_button{
 	user-select: none;
 	cursor: pointer;
+}
+
+.active{
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: underline;
 }

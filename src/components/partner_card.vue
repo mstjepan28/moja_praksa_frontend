@@ -5,15 +5,15 @@
     </div>
 
     <div class="col-md-8 right_col my-auto">
-        <div class="row">
-            <h2 style="mt-1">{{info.company}}</h2>
+        <div class="row mt-2">
+            <h2>{{info.company}}</h2>
         </div>
 
-        <div class="row partner_description">
+        <div class="row partner_description mt-2 mb-2">
             <p>{{info.about_us}}</p>
         </div>
 
-        <div class="row" style="text-align: center">
+        <div class="row mb-1">
             <router-link v-bind:to="'/PartnersInfo/' + info.id" class="button_design custom_button">Detalji</router-link>
         </div>
     </div>
@@ -35,6 +35,15 @@ export default {
     
     clip-path: polygon(0 0, 100% 0%, 65% 100%, 0% 100%);
 }
+@media only screen and (max-width: 767px) {
+    .partner_card{
+        margin: 0 1rem;
+    }
+    .partner_display_image{
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+    }
+}
+
 .partner_card{
     text-align: center;
 

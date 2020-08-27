@@ -201,4 +201,8 @@ export default {
     width: 19rem;
     border: 4px solid #6DD0F6
 }
+@media only screen and (max-width: 767px) {
+    .student_info{ padding: 10% 2% 0 2% }
+    .activeProject{width: 12rem}
+}
 </style>

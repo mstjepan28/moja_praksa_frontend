@@ -26,6 +26,18 @@
         </div>
     </div>
 
+    <div class="modal fade" id="galleryEditorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+
+                <div class="modal-body">
+					<GalleyEditor/>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="change_password_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -82,10 +94,11 @@
 		<template v-slot:preloader> <flux-preloader /> </template>
 	</vue-flux>
 
-	<div v-if="edit_enabled">
+	<div v-if="!edit_enabled">
 		<div class="row option_buttons mt-3">
 			<div class="col text-right">
 				<button type="button" class="disabled_button mr-3" v-on:click="edit_enabled = !edit_enabled"> Odustani </button>
+				<button type="button" class="button_design mr-3" data-toggle="modal" data-target="#galleryEditorModal"> Galerija </button>
 				<button type="button" class="alert_button" v-on:click="update_partner"> Pohrani promjene </button>
 			</div>
 		</div>
@@ -230,6 +243,8 @@
 import VueHorizontalList from 'vue-horizontal-list';
 import { VueFlux, FluxPreloader } from 'vue-flux';
 
+import GalleyEditor from '@/components/gallery_editor';
+
 import { Partners, Projects, Auth } from '@/services'
 import store from '@/store.js';
 
@@ -237,7 +252,9 @@ export default {
 	components: {
 		VueFlux,
 		FluxPreloader,
-		VueHorizontalList
+		VueHorizontalList,
+
+		GalleyEditor
 	},
 	data(){
 		return{

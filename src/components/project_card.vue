@@ -1,6 +1,6 @@
 <template>
-	<router-link v-bind:to="'/ProjectInfo/' + info.id" class="card project">
-		<img class="card-img-top" v-bind:src="info.img_url" alt="Card image cap" >
+	<router-link :to="'/ProjectInfo/' + info.id" class="card project">
+		<img class="card-img-top" :src="info.img_url" alt="Card image cap" >
 		
 		<div class="card-body">
 			<h5 class="card-title">{{info.company}}</h5>
@@ -38,5 +38,12 @@ export default {
 .project:hover{
 	color: black;
 	text-decoration: none; 
+}
+@media only screen and (max-width: 767px) {
+	.project{width: 11rem}
+	.card-text{
+		min-height: 100px;
+		max-height: 100px;
+	}
 }
 </style>

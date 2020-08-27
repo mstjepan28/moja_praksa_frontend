@@ -83,8 +83,8 @@
         <div class="row h-100 mt-2">
             <div class="col-md-1 col-sm-0"></div>
             <div class="col-md-3 col-sm-12 my-atuo">
-                <img v-if="user_data.avatar" class="profile_img" :src="user_data.avatar"/>
-                <img v-else class="profile_img img-fluid" src="@/assets/Default.png" alt="Your profile picture"/>
+                <img v-if="user_data.avatar" class="card-img-top profile_img" :src="user_data.avatar"/>
+                <img v-else class="card-img-top profile_img img-fluid" src="@/assets/Default.png" alt="Your profile picture"/>
             </div>
             <div class="col-md-7 col-sm-12 my-auto student_info">
                 <div class="user_info_input_wrapper">Ime: <input type="text" v-model="user_data.name" class="input_wrapper user_info_input"></div>
@@ -109,11 +109,11 @@
                 <button class="button_design" v-on:click="switch_edit"> Uredi </button>
             </div>
         </div>
-        <div class="row h-100 mt-2">
+        <div class="row h-100">
             <div class="col-md-1 col-sm-0"></div>
-            <div class="col-md-3 col-sm-12 my-atuo">
-                <img v-if="user_data.avatar" class="profile_img" :src="user_data.avatar"/>
-                <img v-else class="profile_img img-fluid" src="@/assets/Default.png" alt="Your profile picture"/>
+            <div class="col-md-3 col-sm-12 my-auto">
+                <img v-if="user_data.avatar" class="card-img-top profile_img" :src="user_data.avatar"/>
+                <img v-else class="card-img-top profile_img img-fluid" src="@/assets/Default.png" alt="Your profile picture"/>
             </div>
             <div class="col-md-7 col-sm-12 my-auto student_info">
                 <div class="user_info_input_wrapper"><span class="user_info_label">Ime i prezime:</span> {{user_data.name + " " + user_data.surname}}</div>
@@ -123,7 +123,7 @@
                 <div class="user_info_input_wrapper"><span class="user_info_label">Godina studija:</span> {{user_data.year}}</div>
             </div>
             <div class="col-md-1 col-sm-0"></div>
-        </div>        
+        </div>       
     </div>
 
 </div>

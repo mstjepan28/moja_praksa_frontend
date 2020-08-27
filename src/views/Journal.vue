@@ -39,8 +39,8 @@
             <button v-if="template" type="button" class="button_design" v-on:click="download_file">Preuzmi predložak dnevnika prakse</button>
             <button v-else type="button" class="disabled_button" disabled>Preuzmi predložak dnevnika prakse</button>
 
-            <button v-if="auth.account_type == 'Student'" type="button" class="button_design mt-3" v-on:click="create_file">Predaj dnevnik prakse</button>
-            <button v-if="auth.account_type == 'Admin'" type="button" class="button_design mt-3" v-on:click="create_file">Postavi predložak dnevnika prakse</button>
+            <button v-if="account_type == 'Student'" type="button" class="button_design mt-3" v-on:click="create_file">Predaj dnevnik prakse</button>
+            <button v-if="account_type == 'Admin'" type="button" class="button_design mt-3" v-on:click="create_file">Postavi predložak dnevnika prakse</button>
         </div>
         <div class="col-md-3 col-sm-0"></div>
     </div>
@@ -55,15 +55,25 @@ import 'filepond/dist/filepond.min.css'
 
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'
 
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
-import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
+
 import FilePondPluginFileEncode from 'filepond-plugin-file-encode';
+
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
+import FilePondPluginImageCrop from 'filepond-plugin-image-crop';
+import FilePondPluginImageTransform from 'filepond-plugin-image-transform';
 
 // Create component
 const FilePond = vueFilePond(
+    FilePondPluginFileValidateSize,
     FilePondPluginFileValidateType,
+
+    FilePondPluginFileEncode,
+
     FilePondPluginImagePreview,
-    FilePondPluginFileEncode
+    FilePondPluginImageCrop,
+    FilePondPluginImageTransform
 )
 
 import {Auth, App} from "@/services/index.js";
@@ -79,20 +89,14 @@ export default {
 
             response_message: null,
 
-            auth: Auth.state,
+            account_type: Auth.state.account_type,
         }
     },
     methods: {
         create_file(){
             this.file_error = false;
             const file = this.$refs.pond.getFiles()[0]
-
             if(!file) return;
-            else if(file.fileSize > 10000000){
-                this.$refs.pond.removeFiles();
-                this.file_error = 'size_error'
-                return;
-            }
 
             this.file_data = {
                 fileSize: file.fileSize,
@@ -102,8 +106,8 @@ export default {
                 fileData: file.getFileEncodeDataURL()
             }
 
-            if(this.auth.account_type == 'Student') this.upload_journal();
-            else if(this.auth.account_type == 'Admin') this.upload_template()
+            if(this.account_type == 'Student') this.upload_journal();
+            else if(this.account_type == 'Admin') this.upload_template()
         },
 
         async upload_journal(){
