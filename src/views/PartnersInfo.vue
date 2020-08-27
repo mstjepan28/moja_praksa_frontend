@@ -31,7 +31,7 @@
             <div class="modal-content">
 
                 <div class="modal-body">
-					<GalleyEditor v-on:close_gallery="close_gallery"/>
+					<GalleyEditor :info="partners_info" v-on:close_gallery="close_gallery"/>
                 </div>
 
             </div>
@@ -88,7 +88,7 @@
 	<vue-flux
 		class="row"
 		:options="store.vfOptions"
-		:images="store.vfImages_partners"
+		:images="partner_headers || store.vfImages_partners" 
 		:transitions="store.vfTransitions"
 		ref="slider">
 		<template v-slot:preloader> <flux-preloader /> </template>
@@ -262,6 +262,7 @@ export default {
 
 			id: this.$route.params.id,
 			partners_info: false,
+			partner_headers: false,
 			project_list: false,
 
 			modal_error: false,
@@ -292,6 +293,7 @@ export default {
 			}
 
 			this.add_view();
+			this.getHeaders();
 		},
 		// TEMP
 		add_view_local(views){
@@ -361,8 +363,13 @@ export default {
             this.current_password = this.new_password = this.confirm_password = undefined;
             this.edit_enabled = false;
 		},
+		getHeaders(){
+			if(!this.partners_info.headers) return;
+			this.partner_headers = this.partners_info.headers.map(img => img.imgUrl)
+		},
 		close_gallery(){
-			$('#asignProject').modal('hide')
+			this.get_partner_info();
+			$('#galleryEditorModal').modal('hide');
 		}
 	},
 	computed:{
@@ -376,7 +383,7 @@ export default {
 	mounted(){
 		if(Auth.isAuthenticated()){
 			this.get_partner_info();
-			this.get_projects();			
+			this.get_projects();		
 		}
 		else this.$router.push({ name: 'Login' })
 	}

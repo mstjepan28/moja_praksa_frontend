@@ -53,6 +53,7 @@ export default {
 	methods:{
 		async login(){
 			const result = await Auth.login({'email': this.email, 'password': this.password});
+			
 			if(result){
 				this.email = null;
 				this.password = null;

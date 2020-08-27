@@ -36,7 +36,7 @@
                 labelMaxFileSize="Maksimalna veličina iznosi 5MB"
                 maxFileSize="5MB"
             />
-            <button type="button" class="button_design" v-on:click="uploadFile"> createFiles </button>
+            <button type="button" class="button_design" v-on:click="uploadFile"> Dodaj sliku </button>
         </div>
 
         <div v-else-if="isActive == 'header'" class="mt-4">
@@ -57,16 +57,20 @@
                 labelMaxTotalFileSize="'Maksimalna veličina iznosi 15MB'"
                 maxTotalFileSize="15MB"
             />
-            <button type="button" class="button_design" v-on:click="uploadFile"> createFiles </button>
+            <button type="button" class="button_design" v-on:click="uploadFile"> Dodaj sliku </button>
         </div>
         
         <div v-else-if="isActive == 'gallery'">
-            <div class="row" :key="img" :info="img" v-for="img in store.vfImages_partners"  style="margin: .5rem 0;">
-                <img :src="img" class="col card-img-top border-top" style="padding: 0.1px">
+            <div v-if="user_data.headers">
+                <div class="row" :key="img.name" :info="img.imgUrl" v-for="img in user_data.headers"  style="margin: .5rem 0;">
+                    <img :src="img.imgUrl" class="col card-img-top border-top" style="padding: 0.1px">
+                    <div class="w-100"></div>
 
-                <div class="w-100"></div>
-
-                <button type="button" class="col alert_button border-bottom"> Ukloni</button>
+                    <button type="button" class="col alert_button border-bottom" v-on:click="deleteImage(img.name)"> Ukloni</button>
+                </div>
+            </div>
+            <div v-else>
+                <span class="no_info_message"> Slike koje dodate će se prikazivati ovdje</span>
             </div><br>
         </div>
     </div>
@@ -88,7 +92,7 @@
 
                 labelMaxFileSizeExceeded="Premašena dozvoljena veličina slike!"
                 labelMaxFileSize="Maksimalna veličina iznosi 5MB"
-                maxFileSize="5MB"
+                maxFileSize="10MB"
             />
             <div class="row">
                 <div class="col-1"></div>
@@ -101,8 +105,6 @@
 </template>
 
 <script>
-
-import store from '@/store.js';
 
 // FilePond https://pqina.nl/filepond/docs/patterns/frameworks/vue/
 import vueFilePond from 'vue-filepond'
@@ -133,9 +135,11 @@ const FilePond = vueFilePond(
 
 /* global firebase */ //ESLint, bez toga firebase je undefined posto je globalna varijabla
 import { Auth, Partners, App } from '@/services'
+import store from '@/store.js';
 
 export default {
     components: { FilePond },
+    props: ['info'],
     data(){
         return {
             store,
@@ -152,7 +156,9 @@ export default {
             const file = this.$refs.pond.getFiles()[0]
             if(!file) return;
 
-            const fileName = this.isActive + '_' + this.user_data._id + '.png';
+            let fileName = '';
+            if(this.isActive == 'logo') this.isActive + '_' + this.email + '.png';
+            else this.isActive + '_' + Date.now() + '.png';
 
             const result = await firebase.storage().ref(fileName).putString(file.getFileEncodeDataURL(), 'data_url');
             const imgUrl = await result.ref.getDownloadURL();
@@ -189,6 +195,7 @@ export default {
                 }
             }
             update_user.user = this.user_data;
+            update_user.store = this.store;
 
             const updated_user = update_user[this.user_data.account_type + "_" + this.isActive];
             localStorage.setItem('user', JSON.stringify(updated_user));
@@ -196,10 +203,23 @@ export default {
             this.imgUrl = newImage.imgUrl;
             this.finished = true;
         },
+        async deleteImage(image_name){
+            //await firebase.storage().ref(image_name).delete();
+            
+            this.user_data.headers = this.user_data.headers.filter(image => image.name != image_name);
+            if(!this.user_data.headers.length) this.user_data.headers = false;
+
+            await Partners.UpdatePartner(this.user_data, this.user_data._id, 'true');
+            this.store.partner_list = await Partners.getPartners();
+        },
         closeGallery(){
             this.finished = false;
             this.$emit('close_gallery');
         }
+    },
+    mounted(){
+        if(Auth.state.account_type == "Student") this.user_data = Auth.state.user_data;
+        else this.user_data = this.info;
     }
 }
 </script>
