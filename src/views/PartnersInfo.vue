@@ -312,12 +312,12 @@ export default {
 		
 		async update_partner(){
 			const response = Partners.UpdatePartner(this.partners_info, this.$route.params.id, 'true');
+
 			if(response){
 				const partner_index = this.store.partner_list.findIndex(partner => partner.id == this.id);
 				this.store.partner_list[partner_index] = this.partners_info;
 				this.edit_enabled = false;
 			}
-
 		},
 
 		async delete_partner(){

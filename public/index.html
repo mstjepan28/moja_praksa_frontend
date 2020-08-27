@@ -23,9 +23,33 @@
 	  </head>
 	  
 	<body>
+
+
+		<script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-app.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-firestore.js"></script>
+	  	<script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-storage.js"></script>
+	  
+		<script>
+			// Your web app's Firebase configuration
+			var firebaseConfig = {
+				apiKey: "AIzaSyCE2Km6Pbya99dvPJ8pvfh2UYq52GViqpQ",
+				authDomain: "moja-praksa.firebaseapp.com",
+				databaseURL: "https://moja-praksa.firebaseio.com",
+				projectId: "moja-praksa",
+				storageBucket: "moja-praksa.appspot.com",
+				messagingSenderId: "102606718247",
+				appId: "1:102606718247:web:35ee0ded2acb8388dd1502"
+			};
+			// Initialize Firebase
+			firebase.initializeApp(firebaseConfig);
+
+			var storage = firebase.storage();
+		</script>
+
 		<noscript>
 			<strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
 		</noscript>
+		
 		<div id="app"></div>
 		<!-- built files will be auto injected -->
 	</body>

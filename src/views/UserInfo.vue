@@ -73,6 +73,18 @@
         </div>
     </div>
 
+    <div class="modal fade" id="galleryEditorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+
+                <div class="modal-body">
+					<GalleyEditor/>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <div v-if="edit_enabled">
         <div class="row mt-3">
             <div class="col text-right"> 
@@ -82,10 +94,18 @@
         </div>
         <div class="row h-100 mt-2">
             <div class="col-md-1 col-sm-0"></div>
-            <div class="col-md-3 col-sm-12 my-atuo">
-                <img v-if="user_data.avatar" class="card-img-top profile_img" :src="user_data.avatar"/>
-                <img v-else class="card-img-top profile_img img-fluid" src="@/assets/Default.png" alt="Your profile picture"/>
+
+            <div class="row col-md-3 col-sm-12 my-auto" style="margin: 0">
+                <div class="col-12">
+                    <img v-if="user_data.avatar" class="card-img-top profile_img" :src="user_data.avatar.imgUrl"/>
+                    <img v-else class="card-img-top profile_img img-fluid" src="@/assets/Default.png" alt="Your profile picture"/><br>
+                </div>
+
+                <div class="w-100 mt-3"></div>
+
+                <div class="col-12 button_design div_button text-center" data-toggle="modal" data-target="#galleryEditorModal"> Promjeni sliku </div>
             </div>
+
             <div class="col-md-7 col-sm-12 my-auto student_info">
                 <div class="user_info_input_wrapper">Ime: <input type="text" v-model="user_data.name" class="input_wrapper user_info_input"></div>
                 <div class="user_info_input_wrapper">Prezime: <input type="text" v-model="user_data.surname" class="input_wrapper user_info_input"></div>
@@ -112,7 +132,7 @@
         <div class="row h-100">
             <div class="col-md-1 col-sm-0"></div>
             <div class="col-md-3 col-sm-12 my-auto">
-                <img v-if="user_data.avatar" class="card-img-top profile_img" :src="user_data.avatar"/>
+                <img v-if="user_data.avatar" class="card-img-top profile_img" :src="user_data.avatar.imgUrl"/>
                 <img v-else class="card-img-top profile_img img-fluid" src="@/assets/Default.png" alt="Your profile picture"/>
             </div>
             <div class="col-md-7 col-sm-12 my-auto student_info">
@@ -135,7 +155,10 @@ import _ from 'lodash';
 import {Auth, App} from "@/services/index.js";
 import store from '@/store.js';
 
+import GalleyEditor from '@/components/gallery_editor';
+
 export default {
+    components:{ GalleyEditor },
     data(){
         return {
             store,

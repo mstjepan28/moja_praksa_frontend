@@ -45,7 +45,8 @@
     "root": true,
     "env": {
       "node": true,
-      "jquery": true
+      "jquery": true,
+      "browser": true
     },
     "extends": [
       "plugin:vue/essential",
