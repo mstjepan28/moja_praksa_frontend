@@ -65,7 +65,7 @@
               </div>
             </li>
             <li class="nav-item" v-if="!auth.account_type">
-              <router-link to="/AllocateStudent">Alokacija studenata</router-link>
+              <router-link to="/Instructions">Upute</router-link>
             </li>
 
           </ul>

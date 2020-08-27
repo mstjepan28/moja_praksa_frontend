@@ -42,9 +42,11 @@ let Auth = {
 
         if(response.data){
             let user = response.data
-
-            if(user.account_type == 'Student') user.chosenProjects = await App.getChosenProjects(user._id);
+            //prvi put put spremamo radi tokenayy
+            localStorage.setItem('user', JSON.stringify(user));
             if(user.account_type == 'Poslodavac') user = await App.isPartner(user);
+            //pustiti ili ne?
+            if(user.account_type == 'Student') user.chosenProjects = await App.getChosenProjects(user._id);
             
             localStorage.setItem('user', JSON.stringify(user));
             localStorage.setItem('selected_projects', JSON.stringify([]));

@@ -204,7 +204,7 @@ export default {
             this.finished = true;
         },
         async deleteImage(image_name){
-            //await firebase.storage().ref(image_name).delete();
+            await firebase.storage().ref(image_name).delete();
             
             this.user_data.headers = this.user_data.headers.filter(image => image.name != image_name);
             if(!this.user_data.headers.length) this.user_data.headers = false;
