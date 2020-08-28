@@ -31,7 +31,7 @@
             <div class="modal-content">
 
                 <div class="modal-body">
-					<GalleyEditor :info="partners_info" v-on:close_gallery="close_gallery"/>
+					<GalleyEditor :info="partners_info" v-on:close_gallery="close_gallery" v-on:updateHeaders="get_partner_info"/>
                 </div>
 
             </div>
@@ -363,12 +363,13 @@ export default {
             this.current_password = this.new_password = this.confirm_password = undefined;
             this.edit_enabled = false;
 		},
+
 		getHeaders(){
 			if(!this.partners_info.headers) this.partner_headers = this.store.vfImages_partners;
 			else this.partner_headers = this.partners_info.headers.map(img => img.imgUrl)
 		},
+		
 		close_gallery(){
-			this.get_partner_info();
 			$('#galleryEditorModal').modal('hide');
 		}
 	},

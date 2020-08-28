@@ -1,12 +1,18 @@
 <template>
 <div>
-    <div v-if="finished" class="text-center finished" :style="{'background-image': 'url(' + imgUrl + ')'}">
+    <div v-if="uploaded" class="text-center finished" :style="{'background-image': 'url(' + imgUrl + ')'}">
         <h2 style="background-color: rgba(0, 0, 0, 0.7)">Dodana nova slika!</h2>
 
         <button class="row col button_design mt-5" v-on:click="closeGallery"> Uredu </button>
     </div>
 
-    <div v-if="user_data.account_type == 'Poslodavac' && !finished" class="journal">
+    <div v-else-if="deleted" class="text-center finished">
+        <h2 style="background-color: rgba(0, 0, 0, 0.7)">Slika izbrisana!</h2>
+
+        <button class="row col button_design mt-5" v-on:click="closeGallery"> Uredu </button>
+    </div>
+
+    <div v-else-if="user_data.account_type == 'Poslodavac'" class="journal">
         <h3> Vaše slike </h3><hr>
         
         <div class="row">
@@ -75,7 +81,7 @@
         </div>
     </div>
 
-    <div v-if="user_data.account_type == 'Student' && !finished" class="journal">
+    <div v-else-if="user_data.account_type == 'Student'" class="journal">
         <div v-if="isActive = 'logo'">
             <file-pond
                 class="filepond"
@@ -146,7 +152,9 @@ export default {
             user_data: false,
             myFiles: [],
 
-            finished: false,
+            uploaded: false,
+            deleted: false,
+
             isActive: 'logo',
             imgUrl: false
         }
@@ -205,8 +213,9 @@ export default {
             update_user[this.user_data.account_type + "_" + this.isActive];
 
             this.imgUrl = newImage.imgUrl;
-            this.finished = true;
+            this.uploaded = true;
 
+            this.$emit('updateHeaders');
         },
         async deleteImage(image_name){
             await firebase.storage().ref(image_name).delete();
@@ -214,11 +223,16 @@ export default {
             this.user_data.headers = this.user_data.headers.filter(image => image.name != image_name);
             if(!this.user_data.headers.length) this.user_data.headers = false;
 
-            await Partners.UpdatePartner(this.user_data, this.user_data._id, 'true');
+            await Partners.UpdatePartner(this.user_data, this.user_data.id, 'true');
             this.store.partner_list = await Partners.getPartners();
+
+            this.deleted = true;
+            this.$emit('updateHeaders');
         },
         closeGallery(){
-            this.finished = false;
+            this.uploaded = false;
+            this.deleted = false;
+
             this.$emit('close_gallery');
         }
     },
