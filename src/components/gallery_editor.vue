@@ -12,7 +12,7 @@
         <button class="row col button_design mt-5" v-on:click="closeGallery"> Uredu </button>
     </div>
 
-    <div v-else-if="user_data.account_type == 'Poslodavac'" class="journal">
+    <div v-else-if="user_data.company" class="journal">
         <h3> Vaše slike </h3><hr>
         
         <div class="row">

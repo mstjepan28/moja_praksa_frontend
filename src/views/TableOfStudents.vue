@@ -1,9 +1,18 @@
 <template>
 <div>
     <h2 class="mt-5 subtitles">Tablica studenata</h2>
-    
+
+    <div class="row mt-1" style="background: #F8F8F8">
+        <div class="col"> Ime </div>
+        <div class="col"> Prezime </div>
+        <div class="col"> JMBAG </div>
+        <div class="col"> Godina studija </div>
+
+        <div class="col"> Praksa </div>
+    </div>
+
     <div v-if="student_list">
-        <TableRow :key="student.id" :info="student" v-for="student in student_list"/>
+        <TableRow :key="student.id" :info="student" v-for="student in student_list" />
     </div>
 </div>
 </template>
@@ -37,5 +46,8 @@ export default {
 </script>
 
 <style>
-
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
 </style>
