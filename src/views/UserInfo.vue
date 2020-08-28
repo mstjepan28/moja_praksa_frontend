@@ -97,7 +97,7 @@
 
             <div class="row col-md-3 col-sm-12 my-auto" style="margin: 0">
                 <div class="col-12">
-                    <img v-if="user_data.avatar" class="card-img-top profile_img" :src="user_data.avatar.imgUrl"/>
+                    <img v-if="user_data.logo" class="card-img-top profile_img" :src="user_data.logo.imgUrl"/>
                     <img v-else class="card-img-top profile_img img-fluid" src="@/assets/Default.png" alt="Your profile picture"/><br>
                 </div>
 
@@ -132,7 +132,7 @@
         <div class="row h-100">
             <div class="col-md-1 col-sm-0"></div>
             <div class="col-md-3 col-sm-12 my-auto">
-                <img v-if="user_data.avatar" class="card-img-top profile_img" :src="user_data.avatar.imgUrl"/>
+                <img v-if="user_data.logo" class="card-img-top profile_img" :src="user_data.logo.imgUrl"/>
                 <img v-else class="card-img-top profile_img img-fluid" src="@/assets/Default.png" alt="Your profile picture"/>
             </div>
             <div class="col-md-7 col-sm-12 my-auto student_info">
@@ -232,6 +232,9 @@ export default {
             this.user_data = Auth.getUser();
 			$('#galleryEditorModal').modal('hide')
 		}
+    },
+    mounted(){
+        if(Auth.state.account_type != 'Student') this.$router.push({ name: 'Home'});
     },
 	watch:{
 		"error_message": _.debounce(function(){this.error_message = false}, 5000)

@@ -1,7 +1,8 @@
 <template>
 <div class="partner_card row h-100 mb-5">
     <div class="col-md-4" style="padding: 0">
-        <img v-bind:src="info.img_url" alt="" class="partner_display_image">
+        <img v-if="info.logo" v-bind:src="info.logo.imgUrl" alt="Profilna slika partnera" class="partner_display_image">
+        <img v-else src="@/assets/Default.png" alt="Defaultna slika partnea" class="partner_display_image">
     </div>
 
     <div class="col-md-8 right_col my-auto">

@@ -1,6 +1,6 @@
 // servis za komunikaciju s backendom
 import axios from 'axios'
-import $router from '@/router'
+//import $router from '@/router'
 
 //instanciranje varijable za kom. s backendom
 //vezan uz konkretni backend
@@ -9,10 +9,9 @@ let Service = axios.create({
     timeout: 5000 
 })
 
-
 Service.interceptors.request.use((request) => {
     try {
-    request.headers['Authorization'] = 'Bearer ' + Auth.getToken();
+        request.headers['Authorization'] = 'Bearer ' + Auth.getToken();
     } catch (e) {
         console.error(e);
     }
@@ -23,8 +22,8 @@ Service.interceptors.response.use(
     (response) => {return response},
     (error) => {
         if (error.response.status == 401) {
-            Auth.logout();
-            $router.go();
+            //Auth.logout();
+            //$router.push({ name: 'Login'});
         }
     }
 );
@@ -44,6 +43,7 @@ let Auth = {
             let user = response.data
             //prvi put put spremamo radi tokenayy
             localStorage.setItem('user', JSON.stringify(user));
+
             if(user.account_type == 'Poslodavac') user = await App.isPartner(user);
             //pustiti ili ne?
             if(user.account_type == 'Student') user.chosenProjects = await App.getChosenProjects(user._id);
@@ -193,7 +193,6 @@ let Partners = {
 }
 
 let App = {
-
     async upload_application_form(form, userID){
         const result = await Service.post(`/application_form`, {'form': form, 'userID': userID});
         return result.data;
@@ -222,6 +221,8 @@ let App = {
     },
     
     async updateUser(user_data, update){
+        if(user_data.token) delete user_data.token;
+
         user_data.updateDoc = update
         const result = await Service.patch('/user', user_data)
         return result.data;

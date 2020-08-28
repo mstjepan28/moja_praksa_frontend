@@ -88,13 +88,13 @@
 	<vue-flux
 		class="row"
 		:options="store.vfOptions"
-		:images="partner_headers || store.vfImages_partners" 
+		:images="partner_headers" 
 		:transitions="store.vfTransitions"
 		ref="slider">
 		<template v-slot:preloader> <flux-preloader /> </template>
 	</vue-flux>
 
-	<div v-if="!edit_enabled">
+	<div v-if="edit_enabled">
 		<div class="row option_buttons mt-3">
 			<div class="col text-right">
 				<button type="button" class="disabled_button mr-3" v-on:click="edit_enabled = !edit_enabled"> Odustani </button>
@@ -364,8 +364,8 @@ export default {
             this.edit_enabled = false;
 		},
 		getHeaders(){
-			if(!this.partners_info.headers) return;
-			this.partner_headers = this.partners_info.headers.map(img => img.imgUrl)
+			if(!this.partners_info.headers) this.partner_headers = this.store.vfImages_partners;
+			else this.partner_headers = this.partners_info.headers.map(img => img.imgUrl)
 		},
 		close_gallery(){
 			this.get_partner_info();

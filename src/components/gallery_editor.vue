@@ -143,12 +143,12 @@ export default {
     data(){
         return {
             store,
-            user_data: Auth.state.user_data,
+            user_data: false,
             myFiles: [],
 
             finished: false,
             isActive: 'logo',
-            imgUrl: null
+            imgUrl: false
         }
     },
     methods: {
@@ -157,8 +157,10 @@ export default {
             if(!file) return;
 
             let fileName = '';
-            if(this.isActive == 'logo') this.isActive + '_' + this.email + '.png';
-            else this.isActive + '_' + Date.now() + '.png';
+            if(this.isActive == 'logo') fileName = this.isActive + '_' + this.user_data.email + '.png';
+            else fileName = this.isActive + '_' + Date.now() + '.png';
+
+            console.log(fileName)            
 
             const result = await firebase.storage().ref(fileName).putString(file.getFileEncodeDataURL(), 'data_url');
             const imgUrl = await result.ref.getDownloadURL();
@@ -170,38 +172,41 @@ export default {
                 user: false,
 
                 get Poslodavac_logo(){
-                    this.user.img_url = newImage.imgUrl;
+                    this.user.logo = newImage;
                     this.updatePartner();
 
-                    return this.user;
+                    return true
                 },
                 get Poslodavac_header(){
                     if(!this.user.headers) this.user.headers = []
                     this.user.headers.push(newImage);
-                    
-                    this.updatePartner();
 
-                    return this.user;
+                    this.updatePartner();
+                    return true
                 },
                 get Student_logo(){
-                    this.user.avatar = newImage;
+                    this.user.logo = newImage;
+
+                    localStorage.setItem('user', JSON.stringify(this.user));
                     App.updateUser(this.user, 'true');
 
-                    return this.user;
+                    return true
                 },
+
                 async updatePartner(){
-                    await Partners.UpdatePartner(this.user, this.user._id, 'true');
+                    await Partners.UpdatePartner(this.user, this.user.id, 'true');
                     this.store.partner_list = await Partners.getPartners();
                 }
             }
+
             update_user.user = this.user_data;
             update_user.store = this.store;
 
-            const updated_user = update_user[this.user_data.account_type + "_" + this.isActive];
-            localStorage.setItem('user', JSON.stringify(updated_user));
+            update_user[this.user_data.account_type + "_" + this.isActive];
 
             this.imgUrl = newImage.imgUrl;
             this.finished = true;
+
         },
         async deleteImage(image_name){
             await firebase.storage().ref(image_name).delete();
