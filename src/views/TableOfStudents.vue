@@ -12,8 +12,8 @@
                 <div class="col"> Praksa </div>
                 <div class="col"> Status </div>
 
-                <div class="col"> Prijavnica </div>
-                <div class="col"> Dnevnik Prakse </div>
+                <div v-if="account_type == 'Admin'" class="col"> Prijavnica </div>
+                <div v-if="account_type == 'Admin'" class="col"> Dnevnik Prakse </div>
             </div>
 
             <div v-if="student_list">
