@@ -73,11 +73,9 @@
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="border: 1px solid white; background: #6DD0F6">
                 <router-link class="dropdown-item" to="/">Dodaj poslodavca</router-link>
                 <router-link class="dropdown-item" to="/AddProject">Dodaj projekt</router-link>
+                <router-link class="dropdown-item" to="/Journal">Predložak dnevnika prakse</router-link>
+                <router-link class="dropdown-item" to="/Instructions">Upute</router-link>
               </div>
-            </li>
-
-            <li class="nav-item" v-if="auth.account_type == 'Admin'">
-              <router-link to="/Instructions">Upute</router-link>
             </li>
 
             <!-- Student -->
@@ -91,10 +89,6 @@
                 <router-link class="dropdown-item" to="/TableOfStudents">Tablica projekata</router-link>
                 <router-link class="dropdown-item" to="/Instructions">Upute</router-link>
               </div>
-            </li>
-
-            <li class="nav-item" v-if="!auth.account_type">
-              <router-link to="/Instructions">Upute</router-link>
             </li>
 
           </ul>

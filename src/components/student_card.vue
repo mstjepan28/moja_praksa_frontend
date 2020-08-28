@@ -25,7 +25,7 @@
             <div v-else class="disabled_button"> Prijavnica </div>
         </div>
         <div class="col-md-5 col-sm-12 mb-3 button_width text-center">
-            <div v-if="info.journalID" class="button_design" v-on:click="getJournal" style="width: 100%"> Dnevnik prakse </div>
+            <div v-if="info.journalID" class="button_design" v-on:click="downloadJournal" style="width: 100%"> Dnevnik prakse </div>
             <div v-else class="disabled_button"> Dnevnik prakse </div>
         </div>
 
@@ -35,30 +35,27 @@
 </template>
 
 <script>
+
 import { Students } from "@/services/index.js";
+import store from '@/store.js';
 
 export default {
     props: ['info'],
+    data(){
+        return{
+            store
+        }
+    },
+    methods:{
+        async downloadJournal(){
+            const journal = await Students.getJournal(this.info.journalID);
+            this.store.downloadFile(journal);
+        }
+    },
     computed:{
         checkRoute(){
             if(this.$route.path == "/AllocateStudent") return false
             else return true
-        }
-    },
-    methods:{
-        async getJournal(){
-            const journal = await Students.getJournal(this.info.journalID);
-            this.downloadJournal(journal);
-        },
-        downloadJournal(journal){
-            // Hanamichi Sakuragi, Morioh.com, 'Download Files with Axios and Vue' https://morioh.com/p/f4d331b62cda
-            const fileLink = document.createElement('a');
-
-            fileLink.href = journal.fileData;
-            fileLink.setAttribute('download', journal.fileName);
-            document.body.appendChild(fileLink);
-
-            fileLink.click();            
         }
     }
 }

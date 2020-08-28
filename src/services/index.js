@@ -172,8 +172,8 @@ let Partners = {
         const result = await Service.delete(`/partners/${partnerData._id}/`);
         return result.data;
     },
-    async CreatePartner(new_partner){
-        const result = await Service.get('/partners', new_partner);
+    async CreatePartner(partnerData){
+        const result = await Service.get('/partners', partnerData);
         return result.data;
     },
     async getPartners(search){

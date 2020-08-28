@@ -120,7 +120,16 @@ export default{
       })
       return result;
     },
+    downloadFile(file){
+      // Hanamichi Sakuragi, Morioh.com, 'Download Files with Axios and Vue' https://morioh.com/p/f4d331b62cda
+      const fileLink = document.createElement('a');
 
+      fileLink.href = file.fileData;
+      fileLink.setAttribute('download', file.fileName);
+      document.body.appendChild(fileLink);
+
+      fileLink.click();            
+    },
     getEmptyPlaces(allocated_to){
       return allocated_to.filter(element => element == false).length;
     }

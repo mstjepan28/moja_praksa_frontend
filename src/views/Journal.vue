@@ -18,7 +18,7 @@
         </div>
     </div>
 
-    <div class="row"> <h2>Predajte popunjeni dnevnik prakse</h2> </div>
+    <div class="row"> <h2>Predajte dnevnik prakse</h2> </div>
     
     <div class="mt-4">
         <file-pond
@@ -36,11 +36,11 @@
         <div class="col-md-3 col-sm-0"></div>
         
         <div class="col-md-6 col-sm-12 buttons">
-            <button v-if="template" type="button" class="button_design" v-on:click="download_file">Preuzmi predložak dnevnika prakse</button>
+            <button v-if="template" type="button" class="button_design" v-on:click="getTemplate">Preuzmi predložak dnevnika prakse</button>
             <button v-else type="button" class="disabled_button" disabled>Preuzmi predložak dnevnika prakse</button>
 
-            <button v-if="account_type == 'Student'" type="button" class="button_design mt-3" v-on:click="create_file">Predaj dnevnik prakse</button>
-            <button v-if="account_type == 'Admin'" type="button" class="button_design mt-3" v-on:click="create_file">Postavi predložak dnevnika prakse</button>
+            <button v-if="user_type == 'Student'" type="button" class="button_design mt-3" v-on:click="create_file">Predaj dnevnik prakse</button>
+            <button v-if="user_type == 'Admin'" type="button" class="button_design mt-3" v-on:click="create_file">Postavi predložak dnevnika prakse</button>
         </div>
         <div class="col-md-3 col-sm-0"></div>
     </div>
@@ -60,28 +60,23 @@ import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
 
 import FilePondPluginFileEncode from 'filepond-plugin-file-encode';
 
-import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
-import FilePondPluginImageCrop from 'filepond-plugin-image-crop';
-import FilePondPluginImageTransform from 'filepond-plugin-image-transform';
-
 // Create component
 const FilePond = vueFilePond(
     FilePondPluginFileValidateSize,
     FilePondPluginFileValidateType,
 
     FilePondPluginFileEncode,
-
-    FilePondPluginImagePreview,
-    FilePondPluginImageCrop,
-    FilePondPluginImageTransform
 )
 
 import {Auth, App} from "@/services/index.js";
+import store from '@/store.js';
 
 export default {
     components: { FilePond },
     data(){
-        return { 
+        return {
+            store,
+
             myFiles: [],
             file_data: false,
             file_error: false,
@@ -89,7 +84,7 @@ export default {
 
             response_message: null,
 
-            account_type: Auth.state.account_type,
+            user_type: Auth.state.account_type,
         }
     },
     methods: {
@@ -106,8 +101,8 @@ export default {
                 fileData: file.getFileEncodeDataURL()
             }
 
-            if(this.account_type == 'Student') this.upload_journal();
-            else if(this.account_type == 'Admin') this.upload_template()
+            if(this.user_type == 'Student') this.upload_journal();
+            else if(this.user_type == 'Admin') this.upload_template()
         },
 
         async upload_journal(){
@@ -123,9 +118,9 @@ export default {
             $('#response_message').modal('show')
         },
 
-        async get_template(){
-            const result = await App.get_journal_template();
-            if(result) this.template = 0//result
+        async getTemplate(){
+            const templateJournal = await App.get_journal_template();
+            this.store.downloadFile(templateJournal);
         },
 
         download_file(){
@@ -140,9 +135,7 @@ export default {
         },
     },
     mounted(){
-        const user_type = Auth.state.account_type;
-        if(!(user_type == "Student" || user_type == "Admin")) this.$router.push({ name: 'Home' });
-        this.get_template();
+        if(!(this.user_type == "Student" || this.user_type == "Admin")) this.$router.push({ name: 'Home' });
     }
 }
 </script>

@@ -54,7 +54,6 @@
 
         <div class="col-md-3 col-sm-0"></div>
     </div>
-
 </div>
 </template>
 
