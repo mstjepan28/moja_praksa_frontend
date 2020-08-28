@@ -155,7 +155,7 @@ export default {
             uploaded: false,
             deleted: false,
 
-            isActive: 'logo',
+            isActive: 'gallery',
             imgUrl: false
         }
     },

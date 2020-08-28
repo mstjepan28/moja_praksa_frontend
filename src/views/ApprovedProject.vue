@@ -43,8 +43,8 @@ export default {
     },
     mounted(){
         const user_type = this.auth.account_type;
-        if(!(user_type == "Student" || user_type == "Admin")) console.log("No access")//this.$router.push({ name: 'Home' });
-        else if(user_type == "Student") this.getApprovedProject();
+        if(user_type != "Student") this.$router.push({ name: 'Home' });
+        this.getApprovedProject();
     }
 }
 </script>

@@ -166,17 +166,11 @@ export default {
 		}
 	},
     mounted(){
-		/*
         if(Auth.state.account_type != "Admin") this.$router.push({ name: 'Home' });
         else{
             this.get_total_pages();
             this.getStudents();
 		}
-		*/
-		//TEST
-		console.log(Auth.a)
-		this.get_total_pages();
-		this.getStudents();
     },
 	watch: {
 		"search_phrase": _.debounce(function(search){this.search_students(search)}, 500)

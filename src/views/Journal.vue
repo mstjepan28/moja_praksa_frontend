@@ -140,6 +140,8 @@ export default {
         },
     },
     mounted(){
+        const user_type = Auth.state.account_type;
+        if(!(user_type == "Student" || user_type == "Admin")) this.$router.push({ name: 'Home' });
         this.get_template();
     }
 }

@@ -137,8 +137,8 @@ export default {
     },
     mounted(){
         const user_type = this.auth.account_type;
-        if(!(user_type == "Student" || user_type == "Admin")) console.log("No access")//this.$router.push({ name: 'Home' });
-        else if(user_type == "Student") this.autocomplete_user_data();
+        if(user_type != "Student") this.$router.push({ name: 'Home' });
+        this.autocomplete_user_data();
     }
 }
 </script>

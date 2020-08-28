@@ -7,8 +7,13 @@
           <span class="login_form" v-if="auth.account_type == 'Student'">
             <router-link to="UserInfo"> {{auth.user_data.name + " " + auth.user_data.surname}} <i class="fas fa-user"></i> </router-link>
           </span>
-          <span class="login_form" v-else>
+
+          <span class="login_form" v-if="auth.account_type == 'Poslodavac'">
             <router-link v-bind:to="'/PartnersInfo/' + auth.user_data._id"> {{auth.user_data.company}} <i class="fas fa-user"></i> </router-link>
+          </span>
+
+          <span class="login_form" v-if="auth.account_type == 'Admin'">
+           Admin <i class="fas fa-user"></i>
           </span>
 
           <span class="login_form ml-3" v-on:click="logout"> Odjava <i class="fas fa-sign-in-alt" aria-hidden="true"></i> </span>
@@ -33,6 +38,7 @@
         
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav d-flex justify-content-center text-center">
+            <!-- General -->
             <li class="nav-item">
               <router-link to="/">Naslovnica</router-link>
             </li>
@@ -42,18 +48,39 @@
             <li class="nav-item">
               <router-link to="/Partners">Partneri</router-link>
             </li>
-            <li class="nav-item" v-if="auth.account_type == 'Poslodavac' || auth.account_type == 'Admin'">
+
+            <!-- Poslodavac -->
+            <li class="nav-item" v-if="auth.account_type == 'Poslodavac'">
               <router-link to="/AddProject">Dodaj projekt</router-link>
             </li>
+
+            <!-- Admin -->
+            <li class="nav-item dropdown" v-if="auth.account_type == 'Admin'">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 0; color: white">
+                Studenti
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="border: 1px solid white; background: #6DD0F6">
+                <router-link class="dropdown-item" to="/AllocateStudent">Alokacija studenata</router-link>
+                <router-link class="dropdown-item" to="/Students">Popis studenata</router-link>
+                <router-link class="dropdown-item" to="/TableOfStudents">Tablica studenata</router-link>
+              </div>
+            </li>
+
+            <li class="nav-item dropdown" v-if="auth.account_type == 'Admin'">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 0; color: white">
+                Dodaj
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="border: 1px solid white; background: #6DD0F6">
+                <router-link class="dropdown-item" to="/">Dodaj poslodavca</router-link>
+                <router-link class="dropdown-item" to="/AddProject">Dodaj projekt</router-link>
+              </div>
+            </li>
+
             <li class="nav-item" v-if="auth.account_type == 'Admin'">
-              <router-link to="/">Dodaj poslodavca</router-link>
+              <router-link to="/Instructions">Upute</router-link>
             </li>
-            <li class="nav-item" v-if="auth.account_type == 'Admin' || true">
-              <router-link to="/Students">Studenti</router-link>
-            </li>
-            <li class="nav-item" v-if="auth.account_type == 'Admin' || true">
-              <router-link to="/AllocateStudent">Alokacija studenata</router-link>
-            </li>
+
+            <!-- Student -->
             <li class="nav-item dropdown" v-if="auth.account_type == 'Student'">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 0; color: white">
                 Izvršavanje prakse
@@ -61,9 +88,11 @@
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="border: 1px solid white; background: #6DD0F6">
                 <router-link class="dropdown-item" to="/SelectedProjects">Odabrani projekti</router-link>
                 <router-link class="dropdown-item" to="/ApprovedProject">Dodijeljeni projekt</router-link>
+                <router-link class="dropdown-item" to="/TableOfStudents">Tablica projekata</router-link>
                 <router-link class="dropdown-item" to="/Instructions">Upute</router-link>
               </div>
             </li>
+
             <li class="nav-item" v-if="!auth.account_type">
               <router-link to="/Instructions">Upute</router-link>
             </li>

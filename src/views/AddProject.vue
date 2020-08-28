@@ -59,7 +59,9 @@ export default {
 			store,
             auth: Auth.state, 
             
-            project_info: {},
+            project_info: {
+                company: null
+            },
             list_size:  null,
 		}
     },
@@ -86,7 +88,8 @@ export default {
     },
     mounted(){
         const user_type = this.auth.account_type;
-        if(!(user_type == "Poslodavac" || user_type == "Admin")) console.log("No access")//this.$router.push({ name: 'Home' });
+        if(!(user_type == "Poslodavac" || user_type == "Admin")) this.$router.push({ name: 'Home' });
+        if(user_type == "Poslodavac") this.project_info.company = this.auth.user_data.company;
     }
 
 }

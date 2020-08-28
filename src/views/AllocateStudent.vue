@@ -174,14 +174,8 @@ export default {
         }
     },
     async mounted(){
-		/*
         if(Auth.state.account_type != "Admin") this.$router.push({ name: 'Home' });
         else this.getProjects();
-		
-		*/
-        //TEST
-        console.log(Auth.a)
-        this.getProjects();
     }
 }
 </script>

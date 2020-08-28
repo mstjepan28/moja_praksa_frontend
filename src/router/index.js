@@ -90,6 +90,11 @@ Vue.use(VueRouter)
     name: 'AllocateStudent',
     component: () => import('../views/AllocateStudent.vue')
   },
+  {
+    path: '/TableOfStudents',
+    name: 'TableOfStudents',
+    component: () => import('../views/TableOfStudents.vue')
+  },
 ]
 
 const router = new VueRouter({
