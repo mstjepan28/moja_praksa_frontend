@@ -31,7 +31,7 @@
 	<vue-flux
 		class="row"
 		:options="store.vfOptions"
-		:images="store.vfImages_partners"
+		:images="project_headers"
 		:transitions="store.vfTransitions"
 		ref="slider"
 	>
@@ -140,7 +140,8 @@ export default {
 			id: this.$route.params.id,
 			project_info: false,
 			project_selected: false,
-			edit_enabled: false
+			edit_enabled: false,
+			project_headers: false,
 		}
 	},
 	methods:{
@@ -182,6 +183,7 @@ export default {
 				this.project_info.views++;
 			}
 			this.add_view();
+			this.getHeaders();
 		},
 
 		async update_project(){
@@ -233,7 +235,12 @@ export default {
 
         getEmptyPlaces(){
             return this.project_info.allocated_to.filter(element => element == false).length;
-        }
+		},
+
+		getHeaders(){
+			if(!this.project_info.headers) this.project_headers = this.store.vfImages_partners;
+			else this.project_headers = this.project_info.headers.map(img => img.imgUrl)
+		},
 	},
 	computed:{
 		canSelectProject(){

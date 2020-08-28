@@ -2,9 +2,9 @@
 <div>
     <h2 class="mt-5 subtitles">Tablica studenata</h2>
 
-    <div class="row mt-1" style="background: #F8F8F8">
-        <div class="col"> Ime </div>
-        <div class="col"> Prezime </div>
+    <div class="row mt-1 table_header" style="background: #F8F8F8">
+        <div v-if="account_type == 'Admin'" class="col"> Ime </div>
+        <div v-if="account_type == 'Admin'" class="col"> Prezime </div>
         <div class="col"> JMBAG </div>
         <div class="col"> Godina studija </div>
 
@@ -28,7 +28,7 @@ export default {
         return{
             store,
             student_list: false,
-
+            account_type: Auth.state.account_type,
         }
     },
     methods:{
@@ -38,16 +38,15 @@ export default {
         },
     },
     mounted(){
-        const user_type = Auth.state.account_type;
-        if(!(user_type == "Student" || user_type == "Admin")) this.$router.push({ name: 'Home' });
+        if(!(this.account_type == "Student" || this.account_type == "Admin")) this.$router.push({ name: 'Home' });
         this.getStudents();
     }
 }
 </script>
 
 <style>
-table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
+.table_header > .col{
+    color: #333333;
+    border: 1px solid hsl(202,10%,88%);
 }
 </style>

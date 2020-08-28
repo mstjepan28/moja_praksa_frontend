@@ -1,8 +1,8 @@
 <template>
 <div>
-    <div class="row mt-1 table_row">
-        <div class="col">{{info.name}}</div>
-        <div class="col">{{info.surname}}</div>
+    <div class="row table_row">
+        <div v-if="account_type == 'Admin'" class="col">{{info.name}}</div>
+        <div v-if="account_type == 'Admin'" class="col">{{info.surname}}</div>
         <div class="col">{{info.jmbag}}</div>
         <div class="col">{{info.year}}</div>
 
@@ -14,13 +14,22 @@
 
 <script>
 
+import { Auth } from "@/services/index.js";
+
 export default {
     props: ['info'],
+    data(){
+        return{
+            account_type: Auth.state.account_type
+        }
+    }
 }
 </script>
 
 <style>
 .table_row > .col{
-    border: 1px solid black;
+    padding: 6px;
+    font-size: 13px;
+    border: 1px solid hsl(202,10%,88%);
 }
 </style>
