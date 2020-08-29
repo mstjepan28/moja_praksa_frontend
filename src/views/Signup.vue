@@ -11,12 +11,12 @@
 			<div class="col-md-2 col-sm-0"></div>
 
 			<div class="col-md-4 col-sm-12">
-				<label for="student">Student</label><br>
-				<input type="radio" v-model="new_user.account_type" v-on:click="new_user = {}" name="account_type" value="student">
+				<label for="Student">Student</label><br>
+				<input type="radio" v-model="new_user.account_type" v-on:click="new_user = {}" name="account_type" value="Student">
 			</div>
 			<div class="col-md-4 col-sm-12">
-				<label for="poslodavac">Poslodavac</label><br>
-				<input type="radio" v-model="new_user.account_type" v-on:click="new_user = {}" name="account_type" value="poslodavac">
+				<label for="Poslodavac">Poslodavac</label><br>
+				<input type="radio" v-model="new_user.account_type" v-on:click="new_user = {}" name="account_type" value="Poslodavac">
 			</div>
 
 			<div class="col-md-2 col-sm-0"></div>	
@@ -24,7 +24,7 @@
 		<!-- Account type end -->
 
 		<!-- Student -->
-		<div v-if="new_user.account_type == 'student'" class="row">
+		<div v-if="new_user.account_type == 'Student'" class="row">
 			<div class="col-md-2 col-sm-0"></div>
 			<div class="col-md-4 col-sm-12">
 				<div class="input_wrapper input_form_margin">
@@ -75,7 +75,7 @@
 		</div>
 
 		<!-- Poslodavac -->
-		<div v-if="new_user.account_type == 'poslodavac'" class="row">
+		<div v-if="new_user.account_type == 'Poslodavac'" class="row">
 			<div class="col-md-2 col-sm-0"></div>
 			<div class="col-md-4 col-sm-12">
 				<div class="input_wrapper input_form_margin">
