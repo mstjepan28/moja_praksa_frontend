@@ -64,7 +64,9 @@
 		</p>
 	</div><hr>
 
-	<div v-if="partner_list"><PartnerCard v-bind:key="partner.id" v-bind:info="partner" v-for="partner in partner_list"/></div>
+	<div v-if="partner_list">
+		<PartnerCard :key="partner.id" :info="partner" v-for="partner in partner_list"/>
+	</div>
 
 	<div class="row" style="text-align: center">
 		<paginate
@@ -154,7 +156,8 @@ export default {
 		async get_total_pages(){
 			const total_items = await App.getDocAmount();
 			this.total_pages = Math.ceil(total_items.partnersCounter / this.items_per_page);
-		},		
+		},
+
 		async clickCallback(pageNum){
 			const first_item = pageNum * this.items_per_page - this.items_per_page + 1 
 			const last_item = pageNum * this.items_per_page
