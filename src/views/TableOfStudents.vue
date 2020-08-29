@@ -1,7 +1,7 @@
 <template>
 <div>
-    <h2 class="mt-5 subtitles">Tablica studenata</h2>
-    <div style="overflow: auto">
+    <h4 class="mt-5 subtitles">Tablica studenata</h4>
+    <div style="overflow: auto; max-height: 500px">
         <div class="table">
             <div class="row flex-nowrap mt-1 table_header">
                 <div v-if="account_type == 'Admin'" class="col"> Ime </div>
@@ -61,9 +61,12 @@ export default {
     background: #F8F8F8;
 }
 .table_header > .col{
-    color: #333333;
-    min-width: 6rem;
+    min-width: 10rem;
+    max-width: 10rem;
+
     padding: 6px;
+    font-size: 13px;
+    display: table-cell;
     border: 1px solid hsl(202,10%,88%);
 }
 

@@ -63,7 +63,11 @@ export default {
 </script>
 
 <style>
-.table_row > .col{
+.table_row > .col,
+.table_row > div > .col{
+    min-width: 10rem;
+    max-width: 10rem;
+
     padding: 6px;
     font-size: 13px;
     display: table-cell;

@@ -5,7 +5,7 @@
         <div v-if="auth.authenticated" class="col-12 text-right">
 
           <span class="login_form" v-if="auth.account_type == 'Student'">
-            <router-link to="UserInfo"> {{auth.user_data.name + " " + auth.user_data.surname}} <i class="fas fa-user"></i> </router-link>
+            <router-link to="/UserInfo"> {{auth.user_data.name + " " + auth.user_data.surname}} <i class="fas fa-user"></i> </router-link>
           </span>
 
           <span class="login_form" v-if="auth.account_type == 'Poslodavac'">
@@ -71,7 +71,7 @@
                 Dodaj
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="border: 1px solid white; background: #6DD0F6">
-                <router-link class="dropdown-item" to="/">Dodaj poslodavca</router-link>
+                <router-link class="dropdown-item" to="/AddPartner">Dodaj poslodavca</router-link>
                 <router-link class="dropdown-item" to="/AddProject">Dodaj projekt</router-link>
                 <router-link class="dropdown-item" to="/Journal">Predložak dnevnika prakse</router-link>
                 <router-link class="dropdown-item" to="/Instructions">Upute</router-link>

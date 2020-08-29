@@ -145,21 +145,30 @@
 			<h4 class="subtitles">Email adresa:</h4> <input type="text" class="input_wrapper" placeholder="Na koju će vas student kontaktirati..." v-model="partners_info.contact_email">
 		</div>
 
-		<div class="row contact_buttons">
+		<div class="row">
 			<h4 class="subtitles">Kontakt poveznice:</h4>
 
-			<div class="input_wrapper button_design col-md-4 col-sm-12 mt-3">
-				<span class="col-6"><i class="fab fa-twitter"></i> Twitter: </span>
-				<input type="text" class="col-6" placeholder="http://twitter.com/..." v-model="partners_info.twitter">
+			<div class="col-md-2 col-sm-0"></div>
+			<div class="col-md-8 col-sm-12">
+
+				<div class="input_wrapper button_design col-12 mt-3" style="overflow: hidden">
+					<span class="col-md-2"><i class="fab fa-twitter"></i> Twitter: </span>
+					<input type="text" class="col-md-10" placeholder="http://twitter.com/..." v-model="partners_info.twitter">
+				</div>
+
+				<div class="input_wrapper button_design col-12 mt-3" style="overflow: hidden">
+					<span class="col-md-2"><i class="fab fa-facebook-f "></i> Facebook: </span>
+					<input type="text" class="col-md-10" placeholder="http://facebook.com/..." v-model="partners_info.facebook">
+				</div>
+
+				<div class="input_wrapper button_design col-12 mt-3" style="overflow: hidden">
+					<span class="col-md-2"><i class="fas fa-link" style="color: white;"></i> Website: </span>
+					<input type="text" class="col-md-10" placeholder="http://mojastranica.com/..." v-model="partners_info.website">
+				</div>
+
 			</div>
-			<div class="input_wrapper button_design col-md-4 col-sm-12 mt-3">
-				<span class="col-6"><i class="fab fa-facebook-f "></i> Facebook: </span>
-				<input type="text" class="col-6" placeholder="http://facebook.com/..." v-model="partners_info.facebook">
-			</div>
-			<div class="input_wrapper button_design col-md-4 col-sm-12 mt-3">
-				<span class="col-6"><i class="fas fa-link" style="color: white;"></i> Website: </span>
-				<input type="text" class="col-6" placeholder="http://mojastranica.com/..." v-model="partners_info.website">
-			</div>
+			<div class="col-md-2 col-sm-0"></div>
+
 		</div><hr>
 
         <div class="mt-3 d-flex justify-content-center">
@@ -209,8 +218,7 @@
 			</section><hr>			
 		</div>
 		<div v-else class="no_info_message no_projects_message">
-			<span>Vaši projekti će se prikazivati ovdje</span><br>
-			<router-link to="/AddProject">Dodajte novi projekt ovdje</router-link>
+			<span> {{partners_info.company}} trenutno nema projekata </span>
 		</div>
 
 		<div class="row">
@@ -309,7 +317,10 @@ export default {
 		},
 
 		async get_projects(){
-			this.project_list = await Projects.getPartnerProjects(this.id);
+			let projects = await Projects.getPartnerProjects(this.id);
+
+			if(projects.length == 0) projects = false;
+			this.project_list = projects;
 		},
 		
 		async update_partner(){
@@ -376,7 +387,11 @@ export default {
 	computed:{
 		canEdit(){
 			const user_data = Auth.state.user_data;
-			if(user_data._id == this.id) return true;
+
+			if(user_data._id == this.id) 
+				return true;
+			else if(this.partners_info.created_by_admin) 
+				return true;
 			
 			return false;
 		}
@@ -396,10 +411,6 @@ export default {
 	width: 100%;
 	margin: 0 auto;
 	display: inline-block;
-}
-.contact_buttons{
-	user-select: none;
-	white-space: nowrap;
 }
 .no_projects_message{
 	text-align: center;

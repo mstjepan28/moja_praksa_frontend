@@ -1,6 +1,6 @@
 <template>
 <div class="container mt-3">
-    <div class="row option_buttons">
+    <div v-if="account_type == 'Admin'" class="row option_buttons">
         <div v-if="!edit_enabled" class="col text-right">
             <button type="button" class="button_design mt-3" v-on:click="switch_edit"> Uredi </button>
         </div>
@@ -29,7 +29,6 @@
 
         <div v-else-if="edit_enabled" class="col">
             <div class="mt-5" v-bind:key="instruction.order" v-for="instruction in instructions">
-
                 <div class="row">
                     <textarea class="instructions_input" v-model="instruction.text"></textarea>
                 </div>
@@ -37,7 +36,7 @@
                 <div class="row mt-1">
                     <div class="col-md-10 col-sm-0"></div>
                     <div class="col-md-2 col-sm-12 text-center alert_button" v-on:click="remove_instruction(instruction.order)">Ukloni <i class="fas fa-times" style="color: white"></i></div>
-                </div><hr>
+                </div>
             </div>
 
             <div class="mt-5">
@@ -66,7 +65,7 @@ export default {
             instructions: undefined,
             new_instruction: "",
             edit_enabled: false,
-            auth: Auth.state,
+            account_type: Auth.state.account_type,
         }
     },
 	methods:{
@@ -96,10 +95,7 @@ export default {
         }
     },
     async mounted(){
-        const user_type = this.auth.account_type;
-        if(!(user_type == "Student" || user_type == "Admin")) this.$router.push({ name: 'Home' });
-
-        
+        if(!(this.account_type == "Student" || this.account_type == "Admin")) this.$router.push({ name: 'Home' });
         this.get_instruction();
     }
 }

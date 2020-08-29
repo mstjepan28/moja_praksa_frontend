@@ -46,6 +46,11 @@ Vue.use(VueRouter)
     component: () => import('../views/AddProject.vue')
   },
   {
+    path: '/AddPartner',
+    name: 'AddPartner',
+    component: () => import('../views/AddPartner.vue')
+  },
+  {
     path: '/SelectedProjects',
     name: 'SelectedProjects',
     component: () => import('../views/SelectedProjects.vue')

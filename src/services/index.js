@@ -167,13 +167,12 @@ let Partners = {
         const result = await Service.put(`/partners/${partner_id}`, partnerInfo)
         return result.data;
     },
-    // Brisanje od strane admina iz kolekcije partnera, ne brise se user
     async DeletePartner(partnerData){
         const result = await Service.delete(`/partners/${partnerData._id}/`);
         return result.data;
     },
     async CreatePartner(partnerData){
-        const result = await Service.get('/partners', partnerData);
+        const result = await Service.post('/partners', partnerData);
         return result.data;
     },
     async getPartners(search){
