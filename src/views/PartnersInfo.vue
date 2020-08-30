@@ -239,12 +239,12 @@
 			<div class="col-md-6 col-sm-12 text-center"><h5>Email adresa: {{partners_info.contact_email}}</h5></div>
 		</div><hr>
 
-		<div class="row" style="text-align: center">
-			<div class="contacts">
-				<a v-if="partners_info.twitter" v-bind:href="partners_info.twitter" target="_blank" class="button_design contact_buttons"><i class="fab fa-twitter"></i> Twitter</a>
-				<a v-if="partners_info.facebook" v-bind:href="partners_info.facebook" target="_blank" class="button_design contact_buttons"><i class="fab fa-facebook-f"></i> Facebook</a>
-				<a v-if="partners_info.website" v-bind:href="partners_info.website" target="_blank" class="button_design contact_buttons"><i class="fas fa-link" style="color: white;"></i> Website</a>
-			</div>
+		<div class="row text-center">
+			<div class="col-md-2 col-sm-0"></div>
+			<a v-if="partners_info.twitter" :href="partners_info.twitter" target="_blank" class="col-md-2 col-sm-12 mt-2 mr-2 ml-2 button_design"><i class="fab fa-twitter"></i> Twitter</a>
+			<a v-if="partners_info.facebook" :href="partners_info.facebook" target="_blank" class="col-md-3 col-sm-12 mt-2 mr-2 ml-2 button_design"><i class="fab fa-facebook-f"></i> Facebook</a>
+			<a v-if="partners_info.website" :href="partners_info.website" target="_blank" class="col-md-2 col-sm-12  mt-2 mr-2 ml-2 button_design"><i class="fas fa-link" style="color: white;"></i> Website</a>
+			<div class="col-md-2 col-sm-0"></div>
 		</div>
 	</div>
 
