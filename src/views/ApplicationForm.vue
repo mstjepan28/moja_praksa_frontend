@@ -72,11 +72,16 @@ export default {
         }
     },
     methods:{
+        // Dohvati studenta sa odgovarajucim id
 		async getStudents(){
-			if(!this.store.student_list) this.store.student_list = await Students.getStudents();
+            if(!this.store.student_list) 
+                this.store.student_list = await Students.getStudents();
+
             const student_info = this.store.student_list.filter(student => student.id == this.id)[0]
             this.getApplication(student_info);
         },
+
+        // Izvuci prijavnicu te formatiraj datume
         getApplication(student){
             this.application_form = student.application;
 

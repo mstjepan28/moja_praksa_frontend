@@ -28,7 +28,7 @@
 		<div class="col-md-5 col-sm-12  my-auto text-center">
 			<h2>Naši partneri:</h2>
 			<PartnerButton v-bind:key="partner._id" v-bind:info="partner" v-for="partner in partner_list"/><br>
-			<router-link to="/Partners" class="button_design">Prikaži sve</router-link>
+			<router-link to="/Partners" class="button_design" style="width: 100%">Prikaži sve</router-link>
 		</div>
 	</div><hr>
 
@@ -36,8 +36,10 @@
 		<ProjectCard v-bind:key="project.id" v-bind:info="project" v-for="project in project_list"/>
 	</div>
 
-	<div class="d-flex justify-content-center">
-		<router-link to="/Projects" class="button_design">Prikaži sve</router-link>
+	<div class="row">
+		<div class="col-md-4 col-sm-0"></div>
+		<router-link to="/Projects" class="col button_design text-center" style="widht: 75%;">Prikaži sve</router-link>
+		<div class="col-md-4 col-sm-0"></div>
 	</div>
 	
 </div>

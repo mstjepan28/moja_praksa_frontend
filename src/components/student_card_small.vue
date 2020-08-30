@@ -32,7 +32,6 @@
 <script>
 
 import StudentCard from './student_card';
-import { Students } from "@/services/index.js";
 
 export default {
     props: ['info'],
@@ -40,11 +39,6 @@ export default {
     data(){
         return{
             show_more: false,
-        }
-    },
-    methods:{
-        asignProject(){
-            Students.asignProject(this.info.id)
         }
     }
 }

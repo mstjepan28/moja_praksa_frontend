@@ -2,7 +2,8 @@
 <div style="text-align: center">
     <div v-if="project_info">
         <ProjectCard v-bind:info="project_info"/>
-    </div>   
+    </div>
+
     <div v-else>
         <router-link to="/Projects" class="card project" style="background: #636466">
             <img class="card-img-top" src="@/assets/no_alocated_project.png" alt="Card image cap" >
@@ -12,9 +13,13 @@
             </div>
         </router-link>
     </div>
+
     <small>Nakon što vam je dodijeljen projekt, kontaktirajte poslodavca koristeći jedan od navedenih kontakata te popunite prijavnicu</small><br>
-    <router-link to="/FillApplicationForm" class="button_design mt-3 mr-1 ml-1"> Popuni prijavnicu </router-link>
-    <router-link to="/Journal" type="button" class="button_design mt-3 mr-1 ml-1"> Dnevnik Prakse </router-link>
+    
+    <div v-if="project_info || true" class="row col mt-3 d-flex justify-content-center">
+        <router-link to="/FillApplicationForm" class="button_design mr-1 ml-1"> Popuni prijavnicu </router-link>
+        <router-link to="/Journal" class="button_design mr-1 ml-1"> Dnevnik Prakse </router-link>
+    </div>
 </div>
 </template>
 
@@ -28,7 +33,6 @@ export default {
     data(){
         return{
             store,
-            auth: Auth.state,
             project_info: false
         }
     },
@@ -37,18 +41,16 @@ export default {
             const user_data = Auth.getUser();
             if(user_data.approved_project) return;
 
-            if(!this.store.approved_project) this.store.approved_project = await Projects.getApprovedProject();
-            this.project_info = undefined//this.store.approved_project
+            this.project_info = await Projects.getApprovedProject();
         }
     },
     mounted(){
-        const user_type = this.auth.account_type;
-        if(user_type != "Student") this.$router.push({ name: 'Home' });
-        this.getApprovedProject();
+        const user_type = Auth.state.account_type;
+
+        if(user_type != "Student") 
+            this.$router.push({ name: 'Home' });
+        else
+            this.getApprovedProject();
     }
 }
 </script>
-
-<style>
-
-</style>

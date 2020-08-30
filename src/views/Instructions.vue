@@ -2,11 +2,11 @@
 <div class="container mt-3">
     <div v-if="account_type == 'Admin'" class="row option_buttons">
         <div v-if="!edit_enabled" class="col text-right">
-            <button type="button" class="button_design mt-3" v-on:click="switch_edit"> Uredi </button>
+            <button type="button" class="button_design mt-3" v-on:click="edit_enabled = !edit_enabled"> Uredi </button>
         </div>
         <div v-else class="col text-right">
             <button type="button" class="button_design" v-on:click="set_instructions"> Pohrani promjene </button>
-            <button type="button" class="disabled_button mt-3" v-on:click="switch_edit"> Odustani </button>
+            <button type="button" class="disabled_button mt-3" v-on:click="edit_enabled = !edit_enabled"> Odustani </button>
         </div>
     </div>
 
@@ -28,6 +28,7 @@
         </div>
 
         <div v-else-if="edit_enabled" class="col">
+            <!-- Postojece instukcije -->
             <div class="mt-5" v-bind:key="instruction.order" v-for="instruction in instructions">
                 <div class="row">
                     <textarea class="instructions_input" v-model="instruction.text"></textarea>
@@ -39,6 +40,7 @@
                 </div>
             </div>
 
+            <!-- Dodaj novu instrukciju -->
             <div class="mt-5">
                 <div class="row">
                     <textarea class="instructions_input" v-model="new_instruction" placeholder="Upišite novu uputu!"></textarea>
@@ -49,7 +51,9 @@
                     <div class="col-md-2 col-sm-12 text-center confirm_button" v-on:click="add_instruction">Dodaj <i class="fas fa-check" style="color: white"></i></div>
                 </div>
             </div>
-        </div>        
+            
+        </div>
+
     </div>
 
 
@@ -63,25 +67,22 @@ export default {
     data(){
         return{
             instructions: undefined,
-            new_instruction: "",
             edit_enabled: false,
+
+            new_instruction: "",
             account_type: Auth.state.account_type,
         }
     },
 	methods:{
-		switch_edit(){
-			if(this.edit_enabled) this.edit_enabled = false;
-            else this.edit_enabled = true
-            
-            this.new_instruction = "";
-        },
         async get_instruction(){
             this.instructions = await Content.get_instructions();
         },
+
         async set_instructions(){
             Content.set_instructions(this.instructions)
             this.edit_enabled = false;
         },
+
         add_instruction(){
             this.instructions.push({
                 order: this.instructions.length,
@@ -89,13 +90,19 @@ export default {
             })
             this.new_instruction = "";
         },
+
         remove_instruction(order){
             let updated_list = this.instructions.filter(instruction => instruction.order != order);
-            this.instructions = updated_list.map((instruction, index) => {instruction.order = index; return instruction});
+            
+            this.instructions = updated_list.map((instruction, index) => {
+                instruction.order = index; 
+                return instruction
+            });
         }
     },
     async mounted(){
-        if(!(this.account_type == "Student" || this.account_type == "Admin")) this.$router.push({ name: 'Home' });
+        if(!(this.account_type == "Student" || this.account_type == "Admin")) 
+            this.$router.push({ name: 'Home' });
         this.get_instruction();
     }
 }

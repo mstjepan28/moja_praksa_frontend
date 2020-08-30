@@ -48,26 +48,33 @@
 
 		<div class="row description">
 			<h1 class="title">
-				<input type="text" class="input_wrapper" placeholder="Naziv poduzeća..." v-model="project_info.company" style="text-align: center; width: 100%;">
+				<input type="text" class="input_wrapper" placeholder="Naziv poduzeća..." v-model="project_info.company" style="text-align: center; width: 100%;" required>
 			</h1><br>
 			
-			<textarea placeholder="Kratak opis projekta..." v-model="project_info.project_description" style="text-align: center"></textarea>
+			<textarea placeholder="Kratak opis projekta..." v-model="project_info.project_description" style="text-align: center" required></textarea>
 		</div>
 
 		<div class="row">
-			<h4 class="subtitles">Kontakt:</h4> <input type="text" class="input_wrapper" placeholder="Kontakt odgovorne osobe za projekt..." v-model="project_info.contact">
+			<h4 class="subtitles">Kontakt:</h4> 
+			<input type="text" class="input_wrapper" placeholder="Kontakt odgovorne osobe za projekt..." v-model="project_info.contact" required>
 
-			<h4 class="subtitles">Tehnologije:</h4> <input type="text" class="input_wrapper" placeholder="Tehnologije koje se koriste u projektu..." v-model="project_info.technologies">
+			<h4 class="subtitles">Tehnologije:</h4> 
+			<input type="text" class="input_wrapper" placeholder="Tehnologije koje se koriste u projektu..." v-model="project_info.technologies" required>
 
-			<h4 class="subtitles">Preference:</h4> <input type="text" class="input_wrapper" placeholder="Preference za osobe koje bi obavljale projekt..." v-model="project_info.preferences">
+			<h4 class="subtitles">Preference:</h4> 
+			<input type="text" class="input_wrapper" placeholder="Preference za osobe koje bi obavljale projekt..." v-model="project_info.preferences" required>
 
-			<h4 class="subtitles">Potrebno imati:</h4> <input type="text" class="input_wrapper" placeholder="Potrebno znannje ili oprema za izvršavanje projekta..." v-model="project_info.requirements">
+			<h4 class="subtitles">Potrebno imati:</h4> 
+			<input type="text" class="input_wrapper" placeholder="Potrebno znannje ili oprema za izvršavanje projekta..." v-model="project_info.requirements" required>
 
-			<h4 class="subtitles">Trajanje:</h4> <input type="text" class="input_wrapper" placeholder="Vremensko trajanje projekta..." v-model="project_info.duration">
+			<h4 class="subtitles">Trajanje:</h4> 
+			<input type="text" class="input_wrapper" placeholder="Vremensko trajanje projekta..." v-model="project_info.duration" required>
 
-			<h4 class="subtitles">Lokacija:</h4> <input type="text" class="input_wrapper" placeholder="Lokacija za izvršavanje projekta..." v-model="project_info.location">
+			<h4 class="subtitles">Lokacija:</h4> 
+			<input type="text" class="input_wrapper" placeholder="Lokacija za izvršavanje projekta..." v-model="project_info.location" required>
 
-			<h4 class="subtitles">Napomena:</h4> <textarea placeholder="Napomena vezana za projekt..." v-model="project_info.note"></textarea>
+			<h4 class="subtitles">Napomena:</h4> 
+			<textarea placeholder="Napomena vezana za projekt..." v-model="project_info.note" required></textarea>
 		</div>
 	</div>
 
@@ -116,10 +123,6 @@
 			<button type="button" class="button_design" style="display:inline-block; margin: 0 auto;" v-else  v-on:click="select_project">Odaberi projekt</button>
 		</div>
 	</div>
-	
-
-
-	<!-- -->
 </div>
 </template>
 
@@ -145,45 +148,39 @@ export default {
 		}
 	},
 	methods:{
-		switch_edit(){
-			if(this.edit_enabled) this.edit_enabled = false;
-			else this.edit_enabled = true
+		is_selected(){
+			const selected_projects = JSON.parse(localStorage.getItem('selected_projects'));
+			
+			if(selected_projects.length == 0)
+				this.project_selected = false;
+			else{
+				const result = selected_projects.filter(project => project.id == this.id);
+				
+				if(result.length == 1) this.project_selected = true;
+				else this.project_selected = false;
+			}
+		},	
+
+		async get_project_info(){
+			this.project_info = await Projects.getOneProject(this.$route.params.id);
+
+			this.add_view();
+			this.getHeaders();
 		},
-		
+
+		getHeaders(){
+			if(!this.project_info.headers) this.project_headers = this.store.vfImages_partners;
+			else this.project_headers = this.project_info.headers.map(img => img.imgUrl)
+		},
+
 		async add_view(){
+			this.project_info.views++;
+
 			await Projects.addProjectView({
 				'_id': this.id,
 				'views': this.project_info.views,
 				'collectionName' : 'projects'
 			});
-		},
-
-		// TEMP
-		add_view_local(views){
-			if(views == undefined) return 0;
-			return views;
-		},
-
-		async get_project_info(){
-			if(this.store.project_list){
-				const project_index = this.store.project_list.findIndex(project => project.id == this.id);
-
-				// TEMP 
-				this.store.project_list[project_index].views = this.add_view_local(this.store.project_list[project_index].views) 
-				this.store.project_list[project_index].views++;
-
-				this.project_info = this.store.project_list[project_index];
-			}
-			else{
-				const result = await Projects.getOneProject(this.$route.params.id);
-				this.project_info = result[0];			
-				
-				// TEMP 
-				this.project_info.views = this.add_view_local(this.project_info.views);
-				this.project_info.views++;
-			}
-			this.add_view();
-			this.getHeaders();
 		},
 
 		async update_project(){
@@ -219,33 +216,15 @@ export default {
 			localStorage.setItem('selected_projects', JSON.stringify(selected_projects));
 			this.is_selected()
 		},
-		
-		is_selected(){
-			const selected_projects = JSON.parse(localStorage.getItem('selected_projects'));
-			
-			if(selected_projects.length == 0)
-				this.project_selected = false;
-			else{
-				const result = selected_projects.filter(project => project.id == this.id);
-				
-				if(result.length == 1) this.project_selected = true;
-				else this.project_selected = false;
-			}
-		},
 
         getEmptyPlaces(){
             return this.project_info.allocated_to.filter(element => element == false).length;
-		},
-
-		getHeaders(){
-			if(!this.project_info.headers) this.project_headers = this.store.vfImages_partners;
-			else this.project_headers = this.project_info.headers.map(img => img.imgUrl)
 		},
 	},
 	computed:{
 		canSelectProject(){
 			const user_data = Auth.state.user_data;
-			if(user_data.account_type == "Student" && !user_data.chosenProjects) return true;
+			if(user_data.account_type == "Student" && !user_data.chosenProjects.length) return true;
 			else return false;
 		},
 		canEdit(){
@@ -255,12 +234,10 @@ export default {
 		}
 	},
 	mounted(){
-		if(Auth.isAuthenticated()){
-			this.is_selected();
-			this.get_project_info();		
-		}
-		else this.$router.push({ name: 'Login' });
-
+		if(!Auth.isAuthenticated()) this.$router.push({ name: 'Login' });
+		
+		this.is_selected();
+		this.get_project_info();		
 	}
 }
 </script>

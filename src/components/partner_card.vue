@@ -52,7 +52,6 @@ export default {
     border: 2px solid #636466
 }
 
-
 .right_col{
     padding: 0 20px;
     text-align: left;

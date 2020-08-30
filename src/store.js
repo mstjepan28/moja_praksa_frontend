@@ -3,8 +3,6 @@ export default{
     partner_list: null,
     student_list: null,
     
-    approved_project: null,
-    
     vfOptions: {autoplay: true, aspectRatio: '16:6'},
     vfTransitions: [ 'fade' ],
     vfImages_home: [ 

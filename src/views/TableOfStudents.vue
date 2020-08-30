@@ -12,8 +12,8 @@
                 <div class="col"> Praksa </div>
                 <div class="col"> Status </div>
 
-                <div v-if="account_type == 'Admin'" class="col"> Prijavnica </div>
-                <div v-if="account_type == 'Admin'" class="col"> Dnevnik Prakse </div>
+                <div class="col"> Prijavnica </div>
+                <div class="col"> Dnevnik Prakse </div>
             </div>
 
             <div v-if="student_list">
@@ -27,21 +27,17 @@
 <script>
 import TableRow from '@/components/table_row';
 import {Auth, Students} from "@/services/index.js";
-
-import store from '@/store.js';
 export default {
     components:{ TableRow },
     data(){
         return{
-            store,
             student_list: false,
             account_type: Auth.state.account_type,
         }
     },
     methods:{
 		async getStudents(){
-			if(!this.store.student_list) this.store.student_list = await Students.getStudents();
-			this.student_list = this.store.student_list;
+			this.student_list = await Students.getStudents();
         },
     },
     mounted(){
