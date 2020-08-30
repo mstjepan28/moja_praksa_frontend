@@ -14,6 +14,8 @@
 
                 <div class="col"> Prijavnica </div>
                 <div class="col"> Dnevnik Prakse </div>
+
+                <div class="col"> Dojmovi </div>
             </div>
 
             <div v-if="student_list">

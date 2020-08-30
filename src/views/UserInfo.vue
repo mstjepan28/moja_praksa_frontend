@@ -1,5 +1,9 @@
 <template>
 <div>
+    <!--
+        Modals
+    -->
+
     <div class="modal fade" id="delete_user_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -84,6 +88,11 @@
             </div>
         </div>
     </div>
+
+
+    <!--
+        User Info
+    -->    
 
     <div v-if="edit_enabled">
         <div class="row mt-3">
@@ -174,10 +183,6 @@ export default {
         }
     },
     methods:{
-		switch_edit(){
-			if(this.edit_enabled) this.edit_enabled = false;
-			else this.edit_enabled = true
-        },
         passwordCheck(){
             if(this.current_password == this.new_password){
                 this.error_message = "Nova lozinka mora biti različita od dosadašnje";
@@ -230,7 +235,7 @@ export default {
         },
 		close_gallery(){
             this.user_data = Auth.getUser();
-			$('#galleryEditorModal').modal('hide')
+			$('#galleryEditorModal').modal('hide');
 		}
     },
     mounted(){
