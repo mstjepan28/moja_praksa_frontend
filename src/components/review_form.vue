@@ -18,11 +18,11 @@
     </div>
     <div v-if="state == 'confirm'">
         <div class="row d-flex justify-content-center">
-            <h4 class="col mt-3 "> Potvrdite slanje : </h4>
+            <h4 class="col mt-3 "> Potvrdite slanje </h4>
         </div>
 
         <div class="row d-flex justify-content-center">
-            <div class="col mt-3 ml-2 mr-2 alert_button">Potvrdi</div>
+            <div class="col mt-3 ml-2 mr-2 alert_button">Pošalji</div>
             <div class="col mt-3 ml-2 mr-2 disabled_button" data-dismiss="modal">Odustani</div>
         </div>
     </div>
