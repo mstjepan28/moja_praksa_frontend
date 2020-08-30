@@ -29,6 +29,9 @@
             <div v-if="info.journalID" class="col"> Predano </div>
             <div v-else class="col"> Nije predano </div>          
         </div>
+
+        <div v-if="info.review" class="col text-center button_design"> Pročitaj </div>
+        <div v-else class="col text-center disabled_button"> Pročitaj </div> 
     </div>
 </div>
 </template>

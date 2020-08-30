@@ -12,7 +12,7 @@
                 </div>
                 
                 <div class="modal-footer">
-                    <button type="button" class="button_design" v-on:click="$router.push({ name: 'ApprovedProject' })" data-dismiss="modal">Uredu</button>
+                    <button type="button" class="button_design" v-on:click="openReview">Uredu</button>
                 </div>
             </div>
         </div>
@@ -22,7 +22,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <ReviewForm/>
+                    <ReviewForm v-on:closeModal="closeReview"/>
                 </div>
             </div>
         </div>
@@ -131,6 +131,16 @@ export default {
 
             this.response_message = await uploadFile[this.user_type];
             $('#response_message').modal('show')
+        },
+
+        openReview(){
+            $('#response_message').modal('hide');
+            $('#ReviewModal').modal('show');
+        },
+
+        closeReview(){
+            $('#ReviewModal').modal('hide');
+            this.$router.push({ name: 'TableOfStudents' })
         }
     },
     mounted(){
