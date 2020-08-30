@@ -78,8 +78,6 @@
 			:page-class="'pagination_buttons'"
 			:prev-class="'pagination_buttons'"
 			:next-class="'pagination_buttons'"
-
-			style="margin: 0 auto;"
 		>
 			<span slot="prevContent">Changed previous button</span>
 			<span slot="nextContent">Changed next button</span>
@@ -122,8 +120,8 @@ export default {
             filter_params:{},
 
 			total_pages: null,
-			prev: "Prethodna",
-			next: "Sljedeća",
+			prev: "<i class='fas fa-chevron-left'></i>",
+			next: "<i class='fas fa-chevron-right'></i>",
 			page: 1,
 			items_per_page: 3,
 

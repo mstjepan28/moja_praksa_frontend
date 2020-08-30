@@ -122,8 +122,25 @@ h4, h5{
 }
 .button_design:hover{
 	color: white;
+
+	transform: scale(1.05);
+	transition: all .5s;
+
     border: 2px solid #6DD0F6;
 	background: #A0E0F6;
+}
+.button_design_no_hover{
+	padding: 5px 10px;
+    display: inline-block;
+    
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+    
+    border-radius: 10px;
+	border: 2px solid #A0E0F6;
+
+	background: #6DD0F6
 }
 
 .confirm_button{
@@ -263,15 +280,8 @@ button > .fas{
 
 	color: #6DD0F6;
 }
-.pagination_buttons:hover{text-decoration: underline;}
-
-.drag_and_drop{
-	margin: 0 20%;
-
-    border-radius: 10px;
-	border: 2px solid #6DD0F6;
-	
-    background: #F1F0EF;
+.pagination_buttons:hover{
+	text-decoration: underline;
 }
 
 .views{

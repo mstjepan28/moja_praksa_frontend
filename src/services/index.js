@@ -131,7 +131,7 @@ let Projects = {
     },
     async getOneProject(id){
         const result = await Service.get(`/projects/${id}`);
-        return [result.data]; 
+        return result.data; 
     },
     async getPartnerProjects(id){
         const result = await Service.get(`/partner_projects/${id}`);
@@ -143,11 +143,10 @@ let Projects = {
     },
     async AddProject(project_info, userID){
         project_info.userID = userID
-        
+        console.log(project_info)
         return await Service.post('/projects', project_info)
     },
     async DeleteProject(project_id){
-
         return await Service.delete(`/projects/${project_id}`)
     },
     async getApprovedProject(){    
@@ -184,7 +183,7 @@ let Partners = {
     },
     async getOnePartner(id){
         const result = await Service.get(`/partners/${id}`);
-        return [result.data];     
+        return result.data;     
     },
     async addPartnerView(info){
         await Service.patch('/', info);

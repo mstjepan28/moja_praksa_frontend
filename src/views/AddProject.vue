@@ -92,33 +92,29 @@ export default {
             this.project_info.allocated_to = new Array(parseInt(this.list_size)).fill(false);
             return await Projects.AddProject(this.project_info, this.partnerId);
         },
+        
         getPartnerId(){
-             this.partnerId = this.partner_list.filter(partner => partner.company == this.project_info.company)[0].id;
+             this.project_info.partnerId = this.partner_list.filter(partner => partner.company == this.project_info.company)[0].id;
              this.project_info.created_by_admin = true;
+             this.partnerId = this.user_data._id;
         },
+
         // Dodaj projekt u bazu te ako je uspješno dodan izbriši unesene podatke i update-aj lokalnu listu projekata
         async addProject(){
             if(!this.partnerId) this.getPartnerId();
             const result = await this.uploadProject();
 
-            console.log(result);
-
             if(!result) return;
-            
             this.project_info = { company: undefined },
             this.store.project_list = await Projects.getProjects();
             
             this.$router.push({ name: 'Projects' });
-            
         },
 
         // Dohvati sve podslodavce koje je stvorio admin da bi im se dodijelio novi projekt
         async getPartners(){
 			if(!this.store.partner_list) this.store.partner_list = await Partners.getPartners();
 			this.partner_list = this.store.partner_list.filter(partner => partner.created_by_admin);
-        },
-        setProjectInfoAdmin(){
-            console.log(123, this.partnerId)
         },
 
         // Postavi id i ime poslodavca ukoliko on dodaje projekt

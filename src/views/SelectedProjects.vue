@@ -42,9 +42,11 @@
                 <br><span class="active_subtitle">Prvi odabir</span>
 
                 <div v-if="!selectionConfirmed" class="selected_project_options">
-                    <button type="button" v-on:click="shift_priority_negative(first_choice.id)"><i class="fas fa-chevron-left"></i></button>
-                    <button type="button" class="button_design" v-on:click="unselect_project('first_choice', first_choice.id)">Ukloni odabir</button>
-                    <button type="button" v-on:click="shift_priority_positive(first_choice.id)"><i class="fas fa-chevron-right"></i></button>                    
+                    <button type="button" v-on:click="shiftPriority(0, 'Negative')"> <i class="fas fa-chevron-left"></i> </button>
+
+                    <button type="button" class="button_design" v-on:click="unselect_project('first_choice', first_choice.id)"> Ukloni odabir </button>
+
+                    <button type="button" v-on:click="shiftPriority(0, 'Positive')"> <i class="fas fa-chevron-right"></i> </button>                    
                 </div>
             </div>
             <div v-else class="selection_place no_project">
@@ -78,9 +80,11 @@
                 <br><span class="active_subtitle">Drugi odabir</span>
 
                 <div v-if="!selectionConfirmed" class="selected_project_options">
-                    <button type="button" v-on:click="shift_priority_negative(second_choice.id)"><i class="fas fa-chevron-left"></i></button>
-                    <button type="button" class="button_design" v-on:click="unselect_project('second_choice', second_choice.id)">Ukloni odabir</button>
-                    <button type="button" v-on:click="shift_priority_positive(second_choice.id)"><i class="fas fa-chevron-right"></i></button>                    
+                    <button type="button" v-on:click="shiftPriority(1, 'Negative')"> <i class="fas fa-chevron-left"></i> </button>
+                    
+                    <button type="button" class="button_design" v-on:click="unselect_project('second_choice', second_choice.id)"> Ukloni odabir </button>
+                    
+                    <button type="button" v-on:click="shiftPriority(1, 'Positive')"><i class="fas fa-chevron-right"></i></button>                    
                 </div>         
             </div>   
             <div v-else class="selection_place no_project">
@@ -114,9 +118,11 @@
                 <br><span class="active_subtitle">Treći odabir</span>
 
                 <div v-if="!selectionConfirmed" class="selected_project_options">
-                    <button type="button" v-on:click="shift_priority_negative(third_choice.id)"><i class="fas fa-chevron-left"></i></button>
-                    <button type="button" class="button_design" v-on:click="unselect_project('third_choice', third_choice.id)">Ukloni odabir</button>
-                    <button type="button" v-on:click="shift_priority_positive(third_choice.id)"><i class="fas fa-chevron-right"></i></button>                    
+                    <button type="button" v-on:click="shiftPriority(2, 'Negative')"> <i class="fas fa-chevron-left"></i> </button>
+                    
+                    <button type="button" class="button_design" v-on:click="unselect_project('third_choice', third_choice.id)"> Ukloni odabir </button>
+                    
+                    <button type="button" v-on:click="shiftPriority(2, 'Positive')"> <i class="fas fa-chevron-right"></i> </button>                    
                 </div>             
             </div>
             <div v-else class="selection_place no_project">
@@ -166,9 +172,9 @@ export default {
     methods:{
         async send_project_selection(){
             await Projects.submit_projects([this.first_choice.id, this.second_choice.id, this.third_choice.id]);
-            this.updateCurUser();
+            this.updateCurrentUser();
         },
-        updateCurUser(){
+        updateCurrentUser(){
             let user_data = this.auth.user_data;
             user_data.chosenProjects = [this.first_choice.id, this.second_choice.id, this.third_choice.id];
 
@@ -176,43 +182,43 @@ export default {
             this.selectionConfirmed = true;
         },
 
-        // Mijenja prioritet svakog projekta za +1
-        shift_priority_positive(projectid){
+        shiftPriority(objectIndex, direction){
+            if(direction == 'Positive')
+                this.update_projects(this.ShiftPositive(objectIndex))
+            else if(direction == 'Negative')
+                this.update_projects(this.ShiftNegative(objectIndex))
+
+            this.set_projects();
+        },
+
+        ShiftPositive(objectIndex){
             let selected_projects = this.project_list;
-
-            const object_index = selected_projects.findIndex(project => project.id == projectid);
-
-            let project = selected_projects[object_index];
+            let project = selected_projects[objectIndex];
+            
             if(project.priority == 3 || selected_projects.length == project.priority){
                 project.priority = 1;
-                selected_projects[0].priority = object_index + 1
+                selected_projects[0].priority = objectIndex + 1
             }
             else{
                 project.priority++;
-                selected_projects[object_index + 1].priority = object_index + 1
+                selected_projects[objectIndex + 1].priority = objectIndex + 1
             }
-
-            this.update_projects(selected_projects)
-            this.set_projects();
+            return selected_projects;
         },
-        // Mijenja prioritet svakog projekta za -1
-        shift_priority_negative(projectid){
+        ShiftNegative(objectIndex){
             let selected_projects = this.project_list;
+            let project = selected_projects[objectIndex];
 
-            const object_index = selected_projects.findIndex(project => project.id == projectid);
-
-            let project = selected_projects[object_index];
             if(project.priority == 1){
                 project.priority = selected_projects.length;
-                selected_projects[selected_projects.length - 1].priority = object_index + 1
+                selected_projects[selected_projects.length - 1].priority = objectIndex + 1
             }
             else{
                 project.priority--;
-                selected_projects[object_index - 1].priority = object_index + 1
+                selected_projects[objectIndex - 1].priority = objectIndex + 1
             }
-            
-            this.update_projects(selected_projects)
-            this.set_projects();
+
+            return selected_projects;
         },
 
         // Update projekata u localstorage
@@ -256,9 +262,10 @@ export default {
     mounted(){
         const user_type = this.auth.account_type;
         
-        if(!(user_type == "Student" || user_type == "Admin")) console.log("No access")//this.$router.push({ name: 'Home' });
+        if(!(user_type == "Student" || user_type == "Admin"))
+            this.$router.push({ name: 'Home' });
         else if(user_type == "Student"){
-            if(this.auth.user_data.chosenProjects) this.selectionConfirmed = true;
+            if(this.auth.user_data.chosenProjects.length) this.selectionConfirmed = true;
             this.set_projects();
         }
     }
@@ -267,7 +274,6 @@ export default {
 </script>
 
 <style>
-
 .no_project > .project{background: #636466;}
 
 .selected_projects{

@@ -27,10 +27,12 @@
 		<div v-if="new_user.account_type == 'Student'" class="row">
 			<div class="col-md-2 col-sm-0"></div>
 			<div class="col-md-4 col-sm-12">
+
 				<div class="input_wrapper input_form_margin">
 					<span><i class="fas fa-user"></i></span>
 					<input v-model="new_user.name" type="text" placeholder="Ime..." required/>
 				</div>
+				
 				<div class="input_wrapper input_form_margin">
 					<span><i class="fas fa-key"></i></span>
 					<input v-model="new_user.password" type="password" placeholder="Lozinka..." required/>
@@ -126,10 +128,6 @@
 				<div class="input_wrapper input_form_margin">
 					<span><i class="fas fa-at"></i></span>
 					<input v-model="new_user.contact_email" type="email" placeholder="Kontakt email..." />
-				</div>
-				<div class="input_wrapper input_form_margin">
-					<span><i class="fas fa-code"></i></span>
-					<input v-model="new_user.website" type="url" placeholder="Web stranica..." />
 				</div>
 			</div>
 			<div class="col-md-4 col-sm-12">

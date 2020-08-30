@@ -99,46 +99,54 @@ export default {
             },
             confirmation_check: false,
 
-            auth: Auth.state, 
+            user_data: Auth.state.user_data, 
         }
     },
     methods:{
+        // Provjeri ako je studentu odobren projekt
+        async getApprovedProject(){
+            const approvedProject = await Projects.getApprovedProject();
+
+            if(!approvedProject) this.$router.push({ name: 'ApprovedProject' });
+            
+            this.autocompleteData(approvedProject);
+        },
+
+        // Popuni dio prijavnice iz vec poznatih podataka
+        autocompleteData(approvedProject){
+            const user = this.user_data
+
+            this.application_form = {
+                jmbag: user.jmbag,
+                student_email: user.email,
+
+                company: approvedProject.company,
+                description: approvedProject.project_description,
+                duration: approvedProject.duration
+            }
+        },
+
+        // Popunjena prijavnica se pohranjuje u bazu
         async send_application(){
             this.convert_date();
-            const user_data = Auth.getUser();
-            const result = await App.upload_application_form(this.application_form, user_data._id);
+            const result = await App.upload_application_form(this.application_form, this.user_data._id);
 
-            if(result){
-                this.$router.go(-1)
-            }
-            console.log(result)
-            
+            if(result) this.$router.go(-1)
         },
+
+        // Datume pretvaramo u unix time
         convert_date(){
             this.application_form.start_date = Date.parse(this.start_date);
             this.application_form.end_date = Date.parse(this.end_date)
         },
-        autocomplete_user_data(){
-            const user_data = Auth.getUser();
-            this.application_form.jmbag = user_data.jmbag;
-            this.application_form.student_email = user_data.email;
-
-            if(user_data.approved_project) this.autocomplete_project_data();
-        },
-        async autocomplete_project_data(){
-            if(!this.store.approved_project) this.store.approved_project = await Projects.getApprovedProject();
-            const project_info = this.store.approved_project;
-            
-            this.application_form.company = project_info.company;
-            this.application_form.description = project_info.project_description;
-            this.application_form.duration = project_info.duration;
-        }
-
     },
     mounted(){
         const user_type = this.auth.account_type;
-        if(user_type != "Student") this.$router.push({ name: 'Home' });
-        this.autocomplete_user_data();
+
+        if(user_type != "Student") 
+            this.$router.push({ name: 'Home' });
+        else
+            this.getApprovedProject();
     }
 }
 </script>

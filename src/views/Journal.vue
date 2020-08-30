@@ -26,21 +26,23 @@
             name="test"
             ref="pond"
             label-idle="Drop files here or <span class='filepond--label-action'>Browse</span>"
+
+            labelMaxFileSizeExceeded="Premašena dozvoljena veličina!"
+            labelMaxFileSize="Maksimalna veličina iznosi 10MB"
+            maxFileSize="10MB"
+
             v-bind:files="myFiles"
         />
     </div>
-    <small v-if="file_error == 'size_error'" style="color: red"> Predana datoteka smije najviše imati 10MB </small>
-
 
     <div class="row mt-4">
         <div class="col-md-3 col-sm-0"></div>
         
         <div class="col-md-6 col-sm-12 buttons">
-            <button v-if="template" type="button" class="button_design" v-on:click="getTemplate">Preuzmi predložak dnevnika prakse</button>
-            <button v-else type="button" class="disabled_button" disabled>Preuzmi predložak dnevnika prakse</button>
+            <button type="button" class="button_design" v-on:click="getTemplate">Preuzmi predložak dnevnika prakse</button>
 
-            <button v-if="user_type == 'Student'" type="button" class="button_design mt-3" v-on:click="create_file">Predaj dnevnik prakse</button>
-            <button v-if="user_type == 'Admin'" type="button" class="button_design mt-3" v-on:click="create_file">Postavi predložak dnevnika prakse</button>
+            <button v-if="user_type == 'Student'" type="button" class="button_design mt-3" v-on:click="createFile">Predaj dnevnik prakse</button>
+            <button v-if="user_type == 'Admin'" type="button" class="button_design mt-3" v-on:click="createFile">Postavi predložak dnevnika prakse</button>
         </div>
         <div class="col-md-3 col-sm-0"></div>
     </div>
@@ -64,7 +66,6 @@ import FilePondPluginFileEncode from 'filepond-plugin-file-encode';
 const FilePond = vueFilePond(
     FilePondPluginFileValidateSize,
     FilePondPluginFileValidateType,
-
     FilePondPluginFileEncode,
 )
 
@@ -78,8 +79,6 @@ export default {
             store,
 
             myFiles: [],
-            file_data: false,
-            file_error: false,
             template: false,
 
             response_message: null,
@@ -88,54 +87,39 @@ export default {
         }
     },
     methods: {
-        create_file(){
-            this.file_error = false;
-            const file = this.$refs.pond.getFiles()[0]
-            if(!file) return;
-
-            this.file_data = {
-                fileSize: file.fileSize,
-                fileName: file.filename,
-                fileExtention: file.fileExtension,
-                filenameWithoutExtension: file.filenameWithoutExtension,
-                fileData: file.getFileEncodeDataURL()
-            }
-
-            if(this.user_type == 'Student') this.upload_journal();
-            else if(this.user_type == 'Admin') this.upload_template()
-        },
-
-        async upload_journal(){
-            const response = await App.upload_journal(this.file_data);
-            this.response_message = response.message || response.error;
-            $('#response_message').modal('show')
-        },
-
-        async upload_template(){
-            const response = await App.upload_template(this.file_data);
-            console.log(response)
-            this.response_message = response.message || response.error;
-            $('#response_message').modal('show')
-        },
-
         async getTemplate(){
             const templateJournal = await App.get_journal_template();
-            this.store.downloadFile(templateJournal);
+            
+            if(!templateJournal){
+                this.response_message = "Trenutno ne postoji predložak dnevnika prakse";
+                $('#response_message').modal('show')
+            }
+            else this.store.downloadFile(templateJournal);
         },
 
-        download_file(){
-            // Hanamichi Sakuragi, Morioh.com, 'Download Files with Axios and Vue' https://morioh.com/p/f4d331b62cda
-            const fileLink = document.createElement('a');
+        createFile(){
+            const file = this.$refs.pond.getFile();
+            if(!file) return;
 
-            fileLink.href = this.template.fileData;
-            fileLink.setAttribute('download', this.template.fileName);
-            document.body.appendChild(fileLink);
-
-            fileLink.click();
+            this.UploadFile({
+                fileName: file.filename,
+                fileData: file.getFileEncodeDataURL()
+            })
         },
+
+        async UploadFile(newFile){
+            let uploadFile = {
+                get Admin(){ return App.upload_template(newFile)},
+                get Student(){ return App.upload_journal(newFile)}
+            }
+
+            this.response_message = await uploadFile[this.user_type];
+            $('#response_message').modal('show')
+        }
     },
     mounted(){
-        if(!(this.user_type == "Student" || this.user_type == "Admin")) this.$router.push({ name: 'Home' });
+        if(!(this.user_type == "Student" || this.user_type == "Admin")) 
+            this.$router.push({ name: 'Home' });
     }
 }
 </script>

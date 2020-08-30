@@ -15,12 +15,20 @@
             <button v-if="info.application" class="col button_design" v-on:click="gotoApplicationForm"> Prijavnica </button>
             <button v-else class="col disabled_button"> Prijavnica </button>            
         </div>
+        <div v-else>
+            <div v-if="info.application" class="col"> Predano </div>
+            <div v-else class="col"> Nije predano </div>               
+        </div>
+
 
         <div v-if="account_type == 'Admin'">
             <button v-if="info.journalID" class="col button_design" v-on:click="downloadJournal"> Dnevnik Prakse</button>
             <button v-else class="col disabled_button"> Dnevnik Prakse</button>            
         </div>
-
+        <div v-else>
+            <div v-if="info.journalID" class="col"> Predano </div>
+            <div v-else class="col"> Nije predano </div>          
+        </div>
     </div>
 </div>
 </template>

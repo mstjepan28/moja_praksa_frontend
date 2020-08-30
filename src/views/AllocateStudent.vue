@@ -113,11 +113,14 @@ export default {
         }
     },
     methods:{
-        // Dohvati sve projekte
+        // Dohvati projekte koji su odabrani od strane studenta te koji imaju slobodnih mjesta 
+        // atribut allocated_to je polje koje govori broj slobodnih mjesta, slobodno mjesto označava se sa false, 
+        //  ako je mjesto zauzeto, false zamjenjuje id studenta
 		async getProjects(){
             this.store.project_list = await Projects.getProjects();
-            this.project_list = this.store.project_list.filter(project => project.allocated_to.includes(false) && project.selected_by)
+            this.project_list = this.store.project_list.filter(project => project.selected_by && project.allocated_to.includes(false))
         },
+
         // Nakon odabira projekta, prikaži studente koji su ga odabrali
         async showStudents(id){
             this.selectedProject = id;
@@ -129,33 +132,38 @@ export default {
                 third_choice: await this.getStudents(project.selected_by.third_priority)
             }
         },
-        // Pretvara listu id studenata u objekte 
+
+        // Pretvara listu id-a studenata u objekte sa informacijama studenata
+        // INPUT [id_1, id_2,...] 
+        // OUTPUT [{student_info}, {student_info},...]
         async getStudents(student_ids){
             if(student_ids == undefined) return false;
 
             if(!this.store.student_list) this.store.student_list = await Students.getStudents();
             const students = this.store.student_list
 
-            let result = [];
-            student_ids.forEach(id => {
-                const match = students.filter(student => student.id == id)[0];
-                result.push(match);
+            return student_ids.map(id => {
+                return students.filter(student => student.id == id)[0];
             })
-
-            return result;
         },
 
-        // --- Odobravanje projekta --- //
+        // Okida se na $emit StudentCardSmall komponente
+        // Otvara bootstrap modal za potvrdivanje alokacije studenta na odabran projekt
         confrimAssignment(id){
             this.selectedStudent = id;
             $('#asignProject').modal('show')
         },
+        // Nakon potvrdivanja alokacije studenta, vrsi se update projekta
         asignProject(){
             const project = this.updateLocalProjects();
             Projects.UpdateProject(project, project.id, 'true');
 
-            //this.selectedProject = this.selectedStudent = false;
+            this.selectedProject = this.selectedStudent = false;
         },
+
+        // Dodajemo id alociranog studenta na prvi 'false' u atributu 'allocated_to' odabranog projekta
+        // Ponovno pozivamo funkciju za dohvacanje liste projekata, ako smo popuili sva slobodna mjesta na projektu, nece se više pojavljivati
+        // Vracamo projekt te se on updatea na bazi
         updateLocalProjects(){
             const project_index = this.store.project_list.findIndex(project => project.id == this.selectedProject);
             const project = this.store.project_list[project_index]
@@ -168,14 +176,17 @@ export default {
             return project
         },
 
+        // Dohvaca se broj slobonih mjesta na projektu
         getEmptyPlaces(){
             const project = this.project_list.filter(project => project.id == this.selectedProject)[0];
             return project.allocated_to.filter(element => element == false).length;
         }
     },
     async mounted(){
-        if(Auth.state.account_type != "Admin") this.$router.push({ name: 'Home' });
-        else this.getProjects();
+        if(Auth.state.account_type != "Admin") 
+            this.$router.push({ name: 'Home' });
+        else
+            this.getProjects();
     }
 }
 </script>

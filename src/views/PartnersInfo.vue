@@ -105,9 +105,9 @@
 
 		<div class="row text-center">
 			<h1 class="title">
-				<input type="text" class="input_wrapper" placeholder="Naziv poduzeća..." v-model="partners_info.company" style="text-align: center; width: 100%;">
+				<input type="text" class="input_wrapper" placeholder="Naziv poduzeća..." v-model="partners_info.company" style="text-align: center; width: 100%;" required>
 			</h1><br>
-			<textarea placeholder="Kratak opis poduzeća..." v-model="partners_info.about_us" style="text-align: center"></textarea>
+			<textarea placeholder="Kratak opis poduzeća..." v-model="partners_info.about_us" style="text-align: center" required></textarea>
 		</div>
 
 		<div class="row">
@@ -140,9 +140,14 @@
 
 
 		<div class="row">
-			<h4 class="subtitles">Adresa:</h4> <input type="text" class="input_wrapper" placeholder="Mjesto gdje će student obavljati praksu..." v-model="partners_info.adress">
-			<h4 class="subtitles">Broj telefona:</h4> <input type="text" class="input_wrapper" placeholder="Na koji vas student može kontaktirati..." v-model="partners_info.telephone_number">
-			<h4 class="subtitles">Email adresa:</h4> <input type="text" class="input_wrapper" placeholder="Na koju će vas student kontaktirati..." v-model="partners_info.contact_email">
+			<h4 class="subtitles">Adresa:</h4> 
+			<input type="text" class="input_wrapper" placeholder="Mjesto gdje će student obavljati praksu..." v-model="partners_info.adress" required>
+			
+			<h4 class="subtitles">Broj telefona:</h4> 
+			<input type="text" class="input_wrapper" placeholder="Na koji vas student može kontaktirati..." v-model="partners_info.telephone_number" required>
+			
+			<h4 class="subtitles">Email adresa:</h4> 
+			<input type="text" class="input_wrapper" placeholder="Na koju će vas student kontaktirati..." v-model="partners_info.contact_email" required>
 		</div>
 
 		<div class="row">
@@ -284,31 +289,15 @@ export default {
 	},
 	methods:{
 		async get_partner_info(){
-			if(this.store.partner_list){
-				const partner_index = this.store.partner_list.findIndex(partner => partner.id == this.id);
-
-				this.store.partner_list[partner_index].views = this.add_view_local(this.store.partner_list[partner_index].views) 
-				this.store.partner_list[partner_index].views++;
-
-				this.partners_info = this.store.partner_list[partner_index];
-			}
-			else{
-				const result = await Partners.getOnePartner(this.id);
-				this.partners_info = result[0]
-
-				this.partners_info.views = this.add_view_local(this.partners_info.views);
-				this.partners_info.views++;	
-			}
+			this.partners_info = await Partners.getOnePartner(this.id);
 
 			this.add_view();
 			this.getHeaders();
 		},
-		// TEMP
-		add_view_local(views){
-			if(views == undefined) return 0;
-			return views;
-		},
+
 		async add_view(){
+			this.partners_info.views++;
+
 			await Partners.addPartnerView({
 				'_id': this.id,
 				'views': this.partners_info.views,
@@ -316,22 +305,26 @@ export default {
 			});
 		},
 
+		getHeaders(){
+			if(!this.partners_info.headers) this.partner_headers = this.store.vfImages_partners;
+			else this.partner_headers = this.partners_info.headers.map(img => img.imgUrl)
+		},
+
 		async get_projects(){
 			let projects = await Projects.getPartnerProjects(this.id);
+			console.log(projects)
 
 			if(projects.length == 0) projects = false;
 			this.project_list = projects;
 		},
 		
 		async update_partner(){
-			console.log('pozivam se')
 			const response = Partners.UpdatePartner(this.partners_info, this.$route.params.id, 'true');
 
-			if(response){
-				const partner_index = this.store.partner_list.findIndex(partner => partner.id == this.id);
-				this.store.partner_list[partner_index] = this.partners_info;
-				this.edit_enabled = false;
-			}
+			if(!response) return;
+
+			this.store.partner_list = await Partners.getPartners();
+			this.edit_enabled = false;
 		},
 
 		async delete_partner(){
@@ -365,7 +358,8 @@ export default {
             if(!this.passwordCheck()) return;
             $('#change_password_modal').modal('hide')
             
-            const result = await Auth.changePassword({'oldPassword': this.current_password, 'newPassword': this.new_password});
+			const result = await Auth.changePassword({'oldPassword': this.current_password, 'newPassword': this.new_password});
+			
             if(!result){
                 this.modal_error = "Prilikom pokušaja promjene lozinke došlo je do greške";
                 $('#error_modal').modal('show')
@@ -375,11 +369,6 @@ export default {
             this.edit_enabled = false;
 		},
 
-		getHeaders(){
-			if(!this.partners_info.headers) this.partner_headers = this.store.vfImages_partners;
-			else this.partner_headers = this.partners_info.headers.map(img => img.imgUrl)
-		},
-		
 		close_gallery(){
 			$('#galleryEditorModal').modal('hide');
 		}
