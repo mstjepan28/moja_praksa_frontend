@@ -156,7 +156,7 @@ export default {
         // Nakon potvrdivanja alokacije studenta, vrsi se update projekta
         asignProject(){
             const project = this.updateLocalProjects();
-            Projects.UpdateProject(project, project.id, 'true');
+            Projects.UpdateProject(project, project.id, true);
 
             this.selectedProject = this.selectedStudent = false;
         },

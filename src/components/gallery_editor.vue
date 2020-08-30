@@ -195,13 +195,13 @@ export default {
                     this.user.logo = newImage;
 
                     localStorage.setItem('user', JSON.stringify(this.user));
-                    App.updateUser(this.user, 'true');
+                    App.updateUser(this.user, true);
 
                     return true
                 },
 
                 async updatePartner(){
-                    await Partners.UpdatePartner(this.user, this.user.id, 'true');
+                    await Partners.UpdatePartner(this.user, this.user.id, true);
                     this.store.partner_list = await Partners.getPartners();
                 }
             }
@@ -222,7 +222,7 @@ export default {
             this.user_data.headers = this.user_data.headers.filter(image => image.name != image_name);
             if(!this.user_data.headers.length) this.user_data.headers = false;
 
-            await Partners.UpdatePartner(this.user_data, this.user_data.id, 'true');
+            await Partners.UpdatePartner(this.user_data, this.user_data.id, true);
             this.store.partner_list = await Partners.getPartners();
 
             this.deleted = true;

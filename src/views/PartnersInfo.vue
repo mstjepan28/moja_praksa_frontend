@@ -319,7 +319,7 @@ export default {
 		},
 		
 		async update_partner(){
-			const response = Partners.UpdatePartner(this.partners_info, this.$route.params.id, 'true');
+			const response = Partners.UpdatePartner(this.partners_info, this.$route.params.id, true);
 
 			if(!response) return;
 
@@ -330,7 +330,7 @@ export default {
 		async delete_partner(){
 			if(Auth.state.account_type == 'Admin') this.current_password = true;
 
-			const response = Partners.DeletePartner({'_id': this.id, 'password': this.current_password}, 'false');
+			const response = Partners.DeletePartner({'_id': this.id, 'password': this.current_password}, false);
 			if(!response) return;
 
 			this.store.partner_list = this.store.partner_list.filter(partner => partner.id != this.id);

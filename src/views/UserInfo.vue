@@ -197,7 +197,7 @@ export default {
         async delete_user(){
             $('#delete_user_modal').modal('hide')
 
-            const result = await App.deleteUser(this.user_data, 'false');
+            const result = await App.deleteUser(this.user_data, false);
             this.current_password =  undefined;
 
             if(!result){
@@ -212,7 +212,7 @@ export default {
         async update_user(){
             delete this.user_data.token;
 
-            const result = await App.updateUser(this.user_data, 'true');
+            const result = await App.updateUser(this.user_data, true);
             if(!result){
                 this.modal_error = "Prilikom pokušaja izmjene korisničkih podataka došlo je do greške";
                 $('#error_modal').modal('show')

@@ -82,7 +82,7 @@
 			<div class="col-md-4 col-sm-12">
 				<div class="input_wrapper input_form_margin">
 					<span><i class="fas fa-user"></i></span>
-					<input v-model="new_user.name" type="text" placeholder="Naziv..." required/>
+					<input v-model="new_user.name" type="text" placeholder="Naziv poduzeća..." required/>
 				</div>
 
 				<div class="input_wrapper input_form_margin">

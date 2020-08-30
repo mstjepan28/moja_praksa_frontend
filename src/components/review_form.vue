@@ -59,7 +59,7 @@ export default {
             let user = Auth.state.user_data;
             user.review = this.review;
 
-            const result = await App.updateUser(user, 'true');
+            const result = await App.updateUser(user, true);
             console.log(result);
 
             this.state = 'sent';
