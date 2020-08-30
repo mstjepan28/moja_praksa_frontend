@@ -229,7 +229,11 @@ export default {
 		},
 		canEdit(){
 			const user_data = Auth.state.user_data;
-			if(user_data._id == this.project_info.partnerID) return true;
+			if(user_data._id == this.project_info.partnerID) 
+				return true;
+			else if(this.project_info.created_by_admin)
+				return true;
+
 			return false;
 		}
 	},

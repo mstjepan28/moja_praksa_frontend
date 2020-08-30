@@ -18,6 +18,16 @@
         </div>
     </div>
 
+    <div class="modal fade" id="ReviewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <ReviewForm/>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <div class="row"> <h2>Predajte dnevnik prakse</h2> </div>
     
     <div class="mt-4">
@@ -39,6 +49,7 @@
         <div class="col-md-3 col-sm-0"></div>
         
         <div class="col-md-6 col-sm-12 buttons">
+            <button style="margin: 50px 0 " data-toggle="modal" data-target="#ReviewModal">Test</button>
             <button type="button" class="button_design" v-on:click="getTemplate">Preuzmi predložak dnevnika prakse</button>
 
             <button v-if="user_type == 'Student'" type="button" class="button_design mt-3" v-on:click="createFile">Predaj dnevnik prakse</button>
@@ -72,8 +83,13 @@ const FilePond = vueFilePond(
 import {Auth, App} from "@/services/index.js";
 import store from '@/store.js';
 
+import ReviewForm from '@/components/review_form';
+
 export default {
-    components: { FilePond },
+    components: { 
+        FilePond,
+        ReviewForm
+    },
     data(){
         return {
             store,
