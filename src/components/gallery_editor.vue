@@ -17,10 +17,9 @@
         
         <div class="row">
             <div class="div_button" style="color: #6DD0F6" :class="{ active: isActive == 'gallery' }" v-on:click="isActive = 'gallery'"> Galerija </div>
-            
-        </div>
-        <div class="row mt-md-3">
             <div class="div_button" style="color: #6DD0F6" :class="{ active: isActive == 'logo' }" v-on:click="isActive = 'logo'"> Logo </div>
+        </div>
+        <div v-if="isActive == 'gallery'" class="row mt-md-3">
             <div class="div_button" style="color: #6DD0F6" :class="{ active: isActive == 'header' }" v-on:click="isActive = 'header'"> Dodaj novu sliku</div> 
         </div><hr>
 
