@@ -150,7 +150,7 @@ let Projects = {
         return await Service.delete(`/projects/${project_id}`)
     },
     async getApprovedProject(id){    
-        const result = await Service.get(`/chosen_projects/${id}`);
+        const result = await Service.get(`/approved_project/${id}`);
         
         return result.data;
     },
