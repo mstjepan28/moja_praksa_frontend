@@ -104,12 +104,12 @@ export default {
             console.log(result);
 
             if(!result) return;
-            /*
+            
             this.project_info = { company: undefined },
             this.store.project_list = await Projects.getProjects();
             
             this.$router.push({ name: 'Projects' });
-            */
+            
         },
 
         // Dohvati sve podslodavce koje je stvorio admin da bi im se dodijelio novi projekt
