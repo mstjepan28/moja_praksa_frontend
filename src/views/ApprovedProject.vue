@@ -41,7 +41,7 @@ export default {
             const user_data = Auth.getUser();
             if(user_data.approved_project) return;
 
-            this.project_info = await Projects.getApprovedProject();
+            this.project_info = await Projects.getApprovedProject(user_data._id);
         }
     },
     mounted(){
