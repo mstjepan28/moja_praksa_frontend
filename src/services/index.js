@@ -249,6 +249,8 @@ let Content = {
         return result.data.instructions;
     },
     async set_instructions(instructions){
+        console.log('tu sam services')
+        console.log(instructions)
         const result = await Service.patch('/instructions', {'instructions': instructions})
         return result.data;
     },
