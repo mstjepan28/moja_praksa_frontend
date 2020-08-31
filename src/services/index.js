@@ -62,7 +62,7 @@ let Auth = {
     },
 
     async changePassword(userData){
-        const result = await Service.patch('/register', userData);
+        const result = await Service.patch('/change_password', userData);
         console.log(result)
         return result
     },
