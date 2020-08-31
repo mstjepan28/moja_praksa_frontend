@@ -330,10 +330,10 @@ export default {
 		async delete_partner(){
 			if(Auth.state.account_type == 'Admin') this.current_password = true;
 
-			const response = Partners.DeletePartner({'_id': this.id, 'password': this.current_password}, false);
+			const response = await Partners.DeletePartner({'_id': this.id, 'password': this.current_password}, false);
 			if(!response) return;
 
-			this.store.partner_list = this.store.partner_list.filter(partner => partner.id != this.id);
+			this.store.partner_list = await Partners.getPartners();
 			
 			if(Auth.state.account_type == "Poslodavac"){
 				Auth.logout();
