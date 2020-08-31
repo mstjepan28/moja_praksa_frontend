@@ -14,34 +14,27 @@
         </router-link>
     </div>
 
-    <small>Nakon što vam je dodijeljen projekt, kontaktirajte poslodavca koristeći jedan od navedenih kontakata te popunite prijavnicu</small><br>
-    
-    <div v-if="project_info || true" class="row mt-3 d-flex justify-content-center">
-        <router-link to="/FillApplicationForm" class="button_design mr-1 ml-1"> Popuni prijavnicu </router-link>
-        <router-link to="/Journal" class="button_design mr-1 ml-1"> Dnevnik Prakse </router-link>
-    </div>
+    <small style="margin-top: 100px">Nakon što vam je dodijeljen projekt, kontaktirajte poslodavca koristeći jedan od navedenih kontakata te popunite prijavnicu</small>
 </div>
 </template>
 
 <script>
 import ProjectCard from '@/components/project_card';
 import { Auth, Projects } from "@/services/index.js";
-import store from '@/store.js';
 
 export default {
     components: {ProjectCard},
     data(){
         return{
-            store,
-            project_info: false
+            project_info: false,
+            user_data: Auth.state.user_data
         }
     },
     methods:{
         async getApprovedProject(){
-            const user_data = Auth.getUser();
-            if(user_data.approved_project) return;
+            if(this.user_data.approved_project) return;
 
-            this.project_info = await Projects.getApprovedProject(user_data._id);
+            this.project_info = await Projects.getApprovedProject(this.user_data._id);
         }
     },
     mounted(){

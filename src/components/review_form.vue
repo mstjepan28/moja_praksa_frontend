@@ -10,34 +10,22 @@
         </div>
 
         <div class="row d-flex justify-content-center">
-            <div v-if="review" class="col mt-3 ml-2 mr-2 alert_button" v-on:click="state = 'confirm'">Pošalji</div>
+            <div v-if="review" class="col mt-3 ml-2 mr-2 alert_button" v-on:click="sendReview">Pošalji</div>
             <div v-else class="col mt-3 ml-2 mr-2 disabled_button">Pošalji</div>
 
-            <div class="col mt-3 ml-2 mr-2 button_design" data-dismiss="modal">Preskoći</div>
-        </div>
-    </div>
-
-    <div v-if="state == 'confirm'">
-        <div class="row d-flex justify-content-center">
-            <h4 class="col mt-3 "> Potvrdite slanje </h4>
-        </div>
-
-        <div class="row d-flex justify-content-center">
-            <div class="col mt-3 ml-2 mr-2 alert_button" v-on:click="sendReview">Pošalji</div>
-            <div class="col mt-3 ml-2 mr-2 disabled_button" data-dismiss="modal">Odustani</div>
+            <div class="col mt-3 ml-2 mr-2 button_design" v-on:click="$emit('closeReview')">Preskoći</div>
+            
         </div>
     </div>
 
     <div v-if="state == 'sent'">
-        <div class="row d-flex justify-content-center">
-            <h4 class="col mt-3 "> 
-                Vaši dojmovi su zabilježeni, dojmove ostalih studenata pročitajte
-                <span type="button" style="text-decoration: underline" v-on:click="$emit('closeModal')">Ovdje</span> 
-            </h4>
+        <div>
+            <h4 class="col mt-3 ">Vaši dojmovi su zabilježeni</h4>
+            dojmove ostalih studenata pročitajte<button class="ModalGoto" v-on:click="$emit('gotoTable')">ovdje</button>            
         </div>
 
-        <div class="row d-flex justify-content-center">
-            <div class="col mt-3 ml-2 mr-2 button_design" data-dismiss="modal">Uredu</div>
+        <div class="row mt-3">
+            <button type="button" class="col ml-5 mr-5 d-flex justify-content-center button_design" v-on:click="$emit('closeReview')"> Uredu </button>
         </div>
     </div>
 </div>

@@ -357,3 +357,9 @@ button > .fas{
     font-weight: bold;
     text-decoration: underline;
 }
+
+.ModalGoto{
+    color: #6DD0F6; 
+    margin-top: 1rem; 
+    text-decoration: underline
+}

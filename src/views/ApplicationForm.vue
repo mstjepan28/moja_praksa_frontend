@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { Students } from '@/services';
+import { Auth, Students } from '@/services';
 import store from '@/store.js';
 
 export default {
@@ -78,19 +78,26 @@ export default {
                 this.store.student_list = await Students.getStudents();
 
             const student_info = this.store.student_list.filter(student => student.id == this.id)[0]
-            this.getApplication(student_info);
+            this.getApplication(student_info.application);
         },
 
         // Izvuci prijavnicu te formatiraj datume
-        getApplication(student){
-            this.application_form = student.application;
+        getApplication(application){
+            this.application_form = application;
 
             this.application_form.start_date = new Date(this.application_form.start_date).toLocaleDateString('de-DE');
             this.application_form.end_date = new Date(this.application_form.end_date).toLocaleDateString('de-DE')
         }
     },
     mounted(){
-        this.getStudents();
+        const user = Auth.state.user_data
+
+        if(user.account_type == 'Admin')
+            this.getStudents();
+        else if(user.account_type == 'Student')
+            this.getApplication(user.application);
+        else
+            this.$route.push({ name: 'Home' });
     }
 }
 </script>

@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { Partners } from '@/services/index.js';
+import { Auth, Partners } from '@/services/index.js';
 export default {
     data(){
         return{
@@ -61,6 +61,7 @@ export default {
     },
     methods:{
         async addPartner(){
+            this.partners_info.userID = Auth.state.user_data._id;
             await Partners.CreatePartner(this.partners_info);
             await Partners.getPartners();
 

@@ -87,8 +87,14 @@
                 <router-link class="dropdown-item" to="/SelectedProjects">Odabrani projekti</router-link>
                 <router-link class="dropdown-item" to="/ApprovedProject">Dodijeljeni projekt</router-link>
                 <router-link class="dropdown-item" to="/TableOfStudents">Tablica projekata</router-link>
-                <router-link class="dropdown-item" to="/Instructions">Upute</router-link>
+                <router-link class="dropdown-item" to="/Journal"> Dnevnik prakse </router-link>
+
+                <router-link class="dropdown-item" to="/FillApplicationForm"> Prijavnica </router-link>
               </div>
+            </li>
+
+            <li class="nav-item" v-if="auth.account_type == 'Student'">
+              <router-link to="/Instructions">Upute</router-link>
             </li>
 
           </ul>

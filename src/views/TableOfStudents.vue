@@ -2,10 +2,12 @@
 <div>
     <div class="modal fade" id="readReviewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
+            <div class="modal-content" >
 
                 <div class="modal-body text-center">
-					{{userReview}}
+					<div style="widht: 100%; max-height: 200px; overflow: auto; word-break: break-all">
+                        {{userReview}}
+                    </div>
 
                     <button class="row col mt-3 button_design" data-dismiss="modal"> Uredu </button>
                 </div>

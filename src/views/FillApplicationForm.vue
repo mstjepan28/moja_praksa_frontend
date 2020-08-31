@@ -1,5 +1,22 @@
 <template>
 <div>
+    <div class="modal fade" id="denyAccessModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+
+                <div class="modal-body text-center">
+					
+                    <h4> Prije popunjavanja prijavnice morata vam biti dodijeljena praksa!</h4>
+                    
+                    <div class="row mt-3">
+                        <button type="button" class="col ml-5 mr-5 d-flex justify-content-center button_design" v-on:click="denyAccess"> Uredu </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <div class="row mt-4">
         <div class="col-md-1 col-sm-0"></div>
         <div class="col-md-10 col-sm-12">
@@ -103,13 +120,22 @@ export default {
         }
     },
     methods:{
+        denyAccess(){
+            $('#denyAccessModal').modal('hide');
+            this.$router.push({ name: 'Home' })
+        },
         // Provjeri ako je studentu odobren projekt
         async getApprovedProject(){
             const approvedProject = await Projects.getApprovedProject();
 
-            if(!approvedProject) this.$router.push({ name: 'ApprovedProject' });
-            
-            this.autocompleteData(approvedProject);
+            if(!approvedProject){
+                $('#denyAccessModal').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                })
+                $('#denyAccessModal').modal('show');
+            }
+            else this.autocompleteData(approvedProject);
         },
 
         // Popuni dio prijavnice iz vec poznatih podataka
@@ -139,12 +165,17 @@ export default {
             this.application_form.start_date = Date.parse(this.start_date);
             this.application_form.end_date = Date.parse(this.end_date)
         },
+
+        isFilled(){
+            if(this.user_data.application) return true;
+            else return false;
+        }
     },
     mounted(){
-        const user_type = this.auth.account_type;
-
-        if(user_type != "Student") 
+        if(this.user_data.account_type != "Student") 
             this.$router.push({ name: 'Home' });
+        else if(this.isFilled())
+            this.$router.push({ path: 'ApplicationForm/' + this.user_data._id });
         else
             this.getApprovedProject();
     }

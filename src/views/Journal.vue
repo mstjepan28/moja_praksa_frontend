@@ -2,18 +2,16 @@
 <div class="journal mt-4">
     <div class="modal fade" id="response_message" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Predaja dnevnika prakse</h5>
+            <div class="modal-content text-center">
+
+                <div class="modal-body text-center">
+                    <h4>{{response_message}}</h4>
+
+                    <div class="row mt-3">
+                        <button type="button" class="col ml-5 mr-5 d-flex justify-content-center button_design" v-on:click="openReview"> Uredu </button>
+                    </div>
                 </div>
 
-                <div class="modal-body">
-                    <h4>{{response_message}}</h4>
-                </div>
-                
-                <div class="modal-footer">
-                    <button type="button" class="button_design" v-on:click="openReview">Uredu</button>
-                </div>
             </div>
         </div>
     </div>
@@ -22,12 +20,30 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <ReviewForm v-on:closeModal="closeReview"/>
+                    <ReviewForm v-on:closeReview="closeReview" v-on:gotoTable="gotoTable"/>
                 </div>
             </div>
         </div>
     </div>
-    
+
+    <div class="modal fade" id="denyAccessModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+
+                <div class="modal-body text-center">
+					
+                    <h4> Prije predaje dnevnika prijavnice morate predati prijavnicu te odraditi praksu!</h4>
+                    Prijavnicu možete popuniti <button class="ModalGoto" v-on:click="gotoApplication">ovdje</button>
+                    
+                    <div class="row mt-3">
+                        <button type="button" class="col ml-5 mr-5 d-flex justify-content-center button_design" v-on:click="denyAccess"> Uredu </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <div class="row"> <h2>Predajte dnevnik prakse</h2> </div>
     
     <div class="mt-4">
@@ -49,11 +65,10 @@
         <div class="col-md-3 col-sm-0"></div>
         
         <div class="col-md-6 col-sm-12 buttons">
-            <button style="margin: 50px 0 " data-toggle="modal" data-target="#ReviewModal">Test</button>
-            <button type="button" class="button_design" v-on:click="getTemplate">Preuzmi predložak dnevnika prakse</button>
+            <button v-if="user_type == 'Student'" type="button" class="button_design" v-on:click="createFile">Predaj dnevnik prakse</button>
+            <button v-if="user_type == 'Admin'" type="button" class="button_design" v-on:click="createFile">Postavi predložak dnevnika prakse</button>
 
-            <button v-if="user_type == 'Student'" type="button" class="button_design mt-3" v-on:click="createFile">Predaj dnevnik prakse</button>
-            <button v-if="user_type == 'Admin'" type="button" class="button_design mt-3" v-on:click="createFile">Postavi predložak dnevnika prakse</button>
+            <button type="button" class="button_design mt-3" v-on:click="getTemplate">Preuzmi predložak dnevnika prakse</button>
         </div>
         <div class="col-md-3 col-sm-0"></div>
     </div>
@@ -129,23 +144,65 @@ export default {
                 get Student(){ return App.upload_journal(newFile)}
             }
 
-            this.response_message = await uploadFile[this.user_type];
-            $('#response_message').modal('show')
+            const result = await uploadFile[this.user_type];
+
+            if(result){
+                this.response_message = "Dnevnik Prakse uspješno predan";
+                $('#response_message').modal({
+                    backdrop: 'static',
+                    keyboard: false,
+                })               
+            }
         },
 
+        // Funkcije za otvaranje/zatvaranje bootstrap modala
+        
+        // Review modal handling
         openReview(){
             $('#response_message').modal('hide');
-            $('#ReviewModal').modal('show');
-        },
 
+            $('#ReviewModal').modal({
+                backdrop: 'static',
+                keyboard: false,
+            })
+        },
         closeReview(){
             $('#ReviewModal').modal('hide');
+            this.$router.push({ name: 'Home' })
+        },
+        gotoTable(){
+            $('#ReviewModal').modal('hide');
             this.$router.push({ name: 'TableOfStudents' })
+        },
+
+
+        // Check and deny access modal handling
+        checkAccess(){
+            const journalID = Auth.state.user_data.journalID;
+
+            if(!journalID){
+                $('#denyAccessModal').modal({
+                    backdrop: 'static',
+                    keyboard: false,
+                })
+            }
+        },
+        denyAccess(){
+            $('#denyAccessModal').modal('hide');
+            this.$router.push({ name: 'Home' })
+        },
+        gotoApplication(){
+            $('#denyAccessModal').modal('hide');
+            this.$router.push({ name: 'FillApplicationForm' })
         }
     },
     mounted(){
         if(!(this.user_type == "Student" || this.user_type == "Admin")) 
             this.$router.push({ name: 'Home' });
+        
+        if(this.user_type == "Student")
+            this.checkAccess();
+            
     }
 }
 </script>
@@ -162,4 +219,6 @@ export default {
     width: 100%;
     display: inline-block;
 }
+
+
 </style>
