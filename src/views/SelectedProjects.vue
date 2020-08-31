@@ -146,7 +146,7 @@
     </div>
 
     <div v-if="!selectionConfirmed" class="row mt-5" style="text-align: center">
-        <button class="alert_button" data-toggle="modal" data-target="#send_selection" style="display: inline-block; margin: 0 auto;">Pošalji svoj odabir</button>
+        <button class="button_design" data-toggle="modal" data-target="#send_selection" style="display: inline-block; margin: 0 auto;">Pošalji svoj odabir</button>
     </div>
 </div>
 </template>

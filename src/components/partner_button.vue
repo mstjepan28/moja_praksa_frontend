@@ -1,7 +1,7 @@
 <template>
 <div class="company_button">
 	<router-link v-if="info.logo" class="mt-4 button_design_no_hover" :to="'/PartnersInfo/' + info.id" :style="{'background-image': 'url(' + info.logo.imgUrl + ')'}">
-		<i class="far fa-handshake"></i> {{info.company}}
+		<span style="background-color: rgba(0, 0, 0, 0.4); padding: 6px"> <i class="far fa-handshake"></i> {{info.company}}</span>
 	</router-link>
 
 	<router-link v-else class="mt-4 button_design" :to="'/PartnersInfo/' + info.id">

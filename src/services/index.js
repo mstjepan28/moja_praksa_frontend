@@ -33,9 +33,12 @@ let Auth = {
     async register(new_user){
         //pass ide preko SSL-a pa ga nije nužno heshirati
         const response = await Service.post('/register', new_user);
+
+        if(!response)
+            return false
         
-        if(response.data) return this.login({'email': new_user.email, 'password': new_user.password});
-        return false
+        if(response.data) 
+            return this.login({'email': new_user.email, 'password': new_user.password});
     },
     async login(login_info){
         const response = await Service.post('/login', login_info)

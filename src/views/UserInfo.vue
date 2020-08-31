@@ -197,7 +197,7 @@ export default {
         async delete_user(){
             $('#delete_user_modal').modal('hide')
 
-            const result = await App.deleteUser(this.user_data, false);
+            const result = await App.deleteUser({'_id': this.user_data._id, 'password': this.current_password}, false);
             this.current_password =  undefined;
 
             if(!result){
