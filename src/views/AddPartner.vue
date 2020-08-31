@@ -45,7 +45,7 @@
 
     <div class="row d-flex justify-content-center">
         <div class="col-md-2 col-sm-0"></div>
-        <button type="submit" class="button_design col ml-2 mr-2"> Dodaj partnera </button>
+        <button type="submit" class="button_design col ml-2 mr-2"> Dodaj poslodavca </button>
         <div class="col-md-2 col-sm-0"></div>
     </div>
 </form>
