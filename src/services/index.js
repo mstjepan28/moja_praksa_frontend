@@ -143,7 +143,6 @@ let Projects = {
         return await Service.put(`/projects/${id}`, project_info)
     },
     async AddProject(project_info){
-        console.log('project_info:', project_info)
         return await Service.post('/projects', project_info)
     },
     async DeleteProject(project_id){
