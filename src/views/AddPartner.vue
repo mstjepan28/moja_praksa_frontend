@@ -53,9 +53,11 @@
 
 <script>
 import { Auth, Partners } from '@/services/index.js';
+import store from '@/store.js';
 export default {
     data(){
         return{
+            store,
             partners_info: {}
         }
     },
@@ -63,7 +65,8 @@ export default {
         async addPartner(){
             this.partners_info.userID = Auth.state.user_data._id;
             await Partners.CreatePartner(this.partners_info);
-            await Partners.getPartners();
+
+            this.store.partner_list = await Partners.getPartners();
 
             this.$router.push({ name: 'Partners' })
         }

@@ -2,27 +2,23 @@
 <div v-if="partners_info">
     <div class="modal fade" id="deletePartner" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
+            <form class="modal-content" v-on:submit.prevent="delete_partner">
             
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Upišite vašu lozinku za potvrdu brisanja</h5>
                 </div>
 
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group application_form_element">
-                            <input v-model="current_password" type="password" placeholder="Upišite lozinku..." class="application_input" required>
-                        </div>
-                    </form>
-
+                <div class="modal-body text-center">
+					<input v-model="current_password" type="password" placeholder="Upišite lozinku..." class="application_input" required>
+					<small style="color: red">Ako izbrišete nastavite sa brisanjem, izbrisat će se svi vezani projekti!</small>
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="disabled_button" data-dismiss="modal">Zatvori</button>
-                    <button v-on:click="delete_partner" type="button" class="alert_button" data-dismiss="modal"> Izbriši moj račun </button>
+                    <button type="submit" class="alert_button" data-dismiss="modal"> Izbriši moj račun </button>
                 </div>
 
-            </div>
+            </form>
         </div>
     </div>
 
@@ -241,15 +237,15 @@
 
 		<div class="row col text-center">
 			<div class="col">
-				<a v-if="partners_info.twitter" :href="partners_info.twitter" target="_blank" class="mt-2 mr-2 ml-2 button_design">
+				<a v-if="partners_info.twitter" :href="partners_info.twitter" target="_blank" class="mt-2 mr-2 ml-2 button_design" style="white-space: nowrap;">
 					<i class="fab fa-twitter"></i> Twitter
 				</a>
 
-				<a v-if="partners_info.facebook" :href="partners_info.facebook" target="_blank" class="mt-2 mr-2 ml-2 button_design">
+				<a v-if="partners_info.facebook" :href="partners_info.facebook" target="_blank" class="mt-2 mr-2 ml-2 button_design" style="white-space: nowrap;">
 					<i class="fab fa-facebook-f"></i> Facebook
 				</a>
 
-				<a v-if="partners_info.website" :href="partners_info.website" target="_blank" class="mt-2 mr-2 ml-2 button_design">
+				<a v-if="partners_info.website" :href="partners_info.website" target="_blank" class="mt-2 mr-2 ml-2 button_design" style="white-space: nowrap;">
 					<i class="fas fa-link" style="color: white;"></i> Website
 				</a>
 			</div>

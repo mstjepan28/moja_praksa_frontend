@@ -4,29 +4,32 @@
     <div class="modal fade" id="DeleteConfirmation" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document" style="text-align: center">
             <div class="modal-content">
-                <h4 class="modal-body">
-                    Projekata izbrisan!
-                </h4>
-                <div class="modal-footer" style="display: inline-block; margin: 0 auto;">
-                    <button type="button" class="button_design" data-dismiss="modal">Uredu</button>
+                <div class="modal-body text-center">
+                    <h4> Projekata izbrisan! </h4>
+
+					<div class="row mt-3">
+						<button type="button" class="col ml-5 mr-5 d-flex justify-content-center button_design" v-on:click="gotoProjects">Uredu</button>
+					</div>
+
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="deleteProject" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document" style="text-align: center">
-            <div class="modal-content">
-                <h4 class="modal-body">
-                    Jeste li sigurni da želite izbrisati ovaj projekt?
-                </h4>
-                <div class="modal-footer" style="display: inline-block; margin: 0 auto;">
-                    <button type="button" v-on:click="delete_project" class="alert_button" data-dismiss="modal" data-toggle="modal" data-target="#DeleteConfirmation">Pošalji odabir</button>
-                    <button type="button" class="disabled_button" data-dismiss="modal">Odustani</button>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="modal fade" id="deleteProject" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document" style="text-align: center">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h4>Jeste li sigurni da želite izbrisati ovaj projekt?</h4>
+					
+					<div class="row mt-3 d-flex justify-content-center">
+						<button type="button" class="col-5 ml-2 mr-2  alert_button" v-on:click="delete_project"> Izbriši </button>
+						<button type="button" class="col-5 ml-2 mr-2  disabled_button" data-dismiss="modal">Odustani</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<vue-flux
 		class="row"
@@ -82,7 +85,7 @@
 		<div v-if="isOwner" class="row option_buttons mt-3">
 			<div class="col text-right">
 				<button type="button" class="button_design mr-3" v-on:click="edit_enabled = !edit_enabled"> Uredi </button>
-				<button type="button" class="alert_button" v-on:click="delete_project" data-toggle="modal" data-target="#deleteProject"> Izbriši </button>
+				<button type="button" class="alert_button" data-toggle="modal" data-target="#deleteProject"> Izbriši </button>
 			</div>
 		</div>
 			
@@ -205,8 +208,16 @@ export default {
 			this.edit_enabled = false;
 		},
 		async delete_project(){
-			const result = await Projects.DeleteProject(this.$route.params.id, false);
-			console.log(result);
+			$('#deleteProject').modal('hide');
+			$('#DeleteConfirmation').modal('show');
+			
+			await Projects.DeleteProject(this.id, false);
+
+			this.store.project_list = await Projects.getProjects();
+		},
+		gotoProjects(){
+			$('#DeleteConfirmation').modal('hide');
+			this.$router.push({ name: 'Projects' });
 		},
 
 		select_project(){
