@@ -79,7 +79,6 @@ export default {
             user_data: Auth.state.user_data, 
 
             selectedPartner: undefined,
-            partnerID: undefined,
             partner_list: false,
 
             list_size:  undefined,
@@ -87,21 +86,9 @@ export default {
 		}
     },
     methods:{
-        // Stvori polje u koje ce se pohranjivati id alociranog studenta te pohrani projekt u bazu
-        async uploadProject(){
-            this.project_info.allocated_to = new Array(parseInt(this.list_size)).fill(false);
-            return await Projects.AddProject(this.project_info, this.partnerID);
-        },
-        
-        getPartnerId(){
-             this.project_info.partnerID = this.partner_list.filter(partner => partner.company == this.project_info.company)[0].id;
-             this.project_info.created_by_admin = true;
-             this.partnerID = this.user_data._id;
-        },
-
         // Dodaj projekt u bazu te ako je uspješno dodan izbriši unesene podatke i update-aj lokalnu listu projekata
         async addProject(){
-            if(!this.partnerID) this.getPartnerId();
+            if(this.user_data.account_type == "Admin") this.getPartnerId();
             const result = await this.uploadProject();
 
             if(!result) return;
@@ -109,6 +96,17 @@ export default {
             this.store.project_list = await Projects.getProjects();
             
             this.$router.push({ name: 'Projects' });
+        },
+        getPartnerId(){
+            this.project_info.partnerID = this.partner_list.filter(partner => partner.company == this.project_info.company)[0].id;
+            this.project_info.userID = this.user_data._id;
+            this.project_info.created_by_admin = true;
+        },
+
+        // Stvori polje u koje ce se pohranjivati id alociranog studenta te pohrani projekt u bazu
+        async uploadProject(){
+            this.project_info.allocated_to = new Array(parseInt(this.list_size)).fill(false);
+            return await Projects.AddProject(this.project_info);
         },
 
         // Dohvati sve podslodavce koje je stvorio admin da bi im se dodijelio novi projekt
@@ -120,7 +118,8 @@ export default {
         // Postavi id i ime poslodavca ukoliko on dodaje projekt
         setProjectInfo(){
             this.project_info.company = this.user_data.company;
-            this.partnerID = this.user_data._id;
+            this.project_info.partnerID = this.user_data._id;
+            this.project_info.userID = this.user_data.userID;
         }
     },
     // Samo admin i poslodavac imaju pristup, ovisno o prijavljenoj osobi poziva se funkcija

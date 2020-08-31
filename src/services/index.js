@@ -142,10 +142,9 @@ let Projects = {
         project_info.updateDoc = update
         return await Service.put(`/projects/${id}`, project_info)
     },
-    async AddProject(project_info, userID){
-        project_info.userID = userID
+    async AddProject(project_info){
         console.log(project_info)
-        return await Service.post('/projects', project_info)
+        //return await Service.post('/projects', project_info)
     },
     async DeleteProject(project_id){
         return await Service.delete(`/projects/${project_id}`)
