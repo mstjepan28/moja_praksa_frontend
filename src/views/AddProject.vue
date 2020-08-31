@@ -131,7 +131,7 @@ export default {
         if(account == "Admin") 
             this.getPartners();
         else if(account == 'Poslodavac') 
-            this.setInfo()
+            this.setProjectInfo()
     }
 
 }

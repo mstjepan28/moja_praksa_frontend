@@ -16,7 +16,7 @@
 
     <small>Nakon što vam je dodijeljen projekt, kontaktirajte poslodavca koristeći jedan od navedenih kontakata te popunite prijavnicu</small><br>
     
-    <div v-if="project_info || true" class="row col mt-3 d-flex justify-content-center">
+    <div v-if="project_info || true" class="row mt-3 d-flex justify-content-center">
         <router-link to="/FillApplicationForm" class="button_design mr-1 ml-1"> Popuni prijavnicu </router-link>
         <router-link to="/Journal" class="button_design mr-1 ml-1"> Dnevnik Prakse </router-link>
     </div>
