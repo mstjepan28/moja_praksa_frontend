@@ -394,6 +394,16 @@ export default {
 			this.getPartnerInfo();
 		else 
 			this.$router.push({ name: 'Login' })
+	},
+	watch: {
+		'$route.params.id': function(id){
+			if(Auth.isAuthenticated()){
+				this.id = id;
+				this.getPartnerInfo();
+			}
+			else
+				this.$router.push({ name: 'Login' })
+		}
 	}
 }
 </script>
