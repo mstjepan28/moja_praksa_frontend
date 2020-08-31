@@ -1,6 +1,6 @@
 // servis za komunikaciju s backendom
 import axios from 'axios'
-//import $router from '@/router'
+import $router from '@/router'
 
 //instanciranje varijable za kom. s backendom
 //vezan uz konkretni backend
@@ -22,9 +22,8 @@ Service.interceptors.response.use(
     (response) => {return response},
     (error) => {
         if (error.response.status == 401) {
-            console.log(error)
-            //Auth.logout();
-            //$router.push({ name: 'Login'});
+            Auth.logout();
+            $router.push({ name: 'Login'});
         }
     }
 );
@@ -43,6 +42,8 @@ let Auth = {
     async login(login_info){
         const response = await Service.post('/login', login_info)
 
+        if(!response) return false
+
         if(response.data){
             let user = response.data
             //prvi put put spremamo radi tokenayy
@@ -57,8 +58,6 @@ let Auth = {
 
             return true
         }
-        console.log("Failed to login!")
-        return false    
     },
 
     async changePassword(userData){

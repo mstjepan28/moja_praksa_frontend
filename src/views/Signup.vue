@@ -149,16 +149,14 @@
 			<small style="color: red">{{error_message}}</small><br>
 		</div>
 
-		<div class="row" style="text-align: center">
-			<span style="margin: 0 auto">Več imate korisnički račun? <router-link to="/Login" class="login_form">Prijavite se</router-link></span>
+		<div class="row">
+			<span class="col text-center">Več imate korisnički račun? <router-link to="/Login" class="login_form">Prijavite se</router-link></span>
 		</div>
 
 		<div class="row mt-1 mb-3">
-			<div class="col-md-4 col-sm-0"></div>
-			<div class="col-md-4 col-sm-12">
+			<div class="col text-center">
 				<button type="submit" class="button_design"> Registriraj se! </button>
 			</div>
-			<div class="col-md-4 col-sm-0"></div>
 		</div>
 
 	</form>
