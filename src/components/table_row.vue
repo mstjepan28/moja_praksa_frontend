@@ -30,8 +30,8 @@
             <div v-else class="col"> Nije predano </div>          
         </div>
 
-        <div v-if="info.review" class="col text-center button_design"> Pročitaj </div>
-        <div v-else class="col text-center disabled_button"> Pročitaj </div> 
+        <div v-if="info.review" class="col text-center read_review" v-on:click="$emit('readReview', info.review)"> Pročitaj </div>
+        <div v-else class="col text-center" style="user-select: none;"> Pročitaj </div> 
     </div>
 </div>
 </template>
@@ -83,5 +83,12 @@ export default {
     font-size: 13px;
     display: table-cell;
     border: 1px solid hsl(202,10%,88%);
+}
+
+.read_review{
+    color: #A0E0F6;
+    text-decoration: underline;
+    user-select: none;
+    cursor: pointer;
 }
 </style>

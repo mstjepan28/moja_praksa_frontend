@@ -132,6 +132,21 @@ h4, h5{
     border: 2px solid #6DD0F6;
 	background: #A0E0F6;
 }
+
+.button_design_no_hover{
+	padding: 5px 10px;
+    display: inline-block;
+
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+
+    border-radius: 10px;
+	border: 2px solid #A0E0F6;
+
+	background: #6DD0F6
+}
+
 .confirm_button{
 	user-select: none;
 	cursor: pointer;
