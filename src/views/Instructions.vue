@@ -28,18 +28,6 @@
         </div>
 
         <div v-else-if="edit_enabled" class="col">
-            <!-- Postojece instukcije -->
-            <div class="mt-5" v-bind:key="instruction.order" v-for="instruction in instructions">
-                <div class="row">
-                    <textarea class="instructions_input" v-model="instruction.text"></textarea>
-                </div>
-
-                <div class="row mt-1">
-                    <div class="col-md-10 col-sm-0"></div>
-                    <div class="col-md-2 col-sm-12 text-center alert_button" v-on:click="remove_instruction(instruction.order)">Ukloni <i class="fas fa-times" style="color: white"></i></div>
-                </div>
-            </div>
-
             <!-- Dodaj novu instrukciju -->
             <div class="mt-5">
                 <div class="row">
@@ -49,6 +37,19 @@
                 <div class="row mt-1">
                     <div class="col-md-10 col-sm-0"></div>
                     <div class="col-md-2 col-sm-12 text-center confirm_button" v-on:click="add_instruction">Dodaj <i class="fas fa-check" style="color: white"></i></div>
+                </div>
+            </div>
+
+
+            <!-- Postojece instukcije -->
+            <div class="mt-5" v-bind:key="instruction.order" v-for="instruction in instructions">
+                <div class="row">
+                    <textarea class="instructions_input" v-model="instruction.text"></textarea>
+                </div>
+
+                <div class="row mt-1">
+                    <div class="col-md-10 col-sm-0"></div>
+                    <div class="col-md-2 col-sm-12 text-center alert_button" v-on:click="remove_instruction(instruction.order)">Ukloni <i class="fas fa-times" style="color: white"></i></div>
                 </div>
             </div>
             
@@ -75,7 +76,8 @@ export default {
     },
 	methods:{
         async get_instruction(){
-            this.instructions = await Content.get_instructions();
+            const result = await Content.get_instructions();
+            this.instructions = result || [];
         },
 
         async set_instructions(){

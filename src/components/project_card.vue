@@ -1,7 +1,8 @@
 <template>
 	<router-link :to="'/ProjectInfo/' + info.id" class="card project">
-		<img class="card-img-top" :src="info.img_url" alt="Card image cap" >
-		
+		<img v-if="info.logo" class="card-img-top" :src="info.logo.imgUrl" alt="Card image cap" >
+		<img v-else class="card-img-top" :src="fallBackImg" alt="Card image cap" >
+
 		<div class="card-body">
 			<h5 class="card-title">{{info.company}}</h5>
 			<p class="card-text">{{info.project_description}}</p>
@@ -13,6 +14,11 @@
 
 export default {
 	props: ['info'],
+	data(){
+		return{
+			fallBackImg: "https://images.unsplash.com/photo-1504610926078-a1611febcad3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80"
+		}
+	}
 }
 </script>
 

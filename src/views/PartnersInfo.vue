@@ -31,7 +31,7 @@
             <div class="modal-content">
 
                 <div class="modal-body">
-					<GalleyEditor :info="partners_info" v-on:close_gallery="close_gallery" v-on:updateHeaders="get_partner_info"/>
+					<GalleyEditor :info="partners_info" v-on:close_gallery="close_gallery" v-on:updateHeaders="getPartnerInfo"/>
                 </div>
 
             </div>
@@ -177,13 +177,13 @@
 		</div><hr>
 
         <div class="mt-3 d-flex justify-content-center">
-            <button style="color: #6DD0F6; font-weight: bold" data-toggle="modal" data-target="#change_password_modal"> Promjeni lozniku </button>
+            <button v-if="user_data.account_type != 'Admin'" style="color: #6DD0F6; font-weight: bold" data-toggle="modal" data-target="#change_password_modal"> Promjeni lozniku </button>
             <button style="color: red; font-weight: bold" data-toggle="modal" data-target="#deletePartner"> Izbriši moj račun </button>
         </div>
 	</div>
 
 	<div v-else>
-		<div v-if="canEdit" class="row option_buttons mt-3">
+		<div v-if="isOwner" class="row option_buttons mt-3">
 			<div class="col text-right">
 				<button type="button" class="button_design mr-3" v-on:click="edit_enabled = !edit_enabled"> Uredi </button>
 			</div>
@@ -239,12 +239,20 @@
 			<div class="col-md-6 col-sm-12 text-center"><h5>Email adresa: {{partners_info.contact_email}}</h5></div>
 		</div><hr>
 
-		<div class="row text-center">
-			<div class="col-md-2 col-sm-0"></div>
-			<a v-if="partners_info.twitter" :href="partners_info.twitter" target="_blank" class="col-md-2 col-sm-12 mt-2 mr-2 ml-2 button_design"><i class="fab fa-twitter"></i> Twitter</a>
-			<a v-if="partners_info.facebook" :href="partners_info.facebook" target="_blank" class="col-md-3 col-sm-12 mt-2 mr-2 ml-2 button_design"><i class="fab fa-facebook-f"></i> Facebook</a>
-			<a v-if="partners_info.website" :href="partners_info.website" target="_blank" class="col-md-2 col-sm-12  mt-2 mr-2 ml-2 button_design"><i class="fas fa-link" style="color: white;"></i> Website</a>
-			<div class="col-md-2 col-sm-0"></div>
+		<div class="row col text-center">
+			<div class="col">
+				<a v-if="partners_info.twitter" :href="partners_info.twitter" target="_blank" class="mt-2 mr-2 ml-2 button_design">
+					<i class="fab fa-twitter"></i> Twitter
+				</a>
+
+				<a v-if="partners_info.facebook" :href="partners_info.facebook" target="_blank" class="mt-2 mr-2 ml-2 button_design">
+					<i class="fab fa-facebook-f"></i> Facebook
+				</a>
+
+				<a v-if="partners_info.website" :href="partners_info.website" target="_blank" class="mt-2 mr-2 ml-2 button_design">
+					<i class="fas fa-link" style="color: white;"></i> Website
+				</a>
+			</div>
 		</div>
 	</div>
 
@@ -272,8 +280,8 @@ export default {
 	data(){
 		return{
 			store,
-
 			id: this.$route.params.id,
+
 			partners_info: false,
 			partner_headers: false,
 			project_list: false,
@@ -281,21 +289,45 @@ export default {
 			modal_error: false,
 			error_message: false,
 			edit_enabled: false,
+			isOwner: false,
 
             current_password: undefined,
             new_password: undefined,
-            confirm_password: undefined,
+			confirm_password: undefined,
+			
+			user_data: Auth.state.user_data,
 		}
 	},
 	methods:{
-		async get_partner_info(){
+		async getPartnerInfo(){
 			this.partners_info = await Partners.getOnePartner(this.id);
 
-			this.add_view();
 			this.getHeaders();
-		},
+			this.getProjects();
 
-		async add_view(){
+			this.checkIfOwner();
+			this.addView();
+		},
+		getHeaders(){
+			if(!this.partners_info.headers) this.partner_headers = this.store.vfImages_partners;
+			else this.partner_headers = this.partners_info.headers.map(img => img.imgUrl)
+		},
+		async getProjects(){
+			let projects = await Projects.getPartnerProjects(this.id);
+
+			if(projects.length == 0) projects = false;
+			this.project_list = projects;
+		},
+		checkIfOwner(){
+			if(this.user_data._id == this.id)
+				this.isOwner = true;
+			
+			else if(this.user_data.account_type == "Admin" && this.partners_info.created_by_admin)
+				this.isOwner = true;
+		},
+		async addView(){
+			if(this.isOwner) return;
+
 			this.partners_info.views++;
 
 			await Partners.addPartnerView({
@@ -304,22 +336,10 @@ export default {
 				'collectionName' : 'partners'
 			});
 		},
-
-		getHeaders(){
-			if(!this.partners_info.headers) this.partner_headers = this.store.vfImages_partners;
-			else this.partner_headers = this.partners_info.headers.map(img => img.imgUrl)
-		},
-
-		async get_projects(){
-			let projects = await Projects.getPartnerProjects(this.id);
-			console.log(projects)
-
-			if(projects.length == 0) projects = false;
-			this.project_list = projects;
-		},
 		
+
 		async update_partner(){
-			const response = Partners.UpdatePartner(this.partners_info, this.$route.params.id, true);
+			const response = Partners.UpdatePartner(this.partners_info, this.id, true);
 
 			if(!response) return;
 
@@ -328,14 +348,14 @@ export default {
 		},
 
 		async delete_partner(){
-			if(Auth.state.account_type == 'Admin') this.current_password = true;
+			if(this.user_data.account_type == 'Admin') this.current_password = true;
 
 			const response = await Partners.DeletePartner({'_id': this.id, 'password': this.current_password}, false);
 			if(!response) return;
 
 			this.store.partner_list = await Partners.getPartners();
 			
-			if(Auth.state.account_type == "Poslodavac"){
+			if(this.user_data.account_type == "Poslodavac"){
 				Auth.logout();
 				this.$router.push({ name: 'Login' });
 			}
@@ -373,24 +393,11 @@ export default {
 			$('#galleryEditorModal').modal('hide');
 		}
 	},
-	computed:{
-		canEdit(){
-			const user_data = Auth.state.user_data;
-
-			if(user_data._id == this.id) 
-				return true;
-			else if(this.partners_info.created_by_admin) 
-				return true;
-			
-			return false;
-		}
-	},
 	mounted(){
-		if(Auth.isAuthenticated()){
-			this.get_partner_info();
-			this.get_projects();		
-		}
-		else this.$router.push({ name: 'Login' })
+		if(Auth.isAuthenticated())
+			this.getPartnerInfo();
+		else 
+			this.$router.push({ name: 'Login' })
 	}
 }
 </script>

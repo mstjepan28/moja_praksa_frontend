@@ -12,8 +12,8 @@
         <div class="col">{{getStudentStatus()}}</div>
 
         <div v-if="account_type == 'Admin'">
-            <button v-if="info.application" class="col button_design" v-on:click="gotoApplicationForm"> Prijavnica </button>
-            <button v-else class="col disabled_button"> Prijavnica </button>            
+            <button v-if="info.application" class="col button_design" v-on:click="gotoApplicationForm"> Pregled </button>
+            <button v-else class="col disabled_button"> Pregled </button>            
         </div>
         <div v-else>
             <div v-if="info.application" class="col"> Predano </div>
@@ -22,8 +22,8 @@
 
 
         <div v-if="account_type == 'Admin'">
-            <button v-if="info.journalID" class="col button_design" v-on:click="downloadJournal"> Dnevnik Prakse</button>
-            <button v-else class="col disabled_button"> Dnevnik Prakse</button>            
+            <button v-if="info.journalID" class="col button_design" v-on:click="downloadJournal"> Preuzimanje </button>
+            <button v-else class="col disabled_button"> Preuzimanje </button>            
         </div>
         <div v-else>
             <div v-if="info.journalID" class="col"> Predano </div>

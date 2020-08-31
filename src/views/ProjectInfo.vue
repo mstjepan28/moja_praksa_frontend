@@ -79,7 +79,7 @@
 	</div>
 
 	<div v-else>
-		<div v-if="canEdit" class="row option_buttons mt-3">
+		<div v-if="isOwner" class="row option_buttons mt-3">
 			<div class="col text-right">
 				<button type="button" class="button_design mr-3" v-on:click="edit_enabled = !edit_enabled"> Uredi </button>
 				<button type="button" class="alert_button" v-on:click="delete_project" data-toggle="modal" data-target="#deleteProject"> Izbriši </button>
@@ -139,16 +139,21 @@ export default {
 	data(){
 		return{
 			store,
-
 			id: this.$route.params.id,
+
 			project_info: false,
-			project_selected: false,
-			edit_enabled: false,
 			project_headers: false,
+
+			project_selected: false,
+			
+			edit_enabled: false,
+			isOwner: false,
 		}
 	},
 	methods:{
-		is_selected(){
+		isSelected(){
+			if(Auth.state.account_type != "Student") return;
+
 			const selected_projects = JSON.parse(localStorage.getItem('selected_projects'));
 			
 			if(selected_projects.length == 0)
@@ -161,19 +166,29 @@ export default {
 			}
 		},	
 
-		async get_project_info(){
-			this.project_info = await Projects.getOneProject(this.$route.params.id);
+		async getProjectInfo(){
+			this.project_info = await Projects.getOneProject(this.id);
 
-			this.add_view();
 			this.getHeaders();
+			this.checkIfOwner();
+			this.addView();
 		},
-
 		getHeaders(){
 			if(!this.project_info.headers) this.project_headers = this.store.vfImages_partners;
 			else this.project_headers = this.project_info.headers.map(img => img.imgUrl)
 		},
+		checkIfOwner(){
+			const user_data = Auth.state.user_data;
 
-		async add_view(){
+
+			if(user_data._id == this.project_info.partnerID) 
+				this.isOwner = true;
+			else if(user_data.account_type == "Admin" && this.project_info.created_by_admin)
+				this.isOwner = true;
+		},
+		async addView(){
+			if(this.isOwner) return;
+			
 			this.project_info.views++;
 
 			await Projects.addProjectView({
@@ -189,7 +204,6 @@ export default {
 
 			this.edit_enabled = false;
 		},
-
 		async delete_project(){
 			const result = await Projects.DeleteProject(this.$route.params.id, false);
 			console.log(result);
@@ -206,7 +220,6 @@ export default {
 			
 			this.is_selected()
 		},
-
 		unselect_project(){
 			let selected_projects = JSON.parse(localStorage.getItem('selected_projects'));
 			selected_projects = selected_projects.filter(project => project.id != this.id);
@@ -226,22 +239,15 @@ export default {
 			const user_data = Auth.state.user_data;
 			if(user_data.account_type == "Student" && !user_data.chosenProjects.length) return true;
 			else return false;
-		},
-		canEdit(){
-			const user_data = Auth.state.user_data;
-			if(user_data._id == this.project_info.partnerID) 
-				return true;
-			else if(this.project_info.created_by_admin)
-				return true;
-
-			return false;
 		}
 	},
 	mounted(){
-		if(!Auth.isAuthenticated()) this.$router.push({ name: 'Login' });
-		
-		this.is_selected();
-		this.get_project_info();		
+		if(Auth.isAuthenticated()){
+			this.isSelected();
+			this.getProjectInfo();				
+		}
+		else
+			this.$router.push({ name: 'Login' });
 	}
 }
 </script>
