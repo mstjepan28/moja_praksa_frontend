@@ -126,7 +126,7 @@ export default {
         },
         // Provjeri ako je studentu odobren projekt
         async getApprovedProject(){
-            const approvedProject = await Projects.getApprovedProject();
+            const approvedProject = await Projects.getApprovedProject(this.user_data._id);
 
             if(!approvedProject){
                 $('#denyAccessModal').modal({
@@ -147,8 +147,7 @@ export default {
                 student_email: user.email,
 
                 company: approvedProject.company,
-                description: approvedProject.project_description,
-                duration: approvedProject.duration
+                description: approvedProject.project_description
             }
         },
 
@@ -157,7 +156,12 @@ export default {
             this.convert_date();
             const result = await App.upload_application_form(this.application_form, this.user_data._id);
 
-            if(result) this.$router.go(-1)
+            console.log(result);
+
+            this.user_data.application = this.application_form;
+            localStorage.setItem('user', JSON.stringify(this.user_data));
+
+            this.$router.push({ name: 'Home' })
         },
 
         // Datume pretvaramo u unix time
@@ -175,7 +179,8 @@ export default {
         if(this.user_data.account_type != "Student") 
             this.$router.push({ name: 'Home' });
         else if(this.isFilled())
-            this.$router.push({ path: 'ApplicationForm/' + this.user_data._id });
+            //this.$router.push({ path: 'ApplicationForm/' + this.user_data._id });
+            console.log(123)
         else
             this.getApprovedProject();
     }

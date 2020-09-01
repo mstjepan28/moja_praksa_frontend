@@ -48,10 +48,10 @@
 
 						<div class="row mr-2 ml-2">
 							<div class="col-6">
-								<input type="radio" name="sort" v-on:click="sort_items('asc')"> Uzlazno
+								<input type="radio" name="sort" v-on:click="sortItems('asc')"> Uzlazno
 							</div>
 							<div class="col-6">
-								<input type="radio" name="sort" v-on:click="sort_items('desc')"> Silazno
+								<input type="radio" name="sort" v-on:click="sortItems('desc')"> Silazno
 							</div>							
 						</div>						
 					</div>
@@ -60,9 +60,11 @@
 		</div>
 	</div><hr>
 
-    <StudentCard v-bind:key="student.id" v-bind:info="student" v-for="student in student_list"/>
-
-	<div class="row d-flex justify-content-center">
+	<div v-if="student_list">
+		<StudentCard v-bind:key="student.id" v-bind:info="student" v-for="student in student_list"/>
+	</div>
+ 
+	<div class="d-flex justify-content-center">
 		<paginate
 			v-if="total_pages"
 			v-model="page"
@@ -129,7 +131,7 @@ export default {
         }
     },
 	methods:{
-		sort_items(sort_order){
+		sortItems(sort_order){
 			if(!this.sort_values) return;
 			this.store.sort_items(this.sort_values, sort_order, "student_list");
 
@@ -141,11 +143,16 @@ export default {
 			this.student_list = this.store.student_list.slice(0, this.items_per_page)
         },
         
-		async search_students(search){
-			this.student_list = await Students.getStudents(search);
+		async searchStudents(search){
+			const result = await Students.getStudents(search);
+
+			this.total_pages = Math.ceil(result.length / this.items_per_page);
+
+			this.store.student_list = result;
+			this.student_list = this.store.student_list.slice(0, this.items_per_page);
 		},
 
-		async get_total_pages(){
+		async getTotalPages(){
 			const total_items = await App.getDocAmount();
 			this.total_pages = Math.ceil(total_items.studentsCounter / this.items_per_page);
         },
@@ -166,12 +173,12 @@ export default {
     mounted(){
         if(Auth.state.account_type != "Admin") this.$router.push({ name: 'Home' });
         else{
-            this.get_total_pages();
+            this.getTotalPages();
             this.getStudents();
 		}
     },
 	watch: {
-		"search_phrase": _.debounce(function(search){this.search_students(search)}, 500)
+		"search_phrase": _.debounce(function(search){this.searchStudents(search)}, 500)
 	},
 }
 </script>

@@ -119,7 +119,7 @@ export default {
         //  ako je mjesto zauzeto, false zamjenjuje id studenta
 		async getProjects(){
             this.store.project_list = await Projects.getProjects();
-            this.project_list = this.store.project_list.filter(project => project.allocated_to.includes(false))
+            this.project_list = this.store.project_list.filter(project => project.selected_by && project.allocated_to.includes(false))
         },
 
         // Nakon odabira projekta, prikaži studente koji su ga odabrali
@@ -158,6 +158,7 @@ export default {
         asignProject(){
             const project = this.updateLocalProjects();
             Projects.UpdateProject(project, project.id, true);
+            this.getProjects();
 
             this.selectedProject = this.selectedStudent = false;
         },
@@ -172,8 +173,7 @@ export default {
             project.allocated_to[project.allocated_to.indexOf(false)] = this.selectedStudent;
 
             this.store.project_list[project_index] = project;
-            this.getProjects();
-
+            
             return project
         },
 

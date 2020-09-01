@@ -42,10 +42,10 @@
 
 						<div class="row mr-2 ml-2">
 							<div class="col-6">
-								<input type="radio" name="sort" v-on:click="sort_items('asc')"> Uzlazno
+								<input type="radio" name="sort" v-on:click="sortItems('asc')"> Uzlazno
 							</div>
 							<div class="col-6">
-								<input type="radio" name="sort" v-on:click="sort_items('desc')"> Silazno
+								<input type="radio" name="sort" v-on:click="sortItems('desc')"> Silazno
 							</div>							
 						</div>						
 					</div>
@@ -55,8 +55,8 @@
 		</div>
 	</div><hr>
 
-	<div class="row" style="text-align: center">
-		<h1 class="title" style="margin-top: 0">Projekti</h1><br>
+	<div class="text-center">
+		<h1 class="title">Projekti</h1>
 		<p class="description_text">
 			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce auctor elit nisl, eget venenatis arcu gravida pretium. 
 			Praesent vel odio mauris. Etiam porta sapien odio, eu fermentum lectus ultricies convallis. 
@@ -65,11 +65,11 @@
 		</p>
 	</div><hr>
 
-	<div class="row" style="text-align: center;">
+	<div v-if="project_list" class="row d-flex content-justify-center">
 		<ProjectCard v-bind:key="project.id" v-bind:info="project" v-for="project in project_list"/>
 	</div>
 
-	<div class="row" style="text-align: center">
+	<div class="d-flex content-justify-center">
 		<paginate
 			v-if="total_pages"
 			v-model="page"
@@ -138,22 +138,27 @@ export default {
 		}
 	},
 	methods:{
-		sort_items(sort_order){
+		sortItems(sort_order){
 			if(!this.sort_values) return;
 			this.store.sort_items(this.sort_values, sort_order, "project_list");
 
 			this.get_projects();
 		},
-		async get_total_pages(){
+		async getTotalPages(){
 			const total_items = await App.getDocAmount();
 			this.total_pages = Math.ceil(total_items.projectsCounter / this.items_per_page);
 		},
 		
-		async search_projects(search){
-			this.project_list = await Projects.getProjects(search);
+		async searchProjects(search){
+			const result = await Projects.getProjects(search);
+
+			this.total_pages = Math.ceil(result.length / this.items_per_page);
+
+			this.store.project_list = result;
+			this.project_list = this.store.project_list.slice(0, this.items_per_page);
 		},
 
-		async get_projects(){
+		async getProjects(){
 			if(!this.store.project_list) this.store.project_list = await Projects.getProjects();
 			this.project_list = this.store.project_list.slice(0, this.items_per_page);
 		},
@@ -172,11 +177,11 @@ export default {
 		}
 	},
 	async mounted(){
-		this.get_total_pages();
-		this.get_projects();
+		this.getTotalPages();
+		this.getProjects();
 	},
 	watch:{
-		"search_phrase": _.debounce(function(search){this.search_projects(search)}, 500)
+		"search_phrase": _.debounce(function(search){this.searchProjects(search)}, 500)
 	},
 	name:'Projects'
 }
