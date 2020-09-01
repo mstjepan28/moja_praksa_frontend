@@ -161,11 +161,10 @@ let Projects = {
 }
 
 let Partners = {
-    async UpdatePartner(partnerInfo, update){
-        console.log('tu sam')
+    async UpdatePartner(partnerInfo, partner_id, update){
         partnerInfo.updateDoc = update
  
-        const result = await Service.put(`/partners/${partnerInfo.id}`, partnerInfo)
+        const result = await Service.put(`/partners/${partner_id}`, partnerInfo)
         return result.data;
     },
     
@@ -218,8 +217,9 @@ let App = {
     },
     
     async updateUser(user_data, update){
+        if(user_data.token) delete user_data.token;
+
         user_data.updateDoc = update
-        
         const result = await Service.patch('/user', user_data)
         return result.data;
     },
