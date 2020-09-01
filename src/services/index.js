@@ -161,11 +161,11 @@ let Projects = {
 }
 
 let Partners = {
-    async UpdatePartner(partnerInfo, partner_id, update){
+    async UpdatePartner(partnerInfo, update){
         console.log('tu sam')
         partnerInfo.updateDoc = update
  
-        const result = await Service.put(`/partners/${partner_id}`, partnerInfo)
+        const result = await Service.put(`/partners/${partnerInfo.id}`, partnerInfo)
         return result.data;
     },
     
