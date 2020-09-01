@@ -162,15 +162,13 @@ let Projects = {
 
 let Partners = {
     async UpdatePartner(partnerInfo, partner_id, update){
+        console.log('tu sam')
         partnerInfo.updateDoc = update
  
         const result = await Service.put(`/partners/${partner_id}`, partnerInfo)
         return result.data;
     },
-    async DeletePartner(partnerData){
-        const result = await Service.delete(`/partners/${partnerData._id}/`);
-        return result.data;
-    },
+    
     async CreatePartner(partnerData){
         const result = await Service.post('/partners', partnerData);
         return result.data;

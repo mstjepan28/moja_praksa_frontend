@@ -335,6 +335,7 @@ export default {
 		
 
 		async update_partner(){
+			console.log('tu sam')
 			const response = Partners.UpdatePartner(this.partners_info, this.id, true);
 
 			if(!response) return;
@@ -346,7 +347,7 @@ export default {
 		async delete_partner(){
 			if(this.user_data.account_type == 'Admin') this.current_password = true;
 
-			const response = await Partners.DeletePartner({'_id': this.id, 'password': this.current_password}, false);
+			const response = await Partners.UpdatePartner({'_id': this.id, 'password': this.current_password}, false);
 			if(!response) return;
 
 			this.store.partner_list = await Partners.getPartners();
