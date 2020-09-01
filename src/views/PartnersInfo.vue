@@ -94,8 +94,7 @@
 		<div class="row option_buttons mt-3">
 			<div class="col text-right">
 				<button type="button" class="disabled_button mr-3" v-on:click="edit_enabled = !edit_enabled"> Odustani </button>
-				<button type="button" class="button_design mr-3" data-toggle="modal" data-target="#galleryEditorModal"> Galerija </button>
-				<button type="button" class="alert_button" v-on:click="update_partner"> Pohrani promjene </button>
+				<button type="button" class="button_design" v-on:click="update_partner"> Pohrani promjene </button>
 			</div>
 		</div>
 
@@ -183,6 +182,7 @@
 		<div v-if="isOwner" class="row option_buttons mt-3">
 			<div class="col text-right">
 				<button type="button" class="button_design mr-3" v-on:click="edit_enabled = !edit_enabled"> Uredi </button>
+				<button type="button" class="button_design mr-3" data-toggle="modal" data-target="#galleryEditorModal"> Galerija </button>
 			</div>
 		</div>
 
@@ -363,6 +363,7 @@ export default {
 			}
 
 			this.store.partner_list = await Partners.getPartners();
+			this.store.project_list = await Projects.getProjects();
 			
 			if(this.user_data.account_type == "Poslodavac"){
 				Auth.logout();

@@ -59,7 +59,6 @@ export default {
 			this.student_list = await Students.getStudents();
         },
         showReview(review){
-            console.log(review)
             this.userReview = review;
              $('#readReviewModal').modal('show')
         }

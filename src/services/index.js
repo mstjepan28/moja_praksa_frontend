@@ -22,8 +22,8 @@ Service.interceptors.response.use(
     (response) => {return response},
     (error) => {
         if (error.response.status == 401) {
+            if($router.app.$route.name != "Login") $router.push({ path: '/Login'})
             Auth.logout();
-            $router.go();
         }
     }
 );
@@ -61,9 +61,7 @@ let Auth = {
     },
 
     async changePassword(userData){
-        const result = await Service.patch('/change_password', userData);
-        console.log(result)
-        return result
+        return await Service.patch('/change_password', userData);
     },
     logout() {
         localStorage.removeItem('user');
@@ -113,6 +111,7 @@ let Students = {
     },
     async getJournal(id){
         const result = await Service.get(`/journal/${id}`)
+        console.log(result)
         return result.data.journal;
     },
 }

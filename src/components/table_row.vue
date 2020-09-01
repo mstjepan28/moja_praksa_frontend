@@ -71,6 +71,7 @@ export default {
         },
         async downloadJournal(){
             const journal = await Students.getJournal(this.info.journalID);
+            
             this.store.downloadFile(journal);
         },
         gotoApplicationForm(){

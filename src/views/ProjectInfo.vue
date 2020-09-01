@@ -121,7 +121,7 @@
 			
 		</div>
 
-		<div v-if="canSelectProject" class="d-flex justify-content-center  mt-3">
+		<div v-if="canSelectProject && getEmptyPlaces() > 0" class="d-flex justify-content-center  mt-3">
 			<button type="button" class="alert_button" v-if="project_selected" v-on:click="unselectProject">Ukloni odabir</button>
 			<button type="button" class="button_design" v-else  v-on:click="selectProject">Odaberi projekt</button>
 		</div>
