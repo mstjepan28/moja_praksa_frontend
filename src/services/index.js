@@ -161,10 +161,10 @@ let Projects = {
 }
 
 let Partners = {
-    async UpdatePartner(partnerInfo, update){
+    async UpdatePartner(partnerInfo, partner_id, update){
         partnerInfo.updateDoc = update
         try{
-            const result = await Service.put(`/partners/${partnerInfo.id}`, partnerInfo)
+            const result = await Service.put(`/partners/${partner_id}`, partnerInfo)
             return result.data;
         }catch{
             return false;
@@ -220,8 +220,9 @@ let App = {
     },
     
     async updateUser(user_data, update){
+        if(user_data.token) delete user_data.token;
+
         user_data.updateDoc = update
-        
         const result = await Service.patch('/user', user_data)
         return result.data;
     },
