@@ -43,15 +43,9 @@
                 </div>
             </div>
             <div v-else class="selection_place no_project">
-                <router-link to="/Projects" class="card project">
-                    <img class="card-img-top" src="@/assets/no_project.png" alt="Card image cap" >
-                    
-                    <div class="card-body">
-                        <p class="card-text" style="color: #6DD0F6; text-decoration: underline">Pregledajte dostupne projekte ovdje</p>
-                    </div>
-                </router-link>
+                <MissingProject/><br>
 
-                <br><span class="inactive_subtitle">Prvi odabir</span>
+                <span class="inactive_subtitle">Prvi odabir</span>
 
                 <div class="selected_project_options">
                     <button type="button"><i class="fas fa-chevron-left"></i></button>
@@ -74,15 +68,9 @@
                 </div>         
             </div>   
             <div v-else class="selection_place no_project">
-                <router-link to="/Projects" class="card project">
-                    <img class="card-img-top" src="@/assets/no_project.png" alt="Card image cap" >
-                    
-                    <div class="card-body">
-                        <p class="card-text" style="color: #6DD0F6; text-decoration: underline">Pregledajte dostupne projekte ovdje</p>
-                    </div>
-                </router-link>
+                <MissingProject/><br>
 
-                <br><span class="inactive_subtitle">Drugi odabir</span>
+                <span class="inactive_subtitle">Drugi odabir</span>
 
                 <div class="selected_project_options">
                     <button type="button"><i class="fas fa-chevron-left"></i></button>
@@ -105,15 +93,9 @@
                 </div>             
             </div>
             <div v-else class="selection_place no_project">
-                <router-link to="/Projects" class="card project">
-                    <img class="card-img-top" src="@/assets/no_project.png" alt="Card image cap" >
-                    
-                    <div class="card-body">
-                        <p class="card-text" style="color: #6DD0F6; text-decoration: underline">Pregledajte dostupne projekte ovdje</p>
-                    </div>
-                </router-link>
-
-                <br><span class="inactive_subtitle">Treći odabir</span>
+                <MissingProject/><br>
+                
+                <span class="inactive_subtitle">Treći odabir</span>
 
                 <div class="selected_project_options">
                     <button type="button"><i class="fas fa-chevron-left"></i></button>
@@ -136,9 +118,10 @@
 import store from '@/store.js';
 import { Projects, Auth } from '@/services'
 import ProjectCard from '@/components/project_card';
+import MissingProject from '@/components/missing_project';
 
 export default {
-    components: { ProjectCard },
+    components: { ProjectCard, MissingProject },
     data(){
         return{
             store,
