@@ -164,7 +164,10 @@ export default {
             if(!file) return;
 
             let fileName = '';
-            if(this.isActive == 'logo') fileName = this.isActive + '_' + this.user_data.email + '.png';
+            if(this.isActive == 'logo'){
+                if(this.user_data.id) fileName = this.isActive + '_' + this.user_data.id + '.png';
+                else fileName = this.isActive + '_' + this.user_data._id + '.png';
+            }
             else fileName = this.isActive + '_' + Date.now() + '.png';
 
             console.log(fileName)            
@@ -177,6 +180,15 @@ export default {
         updateUser(newImage){
             let update_user = {
                 user: false,
+
+                get Student_logo(){
+                    this.user.logo = newImage;
+
+                    localStorage.setItem('user', JSON.stringify(this.user));
+                    App.updateUser(this.user, true);
+
+                    return true
+                },
 
                 get Poslodavac_logo(){
                     this.user.logo = newImage;
@@ -191,14 +203,6 @@ export default {
                     this.updatePartner();
                     return true
                 },
-                get Student_logo(){
-                    this.user.logo = newImage;
-
-                    localStorage.setItem('user', JSON.stringify(this.user));
-                    App.updateUser(this.user, true);
-
-                    return true
-                },
 
                 async updatePartner(){
                     await Partners.UpdatePartner(this.user, this.user.id, true);
@@ -209,13 +213,21 @@ export default {
             update_user.user = this.user_data;
             update_user.store = this.store;
 
-            update_user[this.user_data.account_type + "_" + this.isActive];
+            const account_type = this.getAccountType(this.user_data.account_type)
+
+            update_user[account_type + "_" + this.isActive];
 
             this.imgUrl = newImage.imgUrl;
             this.uploaded = true;
 
             this.$emit('updateHeaders');
         },
+
+        getAccountType(account){
+            if(account == 'Admin') return 'Poslodavac';
+            else return account;
+        },
+
         async deleteImage(image_name){
             await firebase.storage().ref(image_name).delete();
             
@@ -236,8 +248,11 @@ export default {
         }
     },
     mounted(){
-        if(Auth.state.account_type == "Student") this.user_data = Auth.state.user_data;
-        else this.user_data = this.info;
+        if(Auth.state.account_type == "Student") 
+            this.user_data = Auth.state.user_data;
+        else
+            this.user_data = this.info;
+        
     }
 }
 </script>

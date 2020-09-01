@@ -1,24 +1,24 @@
-# moja_praksa_frontend
+RAZVOJ WEB PLATFORME ZA UGOVARANJE STRUČNE PRAKSE - FRONTEND
+Završni rad Autor: Stjepan Markovčić
 
-## Project setup
-```
-yarn install
-```
+Mentor: doc. dr. sc. Darko Etinger
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+Komentor: doc. dr. sc. Nikola Tanković
 
-### Compiles and minifies for production
-```
-yarn build
-```
+Sveučilište Jurja Dobrile u Puli, Fakultet informatike
 
-### Lints and fixes files
-```
-yarn lint
-```
+Sažetak
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Vođeni idejom olakšavanja i optimiziranja ugovaranja stručne prakse na FIPU te poboljšanja iskustva kako za studente tako i za poslodavce, kolega Filip i ja smo odlučili napraviti web aplikaciju "Moja-praksa". Kolega je radio backend dio, a ja pripadajući frontend. Web aplikacija se sastoji od 4 sučelja ovisno o stupnju autorizacije pa tako imamo sučelje za: neautorizirane korisnike, studente, poslodavce i admina. Na kraju možemo zaključiti da smo prilično zadovoljni s napravljenim funkcionalnostima, ali da bi u sljedećem poboljšanju svakako trebao biti neki chat između studenta i poslodavca te studenta i admina kako bi se i taj dio ugovaranja koji se obavlja preko maila(korisnicima bi samo automatski dolazile obavijesti na email da imaju poruku na "Moja-praksa" jer poslodavci sigurno neće posjećivati web aplikaciju na dnevnoj bazi) prebacio na "Moja-praksa" te bi se time cijelokupno ugovaranje prakse moglo obaviti putem naše aplikacije.
+
+Funkcionalnosti
+
+Neautorizirani korsnici: Pregled dostupnih projekata i poslodavaca
+
+Studenti: Pregled dostupnih projekata i poslodavaca, Upute za obavljanje prakse, odabir projekata, uvid u rezultat dodjele projekata, uvid u vlastiti i tuđi tijek obavljanja prakse(student ne vidi tuđa imena nego samo JMBAG), popunjavanje prijavnice, preuzimanje templetea dnevnika i predaja popunjenog dnevnika, uvid u vlastiti profil i izmjena podataka, brisanje korisničkog računa ili promjena lozinke
+
+Poslodavci: Pregled dostupnih projekata i poslodavaca, dodavanje projekata, mijenjanje postojećih projekata, dodavanje slika i logotipa na vlastiti profil i projekte, izmjena vlastitih podataka, brisanje korisničkog računa ili projekata
+
+Admin: Pregled dostupnih projekata i poslodavaca, alokacija studenata na određeni projekt, popis/pregled studenata te njihovih prijavnica i dnevnika, tablica studenata koja pruža brži uvid u status i obaveze studenata, dodavanje partnera i njihovih projekata, dodavanje uputa i templetea za dnevnik, brisanje/mijenjanje partnera i projekata
+
+Dokumentacija:

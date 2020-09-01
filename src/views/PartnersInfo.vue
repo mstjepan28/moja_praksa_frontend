@@ -117,7 +117,7 @@
 			<section class="text-center">
 				<vue-horizontal-list :items="project_list" :options="store.carousel_options">
 					<template v-slot:default="{item}">
-						<router-link v-bind:to="'/ProjectInfo/' + item.id" class="card project">
+						<router-link v-bind:to="'/ProjectInfo/' + item._id" class="card project">
 							<img v-if="item.logo" class="card-img-top" :src="item.logo.imgUrl" alt="Card image cap" >
 							<img v-else class="card-img-top" src="../assets/fallBackProject.jpg" alt="Card image cap" >
 							
@@ -307,8 +307,11 @@ export default {
 			this.addView();
 		},
 		getHeaders(){
-			if(!this.partners_info.headers) this.partner_headers = this.store.vfImages_partners;
-			else this.partner_headers = this.partners_info.headers.map(img => img.imgUrl)
+			try{
+				this.partner_headers = this.partners_info.headers.map(img => img.imgUrl)
+			}catch{
+				this.partner_headers = this.store.vfImages_partners;
+			}
 		},
 		async getProjects(){
 			let projects = await Projects.getPartnerProjects(this.id);
