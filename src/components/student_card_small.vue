@@ -24,13 +24,15 @@
         <div class="col-md-2 col-sm-12 div_button my-auto text-center button_design" v-on:click="show_more = !show_more"> Detalji </div>
 
         <div class="col-md-1 col-sm-0"></div>
-        <div class="col-md-2 col-sm-12 div_button my-auto text-center alert_button" v-on:click="$emit('select_student', info.id)"> Dodijeli projekt </div>
+        <div v-if="allocated" class="col-md-2 col-sm-12 div_button my-auto text-center disabled_button" style="white-space: nowrap"> Projekt dodijeljen </div>
+        <div v-else class="col-md-2 col-sm-12 div_button my-auto text-center alert_button" v-on:click="$emit('select_student', info.id)"> Dodijeli projekt </div>
     </div>
 </div>
 </template>
 
 <script>
 
+import { Projects } from "@/services/index.js";
 import StudentCard from './student_card';
 
 export default {
@@ -39,7 +41,17 @@ export default {
     data(){
         return{
             show_more: false,
+            allocated: false
         }
+    },
+    methods:{
+        async isAllocated(){
+            const result = await Projects.getApprovedProject(this.info.id);
+            if(result) this.allocated = true;
+        }
+    },
+    mounted(){
+        this.isAllocated();
     }
 }
 </script>

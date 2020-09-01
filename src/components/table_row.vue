@@ -38,7 +38,7 @@
 
 <script>
 
-import { Auth, App, Students } from "@/services/index.js";
+import { Auth, App, Projects, Students } from "@/services/index.js";
 import store from '@/store.js';
 
 export default {
@@ -53,9 +53,16 @@ export default {
         getStudentStatus(){
             if(this.info.journalID) return 'Obavljena';
             if(this.info.application) return 'Dogovorena';
+            if(this.getApprovedProject()) return 'Dodijeljen projekt';
+
             if(this.getSelectedProjects()) return 'Odabrani projekti';
 
             return 'Nedefinirana';   
+        },
+        async getApprovedProject(){
+            const result = await Projects.getApprovedProject(this.info.id);
+            if(result) return true;
+            return false;
         },
         async getSelectedProjects(){
             const result = await App.getChosenProjects(this.info.id);
