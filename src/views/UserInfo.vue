@@ -97,8 +97,8 @@
     <div v-if="edit_enabled">
         <div class="row mt-3">
             <div class="col text-right"> 
-                <button class="button_design mr-3" v-on:click="update_user"> Pohrani promjene </button>
-                <button class="disabled_button" v-on:click="edit_enabled = !edit_enabled"> Odustani </button>
+                <button class="button_design mr-3" v-on:click="updateUser"> Pohrani promjene </button>
+                <button class="disabled_button" v-on:click="switchEdit"> Odustani </button>
             </div>
         </div>
         <div class="row h-100 mt-2">
@@ -116,12 +116,12 @@
             </div>
 
             <div class="col-md-7 col-sm-12 my-auto student_info">
-                <div class="user_info_input_wrapper">Ime: <input type="text" v-model="user_data.name" class="input_wrapper user_info_input"></div>
-                <div class="user_info_input_wrapper">Prezime: <input type="text" v-model="user_data.surname" class="input_wrapper user_info_input"></div>
-                <div class="user_info_input_wrapper">JMBAG: <input type="text" v-model="user_data.jmbag" class="input_wrapper user_info_input"></div>
-                <div class="user_info_input_wrapper">E-mail: <input type="text" v-model="user_data.email" class="input_wrapper user_info_input"></div>
-                <div class="user_info_input_wrapper">Tehnologije: <input type="text" v-model="user_data.technology" class="input_wrapper user_info_input"></div>
-                <div class="user_info_input_wrapper">Godina studija: <input type="text" v-model="user_data.year" class="input_wrapper user_info_input"></div>
+                <div class="user_info_input_wrapper">Ime: <input type="text" v-model="user_data.name" class="input_wrapper user_info_input" required></div>
+                <div class="user_info_input_wrapper">Prezime: <input type="text" v-model="user_data.surname" class="input_wrapper user_info_input" required></div>
+                <div class="user_info_input_wrapper">JMBAG: <input type="text" v-model="user_data.jmbag" class="input_wrapper user_info_input" required></div>
+                <div class="user_info_input_wrapper">E-mail: <input type="text" v-model="user_data.email" class="input_wrapper user_info_input" required></div>
+                <div class="user_info_input_wrapper">Tehnologije: <input type="text" v-model="user_data.technology" class="input_wrapper user_info_input" required></div>
+                <div class="user_info_input_wrapper">Godina studija: <input type="text" v-model="user_data.year" class="input_wrapper user_info_input" required></div>
             </div>
             <div class="col-md-1 col-sm-0"></div>
         </div><hr>
@@ -135,7 +135,7 @@
     <div v-else>
         <div class="row mt-3">
             <div class="col text-right"> 
-                <button class="button_design" v-on:click="edit_enabled = !edit_enabled"> Uredi </button>
+                <button class="button_design" v-on:click="switchEdit"> Uredi </button>
             </div>
         </div>
         <div class="row h-100">
@@ -183,6 +183,10 @@ export default {
         }
     },
     methods:{
+        switchEdit(){
+            this.edit_enabled = !this.edit_enabled;
+            this.user_data = Auth.state.user_data;
+        },
         passwordCheck(){
             if(this.current_password == this.new_password){
                 this.error_message = "Nova lozinka mora biti različita od dosadašnje";
@@ -209,14 +213,20 @@ export default {
                 this.$router.push({ name: 'Login'});
             }
         },
-        async update_user(){
-            delete this.user_data.token;
+        async updateUser(){
+            const token = this.user_data.token
 
+            delete this.user_data.token
             const result = await App.updateUser(this.user_data, true);
+
+            this.user_data.token = token
+
             if(!result){
                 this.modal_error = "Prilikom pokušaja izmjene korisničkih podataka došlo je do greške";
                 $('#error_modal').modal('show')
             }
+            else
+                localStorage.setItem('user', JSON.stringify(this.user_data));
 
             this.edit_enabled = false;
         },

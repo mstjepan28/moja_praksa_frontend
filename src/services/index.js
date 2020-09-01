@@ -220,9 +220,8 @@ let App = {
     },
     
     async updateUser(user_data, update){
-        if(user_data.token) delete user_data.token;
-
         user_data.updateDoc = update
+        
         const result = await Service.patch('/user', user_data)
         return result.data;
     },
