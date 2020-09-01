@@ -118,7 +118,8 @@
 				<vue-horizontal-list :items="project_list" :options="store.carousel_options">
 					<template v-slot:default="{item}">
 						<router-link v-bind:to="'/ProjectInfo/' + item.id" class="card project">
-							<img class="card-img-top" v-bind:src="item.img_url" alt="Card image cap" >
+							<img v-if="item.logo" class="card-img-top" :src="item.logo.imgUrl" alt="Card image cap" >
+							<img v-else class="card-img-top" src="../assets/fallBackProject.jpg" alt="Card image cap" >
 							
 							<div class="card-body">
 								<h5 class="card-title">{{item.project_company}}</h5>
@@ -207,7 +208,8 @@
 				<vue-horizontal-list :items="project_list" :options="store.carousel_options">
 					<template v-slot:default="{item}">
 						<router-link v-bind:to="'/ProjectInfo/' + item._id" class="card project">
-							<img class="card-img-top" v-bind:src="item.img_url" alt="Card image cap" >
+							<img v-if="item.logo" class="card-img-top" :src="item.logo.imgUrl" alt="Card image cap" >
+							<img v-else class="card-img-top" src="../assets/fallBackProject.jpg" alt="Card image cap" >
 							
 							<div class="card-body">
 								<h5 class="card-title">{{item.company}}</h5>

@@ -18,7 +18,8 @@
         <vue-horizontal-list :items="project_list" :options="store.carousel_options" >
             <template v-slot:default="{item}">
                 <div class="card project div_button" :class="{ activeProject: selectedProject == item.id }" v-on:click="showStudents(item.id)" >
-                    <img class="card-img-top" :src="item.img_url" alt="Card image cap" >
+                    <img v-if="item.logo" class="card-img-top" :src="item.logo.imgUrl" alt="Card image cap" >
+                    <img v-else class="card-img-top" src="../assets/fallBackProject.jpg" alt="Card image cap" >
                     
                     <div class="card-body">
                         <h5 class="card-title">{{item.company}}</h5>
@@ -118,7 +119,7 @@ export default {
         //  ako je mjesto zauzeto, false zamjenjuje id studenta
 		async getProjects(){
             this.store.project_list = await Projects.getProjects();
-            this.project_list = this.store.project_list.filter(project => project.selected_by && project.allocated_to.includes(false))
+            this.project_list = this.store.project_list.filter(project => project.allocated_to.includes(false))
         },
 
         // Nakon odabira projekta, prikaži studente koji su ga odabrali

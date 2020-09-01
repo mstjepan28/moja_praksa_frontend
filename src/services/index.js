@@ -23,7 +23,7 @@ Service.interceptors.response.use(
     (error) => {
         if (error.response.status == 401) {
             Auth.logout();
-            $router.push({ name: 'Login'});
+            $router.go();
         }
     }
 );
