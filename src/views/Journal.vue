@@ -161,6 +161,8 @@ export default {
         openReview(){
             $('#response_message').modal('hide');
 
+            if(this.response_message == "Trenutno ne postoji predložak dnevnika prakse") return;
+
             $('#ReviewModal').modal({
                 backdrop: 'static',
                 keyboard: false,
@@ -178,9 +180,9 @@ export default {
 
         // Check and deny access modal handling
         checkAccess(){
-            const journalID = Auth.state.user_data.journalID;
+            const application = Auth.state.user_data.application;
 
-            if(!journalID){
+            if(!application){
                 $('#denyAccessModal').modal({
                     backdrop: 'static',
                     keyboard: false,

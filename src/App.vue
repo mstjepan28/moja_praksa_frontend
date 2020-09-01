@@ -87,9 +87,8 @@
                 <router-link class="dropdown-item" to="/SelectedProjects">Odabrani projekti</router-link>
                 <router-link class="dropdown-item" to="/ApprovedProject">Dodijeljeni projekt</router-link>
                 <router-link class="dropdown-item" to="/TableOfStudents">Tablica projekata</router-link>
-                <router-link class="dropdown-item" to="/Journal"> Dnevnik prakse </router-link>
-
                 <router-link class="dropdown-item" to="/FillApplicationForm"> Prijavnica </router-link>
+                <router-link class="dropdown-item" to="/Journal"> Dnevnik prakse </router-link>
               </div>
             </li>
 
