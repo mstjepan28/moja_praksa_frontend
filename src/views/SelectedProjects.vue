@@ -30,14 +30,7 @@
     <div class="row mt-5">
         <div class="selected_projects">
             <div v-if="first_choice" class="selection_place">
-                <router-link v-bind:to="'/ProjectInfo/' + first_choice.id" class="card project">
-                    <img class="card-img-top" v-bind:src="first_choice.img_url" alt="Card image cap" >
-                    
-                    <div class="card-body">
-                        <h5 class="card-title">{{first_choice.company}}</h5>
-                        <p class="card-text">{{first_choice.project_description}}</p>
-                    </div>
-                </router-link>
+                <ProjectCard :info="first_choice"/>
 
                 <br><span class="active_subtitle">Prvi odabir</span>
 
@@ -68,14 +61,7 @@
             </div>
 
             <div v-if="second_choice" class="selection_place">
-                <router-link v-bind:to="'/ProjectInfo/' + second_choice.id" class="card project">
-                    <img class="card-img-top" v-bind:src="second_choice.img_url" alt="Card image cap" >
-                    
-                    <div class="card-body">
-                        <h5 class="card-title">{{second_choice.company}}</h5>
-                        <p class="card-text">{{second_choice.project_description}}</p>
-                    </div>
-                </router-link>
+                <ProjectCard :info="second_choice"/>
 
                 <br><span class="active_subtitle">Drugi odabir</span>
 
@@ -106,14 +92,7 @@
             </div>
 
             <div v-if="third_choice" class="selection_place">
-                <router-link v-bind:to="'/ProjectInfo/' + third_choice.id" class="card project">
-                    <img class="card-img-top" v-bind:src="third_choice.img_url" alt="Card image cap" >
-                    
-                    <div class="card-body">
-                        <h5 class="card-title">{{third_choice.company}}</h5>
-                        <p class="card-text">{{third_choice.project_description}}</p>
-                    </div>
-                </router-link>
+                <ProjectCard :info="third_choice"/>
 
                 <br><span class="active_subtitle">Treći odabir</span>
 
@@ -145,8 +124,10 @@
         </div>
     </div>
 
-    <div v-if="!selectionConfirmed" class="row mt-5" style="text-align: center">
-        <button class="button_design" data-toggle="modal" data-target="#send_selection" style="display: inline-block; margin: 0 auto;">Pošalji svoj odabir</button>
+    
+
+    <div v-if="!selectionConfirmed" class="d-flex justify-content-center mt-5">
+        <button class="button_design" data-toggle="modal" data-target="#send_selection">Pošalji svoj odabir</button>
     </div>
 </div>
 </template>
@@ -154,9 +135,10 @@
 <script>
 import store from '@/store.js';
 import { Projects, Auth } from '@/services'
+import ProjectCard from '@/components/project_card';
 
 export default {
-    name: 'SelectedProjects',
+    components: { ProjectCard },
     data(){
         return{
             store,

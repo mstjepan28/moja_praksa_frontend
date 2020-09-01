@@ -15,7 +15,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="disabled_button" data-dismiss="modal">Zatvori</button>
-                    <button type="submit" class="alert_button" data-dismiss="modal"> Izbriši moj račun </button>
+                    <button type="submit" class="alert_button"> Izbriši moj račun </button>
                 </div>
 
             </form>
@@ -344,11 +344,17 @@ export default {
 		},
 
 		async delete_partner(){
-			console.log('tu sam')
+			$('#deletePartner').modal('hide');
 			if(this.user_data.account_type == 'Admin') this.current_password = true;
 		
 			const response = await Partners.UpdatePartner({'_id': this.id, 'password': this.current_password}, false);
-			if(!response) return;
+			
+			if(!response){
+				this.modal_error = "Došlo je do greške prilikom brisanja";
+				$('#error_modal').modal('show');
+
+				return;
+			}
 
 			this.store.partner_list = await Partners.getPartners();
 			
