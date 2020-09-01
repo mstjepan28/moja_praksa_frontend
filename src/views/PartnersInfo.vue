@@ -347,9 +347,9 @@ export default {
 
 		async delete_partner(){
 			$('#deletePartner').modal('hide');
-			if(this.user_data.account_type == 'Admin') this.current_password = true;
+			if(this.user_data.account_type == 'Admin') this.partners_info.account_type = 'Admin'
 			this.partners_info.password = this.current_password
-			
+		
 			const response = await Partners.UpdatePartner(this.partners_info, this.id, false);
 			
 			if(!response){
