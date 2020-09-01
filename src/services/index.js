@@ -162,11 +162,13 @@ let Projects = {
 
 let Partners = {
     async UpdatePartner(partnerInfo, update){
-        console.log('tu sam')
         partnerInfo.updateDoc = update
- 
-        const result = await Service.put(`/partners/${partnerInfo.id}`, partnerInfo)
-        return result.data;
+        try{
+            const result = await Service.put(`/partners/${partnerInfo.id}`, partnerInfo)
+            return result.data;
+        }catch{
+            return false;
+        }
     },
     
     async CreatePartner(partnerData){

@@ -121,9 +121,9 @@
 			
 		</div>
 
-		<div v-if="canSelectProject" class="row mt-3" style="text-align: center">
-			<button type="button" class="alert_button" style="display:inline-block; margin: 0 auto;" v-if="project_selected" v-on:click="unselect_project">Ukloni odabir</button>
-			<button type="button" class="button_design" style="display:inline-block; margin: 0 auto;" v-else  v-on:click="select_project">Odaberi projekt</button>
+		<div v-if="canSelectProject" class="d-flex justify-content-center  mt-3">
+			<button type="button" class="alert_button" v-if="project_selected" v-on:click="unselectProject">Ukloni odabir</button>
+			<button type="button" class="button_design" v-else  v-on:click="selectProject">Odaberi projekt</button>
 		</div>
 	</div>
 </div>
@@ -132,12 +132,13 @@
 <script>
 import { VueFlux, FluxPreloader } from 'vue-flux';
 import { Projects, Auth } from '@/services'
+
 import store from '@/store.js';
 
 export default {
 	components: {
 		VueFlux,
-		FluxPreloader,
+		FluxPreloader
 	},
 	data(){
 		return{
@@ -215,32 +216,38 @@ export default {
 
 			this.store.project_list = await Projects.getProjects();
 		},
+
 		gotoProjects(){
 			$('#DeleteConfirmation').modal('hide');
 			this.$router.push({ name: 'Projects' });
 		},
 
-		select_project(){
+		// Dohvati trenutnu listu projekata -> postavi prioritet -> Dodaj projekt u listu -> pohrani promjene
+		selectProject(){
 			let selected_projects = JSON.parse(localStorage.getItem('selected_projects'));
 
 			if(selected_projects.length >= 3) return;
 
 			this.project_info.priority = selected_projects.length + 1;
+
 			selected_projects.push(this.project_info);
 			localStorage.setItem('selected_projects', JSON.stringify(selected_projects));
 			
-			this.is_selected()
+			this.project_selected = true;
 		},
-		unselect_project(){
+
+		// Dohvati projekte -> izbaci ovaj projekt -> popravi prioritete -> spremi novu listu -> oznaci da nije odabran projekt
+		unselectProject(){
 			let selected_projects = JSON.parse(localStorage.getItem('selected_projects'));
 			selected_projects = selected_projects.filter(project => project.id != this.id);
 
 			selected_projects.map((project, index) => project.priority = index+1)
 			
 			localStorage.setItem('selected_projects', JSON.stringify(selected_projects));
-			this.is_selected()
+			this.project_selected = false;
 		},
 
+		// Stvori listu svih false elemenata u listi te vrati velicinu te liste
         getEmptyPlaces(){
             return this.project_info.allocated_to.filter(element => element == false).length;
 		},
