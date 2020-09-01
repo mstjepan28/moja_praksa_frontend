@@ -119,7 +119,7 @@ export default {
         //  ako je mjesto zauzeto, false zamjenjuje id studenta
 		async getProjects(){
             this.store.project_list = await Projects.getProjects();
-            this.project_list = this.store.project_list.filter(project => project.selected_by)
+            this.project_list = this.store.project_list.filter(project => project.selected_by && project.allocated_to.includes(false))
         },
 
         // Nakon odabira projekta, prikaži studente koji su ga odabrali
