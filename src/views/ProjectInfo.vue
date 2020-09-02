@@ -51,7 +51,7 @@
 
 		<div class="row description">
 			<h1 class="title">
-				<input type="text" class="input_wrapper" placeholder="Naziv poduzeća..." v-model="project_info.company" style="text-align: center; width: 100%;" required>
+				<input type="text" class="input_wrapper" placeholder="Naziv poduzeća..." v-model="project_info.company" style="text-align: center; width: 100%;" disabled>
 			</h1><br>
 			
 			<textarea placeholder="Kratak opis projekta..." v-model="project_info.project_description" style="text-align: center" required></textarea>
@@ -185,7 +185,6 @@ export default {
 		checkIfOwner(){
 			const user_data = Auth.state.user_data;
 
-
 			if(user_data._id == this.project_info.partnerID) 
 				this.isOwner = true;
 			else if(user_data.account_type == "Admin" && this.project_info.created_by_admin)
@@ -204,15 +203,21 @@ export default {
 		},
 
 		async update_project(){
-			const result = await Projects.UpdateProject(this.project_info, this.id, true);
-			console.log(result);
+			await Projects.UpdateProject(this.project_info, this.id, true);
+			
+			this.store.project_list = await Projects.getProjects();
+			this.getProjectInfo();
 
 			this.edit_enabled = false;
 		},
+
 		async delete_project(){
 			$('#deleteProject').modal('hide');
-			$('#DeleteConfirmation').modal('show');
-			
+			$('#DeleteConfirmation').modal({
+				backdrop: 'static',
+				keyboard: false,
+			})	
+						
 			await Projects.DeleteProject(this.id, false);
 
 			this.store.project_list = await Projects.getProjects();

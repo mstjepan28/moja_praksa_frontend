@@ -143,7 +143,6 @@ export default {
                 get Admin(){ return App.upload_template(newFile)},
                 get Student(){ return App.upload_journal(newFile)}
             }
-
             const result = await uploadFile[this.user_type];
 
             if(result){

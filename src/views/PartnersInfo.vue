@@ -340,9 +340,9 @@ export default {
 		
 
 		async update_partner(){
-			const response = Partners.UpdatePartner(this.partners_info, this.id, true);
+			await Partners.UpdatePartner(this.partners_info, this.id, true);
 
-			if(!response) return;
+			this.getPartnerInfo();
 
 			this.store.partner_list = await Partners.getPartners();
 			this.edit_enabled = false;
