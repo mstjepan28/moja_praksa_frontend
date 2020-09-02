@@ -20,7 +20,7 @@
                     Jeste li sigurni da želite prijaviti odabrane projekte sa danim prioritetom?
                 </h4>
                 <div class="modal-footer" style="display: inline-block; margin: 0 auto;">
-                    <button type="button" v-on:click="send_project_selection" class="alert_button" data-dismiss="modal" data-toggle="modal" data-target="#selection_sent">Pošalji odabir</button>
+                    <button type="button" v-on:click="send_project_selection" class="button_design"  data-dismiss="modal" data-toggle="modal" data-target="#selection_sent">Pošalji odabir</button>
                     <button type="button" class="disabled_button" data-dismiss="modal">Odustani</button>
                 </div>
             </div>
