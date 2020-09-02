@@ -20,7 +20,7 @@
         </div>        
 
         <div v-else class="col-12 text-right">
-          <router-link to="/Login"  class="login_form"> Prijava <i class="fas fa-sign-in-alt" aria-hidden="true"></i> </router-link>
+          <router-link to="/Login"  class="login_form mr-3"> Prijava <i class="fas fa-sign-in-alt" aria-hidden="true"></i> </router-link>
           <router-link to="/Signup" class="login_form"> Registracija <i class="fas fa-user-plus"  aria-hidden="true"></i> </router-link>
         </div>
 
