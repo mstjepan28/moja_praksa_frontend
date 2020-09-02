@@ -5,7 +5,7 @@ import $router from '@/router'
 //instanciranje varijable za kom. s backendom
 //vezan uz konkretni backend
 let Service = axios.create({
-    baseURL: 'https://mojapraksaapp.herokuapp.com/',
+    baseURL: 'http://localhost:3000/',
     timeout: 5000 
 })
 
