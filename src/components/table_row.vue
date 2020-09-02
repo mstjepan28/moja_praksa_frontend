@@ -9,7 +9,7 @@
         <div class="col" v-if="info.application">{{info.application.company}}</div>
         <div class="col" v-else> - </div>
 
-        <div class="col">{{getStudentStatus()}}</div>
+        <div class="col">{{status}}</div>
 
         <div v-if="account_type == 'Admin'">
             <button v-if="info.application" class="col button_design" v-on:click="gotoApplicationForm"> Pregled </button>
@@ -47,17 +47,19 @@ export default {
         return{
             store,
             account_type: Auth.state.account_type,
+
+            status: 'Nedefinirana',
         }
     },
     methods:{
-        getStudentStatus(){
-            if(this.info.journalID) return 'Obavljena';
-            if(this.info.application) return 'Dogovorena';
-            if(this.getApprovedProject()) return 'Dodijeljen projekt';
+        async getStudentStatus(){
+            const selectedProject = await this.getSelectedProjects();
+            const approvedProject = await this.getApprovedProject();
 
-            if(this.getSelectedProjects()) return 'Odabrani projekti';
-
-            return 'Nedefinirana';   
+            if(this.info.journalID) this.status = 'Obavljena';
+            if(this.info.application) this.status = 'Dogovorena';
+            if(approvedProject) this.status = 'Dodijeljen projekt';
+            if(selectedProject) this.status = 'Odabrani projekti';
         },
         async getApprovedProject(){
             const result = await Projects.getApprovedProject(this.info.id);
