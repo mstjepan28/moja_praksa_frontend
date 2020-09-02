@@ -121,10 +121,16 @@
 			
 		</div>
 
-		<div v-if="canSelectProject" class="d-flex justify-content-center  mt-3">
+
+		<div v-if="isStudent && emptyPlaces" class="d-flex justify-content-center  mt-3">
 			<button type="button" class="alert_button" v-if="project_selected" v-on:click="unselectProject">Ukloni odabir</button>
+
 			<button type="button" class="disabled_button" v-else-if="getEmptyPlaces() <= 0" disabled> Nema slobodnih mjesta </button>
 			<button type="button" class="button_design" v-else  v-on:click="selectProject">Odaberi projekt</button>
+		</div>
+
+		<div v-else-if="isStudent && !emptyPlaces" class="d-flex justify-content-center  mt-3">
+			<button type="button" class="disabled_button" disabled> Nemožete više mijenjati odabir </button>
 		</div>
 	</div>
 </div>
@@ -259,9 +265,14 @@ export default {
 		},
 	},
 	computed:{
-		canSelectProject(){
+		isStudent(){
 			const user_data = Auth.state.user_data;
-			if(user_data.account_type == "Student" && !user_data.chosenProjects.length) return true;
+			if(user_data.account_type == "Student") return true;
+			else return false;
+		},
+		emptyPlaces(){
+			const user_data = Auth.state.user_data;
+			if(user_data.chosenProjects.length <= 3) return true;
 			else return false;
 		}
 	},
