@@ -41,4 +41,8 @@ Demo računi:
 <h5>Admin -> email: "admin@admin", lozinka: "admin"</h5>
 </p>
 
-<h4>Dokumentacija:</h4> 
+
+
+Web aplikacija: https://moja-praksa-frontend-7pumgts14.vercel.app/
+
+Dokumentacija:
