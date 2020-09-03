@@ -131,6 +131,10 @@ export default {
         createFile(){
             const file = this.$refs.pond.getFile();
             if(!file) return;
+            if(this.user_type == "Student"){
+                this.checkAccess();
+                return;
+            }
 
             this.UploadFile({
                 fileName: file.filename,
@@ -199,11 +203,7 @@ export default {
     },
     mounted(){
         if(!(this.user_type == "Student" || this.user_type == "Admin")) 
-            this.$router.push({ name: 'Home' });
-        
-        if(this.user_type == "Student")
-            this.checkAccess();
-            
+            this.$router.push({ name: 'Home' });    
     }
 }
 </script>
