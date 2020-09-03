@@ -214,6 +214,7 @@ export default {
                 this.project_list.sort(function (a, b){return a.priority - b.priority})                
             }
         },
+        
         // Dohvati i postavi projekte u varijable
         async set_projects(){
             await this.get_projects();

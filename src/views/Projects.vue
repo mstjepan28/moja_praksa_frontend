@@ -142,8 +142,9 @@ export default {
 			if(!this.sort_values) return;
 			this.store.sort_items(this.sort_values, sort_order, "project_list");
 
-			this.get_projects();
+			this.getProjects();
 		},
+
 		async getTotalPages(){
 			const total_items = await App.getDocAmount();
 			this.total_pages = Math.ceil(total_items.projectsCounter / this.items_per_page);

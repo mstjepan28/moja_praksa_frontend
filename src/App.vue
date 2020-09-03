@@ -86,7 +86,7 @@
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="border: 1px solid white; background: #6DD0F6">
                 <router-link class="dropdown-item" to="/SelectedProjects">Odabrani projekti</router-link>
                 <router-link class="dropdown-item" to="/ApprovedProject">Dodijeljeni projekt</router-link>
-                <router-link class="dropdown-item" to="/TableOfStudents">Tablica projekata</router-link>
+                <router-link class="dropdown-item" to="/TableOfStudents">Tablica studenata</router-link>
                 <router-link class="dropdown-item" to="/FillApplicationForm"> Prijavnica </router-link>
                 <router-link class="dropdown-item" to="/Journal"> Dnevnik prakse </router-link>
               </div>

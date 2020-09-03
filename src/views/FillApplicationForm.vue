@@ -154,9 +154,7 @@ export default {
         // Popunjena prijavnica se pohranjuje u bazu
         async send_application(){
             this.convert_date();
-            const result = await App.upload_application_form(this.application_form, this.user_data._id);
-
-            console.log(result);
+            await App.upload_application_form(this.application_form, this.user_data._id);
 
             this.user_data.application = this.application_form;
             localStorage.setItem('user', JSON.stringify(this.user_data));

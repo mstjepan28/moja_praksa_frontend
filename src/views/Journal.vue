@@ -123,7 +123,7 @@ export default {
             
             if(!templateJournal){
                 this.response_message = "Trenutno ne postoji predložak dnevnika prakse";
-                $('#response_message').modal('show')
+                $('#response_messatge').modal('show')
             }
             else this.store.downloadFile(templateJournal);
         },
