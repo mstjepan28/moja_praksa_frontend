@@ -179,8 +179,7 @@ export default {
         if(this.user_data.account_type != "Student") 
             this.$router.push({ name: 'Home' });
         else if(this.isFilled())
-            //this.$router.push({ path: 'ApplicationForm/' + this.user_data._id });
-            console.log(123)
+            this.$router.push({ path: 'ApplicationForm/' + this.user_data._id });
         else
             this.getApprovedProject();
     }
