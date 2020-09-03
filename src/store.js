@@ -84,7 +84,6 @@ export default{
         // Funkcije za sortiranje su izdvojene da se ne ponavljaju
         string_sort(){
           return this.items.sort((a, b) => {
-            // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
             const first_item = a[this.atr].toUpperCase(); 
             const second_item = b[this.atr].toUpperCase(); 
             

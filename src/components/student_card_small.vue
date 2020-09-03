@@ -6,7 +6,7 @@
             <div class="row mt-3">
                 <div class="col text-right">
                     <div class="div_button button_design mr-md-5"  style="widht: 100%" v-on:click="show_more = !show_more"> Prikaži manje </div>
-                    <div class="div_button alert_button" v-on:click="$emit('select_student', info.id)"> Dodijeli projekt </div>
+                    <div class="div_button button_design" v-on:click="$emit('select_student', info.id)"> Dodijeli projekt </div>
                 </div>
             </div>
         </div>
@@ -25,7 +25,7 @@
 
         <div class="col-md-1 col-sm-0"></div>
         <div v-if="allocated" class="col-md-2 col-sm-12 div_button my-auto text-center disabled_button" style="white-space: nowrap"> Projekt dodijeljen </div>
-        <div v-else class="col-md-2 col-sm-12 div_button my-auto text-center alert_button" v-on:click="$emit('select_student', info.id)"> Dodijeli projekt </div>
+        <div v-else class="col-md-2 col-sm-12 div_button my-auto text-center button_design" v-on:click="$emit('select_student', info.id)"> Dodijeli projekt </div>
     </div>
 </div>
 </template>
