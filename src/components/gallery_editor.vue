@@ -118,7 +118,6 @@ import 'filepond/dist/filepond.min.css'
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'
 
 import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
-import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
 
 import FilePondPluginFileEncode from 'filepond-plugin-file-encode';
 
@@ -129,7 +128,6 @@ import FilePondPluginImageTransform from 'filepond-plugin-image-transform';
 // Create component
 const FilePond = vueFilePond(
     FilePondPluginFileValidateSize,
-    FilePondPluginFileValidateType,
 
     FilePondPluginFileEncode,
 

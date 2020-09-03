@@ -23,10 +23,6 @@
 		</div><hr>
 		<!-- Account type end -->
 
-		<div class="d-flex justify-content-center">
-			<div class="input_wrapper"> <input v-model="registrationCode" type="password" placeholder="Kod za registraciju" required> </div>
-		</div><hr>
-
 		<!-- Student -->
 		<div v-if="new_user.account_type == 'Student'" class="row">
 			<div class="col-md-2 col-sm-0"></div>
@@ -148,6 +144,10 @@
 			<span class="no_info_message">Odaberite tip korisničkog računa</span>
 		</div>
 		<hr>
+
+		<div v-if="new_user.account_type" class="d-flex justify-content-center">
+			<div class="input_wrapper"> <input v-model="registrationCode" type="password" placeholder="Kod za registraciju" required> </div>
+		</div><hr>
 
 		<div class="row d-flex justify-content-center" v-if="error_message">
 			<small style="color: red">{{error_message}}</small><br>
