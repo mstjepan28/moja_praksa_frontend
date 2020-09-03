@@ -30,9 +30,9 @@ Service.interceptors.response.use(
 );
 
 let Auth = {
-    async register(new_user){
+    async register(new_user, registrationCode){
         //pass ide preko SSL-a pa ga nije nužno heshirati
-        const response = await Service.post('/register', new_user);
+        const response = await Service.post('/register', {new_user, registrationCode});
 
         if(!response)
             return false

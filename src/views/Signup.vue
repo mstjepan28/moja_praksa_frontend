@@ -23,6 +23,10 @@
 		</div><hr>
 		<!-- Account type end -->
 
+		<div class="d-flex justify-content-center">
+			<div class="input_wrapper"> <input v-model="registrationCode" type="password" placeholder="Kod za registraciju" required> </div>
+		</div><hr>
+
 		<!-- Student -->
 		<div v-if="new_user.account_type == 'Student'" class="row">
 			<div class="col-md-2 col-sm-0"></div>
@@ -174,11 +178,12 @@ export default {
 			confirm_password: null,
 			
 			error_message: false,
+			registrationCode: undefined,
 		}
 	},
 	methods:{
 		async signup() {
-			const responce = await Auth.register(this.new_user);
+			const responce = await Auth.register(this.new_user, this.registrationCode);
 			
 			if(responce){
 				this.new_user = {};
