@@ -138,7 +138,7 @@ export default {
         // INPUT [id_1, id_2,...] 
         // OUTPUT [{student_info}, {student_info},...]
         async getStudents(student_ids){
-            if(student_ids == undefined) return false;
+            if(student_ids == undefined || student_ids.length == 0) return false;
 
             if(!this.store.student_list) this.store.student_list = await Students.getStudents();
             const students = this.store.student_list
