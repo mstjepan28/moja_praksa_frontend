@@ -45,4 +45,4 @@ Demo računi:
 
 Web aplikacija: https://moja-praksa-frontend.vercel.app/
 
-Dokumentacija:
+Dokumentacija: [priložena dokumentacija završnog rada](https://github.com/mstjepan28/moja_praksa_frontend/blob/master/STJEPAN%20MARKOV%C4%8CI%C4%86%20-%20RAZVOJ%20WEB%20PLATFORME%20ZA%20UGOVARANJE%20STRU%C4%8CNE%20PRAKSE%20-%20FRONTEND.pdf)
