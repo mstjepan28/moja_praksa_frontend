@@ -34,6 +34,8 @@ Vođeni idejom olakšavanja i optimiziranja ugovaranja stručne prakse na FIPU t
 
 Demo računi:
 <p>
+<h5> Pristupni kod za registraciju: xQ9P4t</h5> 
+   
 <h5>Student -> email: "e@mail.com", lozinka: "123</h5>
 
 <h5>Poslodavac ->  email: "google@mail.com", lozinka: "123"</h5>
